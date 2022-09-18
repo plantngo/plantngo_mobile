@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/all.dart';
+
 
 
 class LoginSignUpScreen extends StatelessWidget {
@@ -42,6 +42,7 @@ class LoginSignUpButtons extends StatelessWidget {
                   child: const Text('Sign Up'),
                 ),
         ),
+        const SizedBox(height: 10,),
         SizedBox(
           width: 300,
           child: OutlinedButton(

@@ -2,11 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:plantngo_frontend/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 import '../../models/form_data.dart';
-
-
-
-
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -15,7 +13,7 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({
     this.httpClient,
     super.key,
-   });
+  });
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -29,7 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Log In", style: TextStyle(fontSize: 20),),
+        title: const Text(
+          "Log In",
+          style: TextStyle(fontSize: 20),
+        ),
       ),
       body: Form(
         child: SingleChildScrollView(
@@ -63,16 +64,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 SizedBox(
-                  width:  300,
+                  width: 300,
                   height: 60,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                     child: const Text('Log In'),
                     onPressed: () async {
+                      // change the login to true
+                      context.read<AuthProvider>().fakeLogin();
+                      // pop the current screen off
+                      Navigator.of(context).pop();
+
                       // Use a JSON encoded string to send
                       var result = await widget.httpClient!.post(
                           Uri.parse('https://example.com/signin'),
@@ -102,8 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  
-void _showDialog(String message) {
+
+  void _showDialog(String message) {
     // print(context.owner);
     showDialog<void>(
       context: context,
@@ -119,9 +126,3 @@ void _showDialog(String message) {
     );
   }
 }
-
-
-
-
-
-

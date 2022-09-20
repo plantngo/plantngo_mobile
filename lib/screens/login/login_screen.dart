@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:plantngo_frontend/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 import '../../models/form_data.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -87,6 +89,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: const Text('Log In'),
                     onPressed: () async {
+                      // change the login to true
+                      context.read<AuthProvider>().fakeLogin();
+                      // pop the current screen off
+                      Navigator.of(context).pop();
+
                       // Use a JSON encoded string to send
                       var result = await widget.httpClient!.post(
                           Uri.parse('https://example.com/signin'),

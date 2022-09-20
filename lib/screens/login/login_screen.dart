@@ -1,12 +1,9 @@
 import 'dart:convert';
+// import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../models/form_data.dart';
-
-
-
-
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -15,7 +12,7 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({
     this.httpClient,
     super.key,
-   });
+  });
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -23,13 +20,17 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   FormData formData = FormData();
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Log In", style: TextStyle(fontSize: 20),),
+        title: const Text(
+          "Log In",
+          style: TextStyle(fontSize: 20),
+        ),
       ),
       body: Form(
         child: SingleChildScrollView(
@@ -41,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 150,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.emailAddress,
                   autofocus: true,
                   textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
@@ -53,24 +55,36 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    filled: true,
-                    labelText: 'Password',
-                  ),
-                  obscureText: true,
+                  decoration: InputDecoration(
+                      filled: true,
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(_isObscure
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: (() {
+                          setState(() {
+                            _isObscure = !_isObscure;
+                          });
+                        }),
+                      )),
+                  obscureText: _isObscure,
                   onChanged: (value) {
                     formData.password = value;
                   },
                 ),
                 SizedBox(
-                  width:  300,
+                  width: 300,
                   height: 60,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       backgroundColor: Theme.of(context).colorScheme.primary,
-                    ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                    ).copyWith(
+                      elevation: ButtonStyleButton.allOrNull(0.0),
+                    ),
                     child: const Text('Log In'),
                     onPressed: () async {
                       // Use a JSON encoded string to send
@@ -102,8 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  
-void _showDialog(String message) {
+
+  void _showDialog(String message) {
     // print(context.owner);
     showDialog<void>(
       context: context,
@@ -119,9 +133,3 @@ void _showDialog(String message) {
     );
   }
 }
-
-
-
-
-
-

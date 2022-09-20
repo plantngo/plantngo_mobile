@@ -7,10 +7,12 @@ part 'form_data.g.dart';
 class FormData {
   String? email;
   String? password;
+  bool passwordVisible;
 
   FormData({
     this.email,
     this.password,
+    this.passwordVisible = true,
   });
 
   factory FormData.fromJson(Map<String, dynamic> json) =>

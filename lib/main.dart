@@ -25,6 +25,8 @@ void main() {
                   : LoginSignUpScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
           SignUpScreen.routeName: (context) => const SignUpScreen(),
+          ForgetPasswordScreen.routeName: ((context) =>
+              const ForgetPasswordScreen()),
         },
       ),
     ),

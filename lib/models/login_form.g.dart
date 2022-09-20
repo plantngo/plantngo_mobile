@@ -1,17 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'form_data.dart';
+part of 'login_form.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FormData _$FormDataFromJson(Map<String, dynamic> json) => FormData(
+LoginForm _$LoginFormFromJson(Map<String, dynamic> json) => LoginForm(
       email: json['email'] as String?,
       password: json['password'] as String?,
     );
 
-Map<String, dynamic> _$FormDataToJson(FormData instance) => <String, dynamic>{
+Map<String, dynamic> _$LoginFormToJson(LoginForm instance) => <String, dynamic>{
       'email': instance.email,
       'password': instance.password,
     };

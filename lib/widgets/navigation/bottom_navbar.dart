@@ -33,8 +33,8 @@ class BottomNavbar extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          topRight: Radius.circular(30),
-          topLeft: Radius.circular(30),
+          // topRight: Radius.circular(30),
+          // topLeft: Radius.circular(30),
         ),
         boxShadow: [
           BoxShadow(
@@ -46,14 +46,14 @@ class BottomNavbar extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.0),
-          topRight: Radius.circular(30.0),
+          // topLeft: Radius.circular(30.0),
+          // topRight: Radius.circular(30.0),
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Theme.of(context).backgroundColor,
-          unselectedItemColor: Colors.black,
-          selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey,
+          selectedItemColor: Theme.of(context).primaryColor,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           currentIndex: selectedIndex,

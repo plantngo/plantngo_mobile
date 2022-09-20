@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:plantngo_frontend/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
-import '../../models/form_data.dart';
+import '../../models/login_form.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -21,11 +21,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  FormData formData = FormData();
+  LoginForm loginForm = LoginForm();
   bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
+    print(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -53,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelText: 'Email',
                   ),
                   onChanged: (value) {
-                    formData.email = value;
+                    loginForm.email = value;
                   },
                 ),
                 TextFormField(
@@ -72,12 +73,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       )),
                   obscureText: _isObscure,
                   onChanged: (value) {
-                    formData.password = value;
+                    loginForm.password = value;
                   },
                 ),
                 SizedBox(
                   width: 300,
-                  height: 60,
+                  height: 40,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -97,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       // Use a JSON encoded string to send
                       var result = await widget.httpClient!.post(
                           Uri.parse('https://example.com/signin'),
-                          body: json.encode(formData.toJson()),
+                          body: json.encode(loginForm.toJson()),
                           headers: {'content-type': 'application/json'});
                       if (result.statusCode == 200) {
                         _showDialog('Successfully signed in.');
@@ -109,6 +110,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                 ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/forget");
+                    },
+                    child: const Text("Forget Password?"))
               ].expand(
                 (widget) => [
                   widget,

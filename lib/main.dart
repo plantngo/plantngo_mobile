@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/signup_screen.dart';
+import 'package:plantngo_frontend/screens/login/signup_screen.dart';
 import 'screens/all.dart';
 
 void main() {

@@ -1,28 +1,11 @@
 import 'dart:convert';
 
-
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:json_annotation/json_annotation.dart';
+import '../../models/form_data.dart';
 
-part 'login_screen.g.dart';
 
-@JsonSerializable()
-class FormData {
-  String? email;
-  String? password;
 
-  FormData({
-    this.email,
-    this.password,
-  });
-
-  factory FormData.fromJson(Map<String, dynamic> json) =>
-      _$FormDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FormDataToJson(this);
-}
 
 
 class LoginScreen extends StatefulWidget {
@@ -95,7 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           Uri.parse('https://example.com/signin'),
                           body: json.encode(formData.toJson()),
                           headers: {'content-type': 'application/json'});
-
                       if (result.statusCode == 200) {
                         _showDialog('Successfully signed in.');
                       } else if (result.statusCode == 401) {
@@ -122,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   
 void _showDialog(String message) {
+    // print(context.owner);
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(

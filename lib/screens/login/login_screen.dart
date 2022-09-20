@@ -24,9 +24,22 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginForm loginForm = LoginForm();
   bool _isObscure = true;
 
+  final _formKey = GlobalKey<FormState>();
+  String? validateEmail(String? value) {
+    String pattern =
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?)*$";
+    RegExp regex = RegExp(pattern);
+    if (value == null || value.isEmpty || !regex.hasMatch(value)) {
+      return 'Enter a valid email address';
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -36,6 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       body: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.always,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -48,6 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   autofocus: true,
                   textInputAction: TextInputAction.next,
+                  validator: ((value) => validateEmail(value)),
                   decoration: const InputDecoration(
                     filled: true,
                     hintText: 'Your email address',
@@ -72,6 +88,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         }),
                       )),
                   obscureText: _isObscure,
+                  validator: ((value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a password';
+                    }
+                    return null;
+                  }),
                   onChanged: (value) {
                     loginForm.password = value;
                   },
@@ -91,22 +113,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Text('Log In'),
                     onPressed: () async {
                       // change the login to true
-                      context.read<AuthProvider>().fakeLogin();
-                      // pop the current screen off
-                      Navigator.of(context).pop();
-
-                      // Use a JSON encoded string to send
-                      var result = await widget.httpClient!.post(
-                          Uri.parse('https://example.com/signin'),
-                          body: json.encode(loginForm.toJson()),
-                          headers: {'content-type': 'application/json'});
-                      if (result.statusCode == 200) {
-                        _showDialog('Successfully signed in.');
-                      } else if (result.statusCode == 401) {
-                        _showDialog('Unable to sign in.');
-                      } else {
-                        _showDialog('Something went wrong. Please try again.');
+                      if (_formKey.currentState!.validate()) {
+                        context.read<AuthProvider>().fakeLogin();
+                        Navigator.of(context).pop();
                       }
+
+                      // pop the current screen off
+
+                      // // Use a JSON encoded string to send
+                      // var result = await widget.httpClient!.post(
+                      //     Uri.parse('https://example.com/signin'),
+                      //     body: json.encode(loginForm.toJson()),
+                      //     headers: {'content-type': 'application/json'});
+                      // if (result.statusCode == 200) {
+                      //   _showDialog('Successfully signed in.');
+                      // } else if (result.statusCode == 401) {
+                      //   _showDialog('Unable to sign in.');
+                      // } else {
+                      //   _showDialog('Something went wrong. Please try again.');
+                      // }
                     },
                   ),
                 ),

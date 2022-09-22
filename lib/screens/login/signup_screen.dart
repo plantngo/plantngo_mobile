@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../../models/form_data.dart';
+import '../../services/auth_service.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = '/signup';
@@ -12,7 +12,12 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  FormData formData = FormData();
+  bool _isObscure = true;
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +68,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       width: 350,
                       height: 70,
                       child: TextFormField(
-                          decoration: const InputDecoration(
-                              filled: true, labelText: "Password")),
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          labelText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(_isObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                            onPressed: (() {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            }),
+                          ),
+                        ),
+                        obscureText: _isObscure,
+                      ),
                     ),
                   ],
                 ),

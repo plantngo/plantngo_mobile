@@ -84,6 +84,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                         obscureText: _isObscure,
+                        validator: ((value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a valid password';
+                          } else if (value.length < 8) {
+                            return 'The password must have a minimum of 8 characters';
+                          }
+                        }),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Container(
+                      child: SizedBox(
+                        width: 350,
+                        height: 40,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                            ).copyWith(
+                              elevation: ButtonStyleButton.allOrNull(0.0),
+                            ),
+                            child: const Text('Sign Up'),
+                            onPressed: () {
+                              // change the login to true
+                            }),
                       ),
                     ),
                   ],

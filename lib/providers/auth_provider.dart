@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import '../models/login_form.dart';
+import '../services/login_service.dart';
 
 class AuthProvider with ChangeNotifier {
   bool _isLoggedIn = false;
@@ -7,8 +11,14 @@ class AuthProvider with ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
   bool get isAnonymousUser => _isAnonymousUser;
 
-  void fakeLogin() {
-    _isLoggedIn = true;
+  var httpClient = http.Client();
+
+  Future login(LoginForm loginForm) async {
+    var result = await LogInService().userLogIn(loginForm);
+    if (result.statusCode == 200) {
+      _isLoggedIn = true;
+      print(result.body);
+    }
     notifyListeners();
   }
 

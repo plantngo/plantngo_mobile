@@ -1,13 +1,10 @@
-// import 'dart:convert';
-// import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:plantngo_frontend/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import '../../models/login_form.dart';
 import '../../validators/email_validator.dart';
-import '../../services/login_service.dart';
+import '../../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -23,11 +20,22 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  LoginForm loginForm = LoginForm();
+  // LoginForm loginForm = LoginForm();
   bool _isObscure = true;
-  LogInService logInService = LogInService();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final AuthService authService = AuthService();
+  // LogInService logInService = LogInService();
 
   final _formKey = GlobalKey<FormState>();
+
+  void signInUser() {
+    authService.signInUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 150,
                 ),
                 TextFormField(
+                  controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   autofocus: true,
                   textInputAction: TextInputAction.next,
@@ -60,11 +69,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: 'Your email address',
                     labelText: 'Email',
                   ),
-                  onChanged: (value) {
-                    loginForm.email = value;
-                  },
+                  // onChanged: (value) {
+                  //   loginForm.email = value;
+                  // },
                 ),
                 TextFormField(
+                  controller: _passwordController,
                   decoration: InputDecoration(
                       filled: true,
                       labelText: 'Password',
@@ -85,9 +95,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return null;
                   }),
-                  onChanged: (value) {
-                    loginForm.password = value;
-                  },
+                  // onChanged: (value) {
+                  //   loginForm.password = value;
+                  // },
                 ),
                 SizedBox(
                   width: 300,
@@ -102,33 +112,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       elevation: ButtonStyleButton.allOrNull(0.0),
                     ),
                     child: const Text('Log In'),
-                    onPressed: () async {
+                    onPressed: () {
                       // change the login to true
-
                       if (_formKey.currentState!.validate()) {
-                        await context.read<AuthProvider>().login(loginForm);
+                        // await context.read<AuthProvider>().login(loginForm);
+                        signInUser();
                       }
 
-                      if (context.read<AuthProvider>().isLoggedIn) {
-                        Navigator.of(context).pop();
-                      } else {
-                        print("wrong credentials");
-                      }
+                      // if (context.read<AuthProvider>().isLoggedIn) {
+                      //   Navigator.of(context).pop();
+                      // } else {
+                      //   print("wrong credentials");
+                      // }
 
                       // pop the current screen off
-
-                      // // Use a JSON encoded string to send
-                      // var result = await widget.httpClient!.post(
-                      //     Uri.parse('https://example.com/signin'),
-                      //     body: json.encode(loginForm.toJson()),
-                      //     headers: {'content-type': 'application/json'});
-                      // if (result.statusCode == 200) {
-                      //   _showDialog('Successfully signed in.');
-                      // } else if (result.statusCode == 401) {
-                      //   _showDialog('Unable to sign in.');
-                      // } else {
-                      //   _showDialog('Something went wrong. Please try again.');
-                      // }
                     },
                   ),
                 ),

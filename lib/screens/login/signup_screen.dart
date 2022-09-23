@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../services/auth_service.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = '/signup';
@@ -63,26 +65,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       width: 350,
-                      height: 70,
+                      height: 100,
                       child: TextFormField(
                         controller: _nameController,
                         decoration: const InputDecoration(
                             filled: true, labelText: "Name"),
+                        validator: ((value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your name';
+                          }
+                        }),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 5),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                       ),
                       width: 350,
-                      height: 70,
+                      height: 100,
                       child: TextFormField(
-                          controller: _emailController,
-                          decoration: const InputDecoration(
-                              filled: true, labelText: "Email")),
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                            filled: true, labelText: "Email"),
+                        validator: ((value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              !EmailValidator.validate(value)) {
+                            return 'Please enter a valid email';
+                          }
+                        }),
+                      ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 5),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
@@ -106,15 +121,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                         obscureText: _isObscure,
-                        validator: ((value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a valid password';
-                          } else if (value.length < 8) {
-                            return 'The password must have a minimum of 8 characters';
-                          }
-                        }),
+                        // validator: ((value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a valid password';
+                        //   } else if (value.length < 8) {
+                        //     return 'The password must have a minimum of 8 characters';
+                        //   }
+                        // }),
                       ),
                     ),
+                    FlutterPwValidator(
+                        controller: _passwordController,
+                        minLength: 8,
+                        uppercaseCharCount: 1,
+                        numericCharCount: 1,
+                        specialCharCount: 1,
+                        width: 350,
+                        height: 150,
+                        onSuccess: () {}),
                     const SizedBox(height: 40),
                     SizedBox(
                       width: 350,

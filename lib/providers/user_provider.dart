@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class UserProvider extends ChangeNotifier {
   User _user = User(
     username: '',
+    name:'',
     email: '',
     password: '',
     acctype: '',

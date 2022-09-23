@@ -12,6 +12,7 @@ class AuthService {
   void signUpUser({
     required BuildContext context,
     required String email,
+    required String name,
     required String password,
     required String username,
     required String accType,
@@ -19,6 +20,7 @@ class AuthService {
     try {
       User user = User(
           username: username,
+          name: name,
           email: email,
           password: password,
           acctype: '',

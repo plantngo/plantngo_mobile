@@ -13,11 +13,14 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool _isObscure = true;
-
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
   final AuthService authService = AuthService();
+
+  void signUp() {
+    // To update
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       width: 350,
                       height: 70,
                       child: TextFormField(
+                        controller: _nameController,
                         decoration: const InputDecoration(
                             filled: true, labelText: "Name"),
                       ),
@@ -57,6 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       width: 350,
                       height: 70,
                       child: TextFormField(
+                          controller: _emailController,
                           decoration: const InputDecoration(
                               filled: true, labelText: "Email")),
                     ),
@@ -97,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Container(
                       child: SizedBox(
                         width: 350,
-                        height: 40,
+                        height: 50,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
@@ -111,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             child: const Text('Sign Up'),
                             onPressed: () {
-                              // change the login to true
+                              // SignUpHandler
                             }),
                       ),
                     ),

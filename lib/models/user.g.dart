@@ -13,9 +13,10 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       acctype: json['acctype'] as String,
       address: json['address'] as String,
       token: json['token'] as String,
-      greenPoints: json['greenPoints'] as int,
-      preferences: (json['preferences'] as List<dynamic>)
-          .map((e) => e as String)
+      greenPoints: json['greenPoints'] as int?,
+      company: json['company'] as String?,
+      preferences: (json['preferences'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
     );
 
@@ -26,6 +27,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'acctype': instance.acctype,
       'address': instance.address,
       'token': instance.token,
+      'company': instance.company,
       'greenPoints': instance.greenPoints,
       'preferences': instance.preferences,
     };

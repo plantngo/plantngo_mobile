@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:plantngo_frontend/providers/auth_provider.dart';
-import 'package:provider/provider.dart';
-import '../../models/login_form.dart';
-import '../../validators/email_validator.dart';
+import '../../utils/email_validator.dart';
 import '../../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
-  final http.Client? httpClient;
 
   const LoginScreen({
-    this.httpClient,
     super.key,
   });
 
@@ -20,12 +15,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // LoginForm loginForm = LoginForm();
   bool _isObscure = true;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService authService = AuthService();
-  // LogInService logInService = LogInService();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -49,7 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Form(
         key: _formKey,
-        // autovalidateMode: AutovalidateMode.always,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -69,9 +61,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: 'Your email address',
                     labelText: 'Email',
                   ),
-                  // onChanged: (value) {
-                  //   loginForm.email = value;
-                  // },
                 ),
                 TextFormField(
                   controller: _passwordController,
@@ -95,9 +84,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return null;
                   }),
-                  // onChanged: (value) {
-                  //   loginForm.password = value;
-                  // },
                 ),
                 SizedBox(
                   width: 300,
@@ -118,14 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         // await context.read<AuthProvider>().login(loginForm);
                         signInUser();
                       }
-
-                      // if (context.read<AuthProvider>().isLoggedIn) {
-                      //   Navigator.of(context).pop();
-                      // } else {
-                      //   print("wrong credentials");
-                      // }
-
-                      // pop the current screen off
                     },
                   ),
                 ),

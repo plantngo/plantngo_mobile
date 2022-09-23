@@ -11,6 +11,7 @@ class UserProvider extends ChangeNotifier {
     acctype: '',
     address: '',
     token: '',
+    company: '',
     greenPoints: 0,
     preferences: [],
   );

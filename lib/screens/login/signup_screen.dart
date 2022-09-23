@@ -19,7 +19,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
 
   @override
   dispose() {
@@ -27,7 +26,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _nameController.dispose();
-    _usernameController.dispose();
   }
 
   void signUpUser() {
@@ -35,7 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         context: context,
         email: _emailController.text,
         name: _nameController.text,
-        username: _usernameController.text,
+        username: _emailController.text,
         password: _passwordController.text,
         accType: "USER");
   }
@@ -92,18 +90,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       width: 350,
                       height: 70,
                       child: TextFormField(
-                          controller: _usernameController,
-                          decoration: const InputDecoration(
-                              filled: true, labelText: "Username")),
-                    ),
-                    const SizedBox(height: 16),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      width: 350,
-                      height: 70,
-                      child: TextFormField(
                         controller: _passwordController,
                         decoration: InputDecoration(
                           filled: true,
@@ -129,7 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         }),
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 40),
                     SizedBox(
                       width: 350,
                       height: 50,

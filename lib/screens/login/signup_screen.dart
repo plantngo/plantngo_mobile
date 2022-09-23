@@ -12,14 +12,32 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final AuthService authService = AuthService();
+  final _signUpFormKey = GlobalKey<FormState>();
+
   bool _isObscure = true;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final AuthService authService = AuthService();
+  final TextEditingController _usernameController = TextEditingController();
 
-  void signUp() {
-    // To update
+  @override
+  dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _nameController.dispose();
+    _usernameController.dispose();
+  }
+
+  void signUpUser() {
+    authService.signUpUser(
+        context: context,
+        email: _emailController.text,
+        name: _nameController.text,
+        username: _usernameController.text,
+        password: _passwordController.text,
+        accType: "USER");
   }
 
   @override
@@ -34,17 +52,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 150),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Form(
+              key: _signUpFormKey,
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey[100]),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       width: 350,
                       height: 70,
                       child: TextFormField(
@@ -56,8 +75,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(height: 16),
                     Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey[100]),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       width: 350,
                       height: 70,
                       child: TextFormField(
@@ -68,8 +87,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(height: 16),
                     Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey[100]),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      width: 350,
+                      height: 70,
+                      child: TextFormField(
+                          controller: _usernameController,
+                          decoration: const InputDecoration(
+                              filled: true, labelText: "Username")),
+                    ),
+                    const SizedBox(height: 16),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       width: 350,
                       height: 70,
                       child: TextFormField(
@@ -99,26 +130,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    Container(
-                      child: SizedBox(
-                        width: 350,
-                        height: 50,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              foregroundColor:
-                                  Theme.of(context).colorScheme.onPrimary,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
-                            ).copyWith(
-                              elevation: ButtonStyleButton.allOrNull(0.0),
-                            ),
-                            child: const Text('Sign Up'),
-                            onPressed: () {
-                              // SignUpHandler
-                            }),
-                      ),
+                    SizedBox(
+                      width: 350,
+                      height: 50,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            foregroundColor:
+                                Theme.of(context).colorScheme.onPrimary,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                          ).copyWith(
+                            elevation: ButtonStyleButton.allOrNull(0.0),
+                          ),
+                          child: const Text('Sign Up'),
+                          onPressed: () {
+                            if (_signUpFormKey.currentState!.validate()) {
+                              signUpUser();
+                            }
+                          }),
                     ),
                   ],
                 ),

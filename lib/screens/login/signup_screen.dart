@@ -18,10 +18,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _signUpFormKey = GlobalKey<FormState>();
 
   bool _isObscure = true;
+  bool _isUser = true;
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  final TextEditingController _usertypeController = TextEditingController();
   @override
   dispose() {
     super.dispose();
@@ -31,13 +33,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void signUpUser() {
+    print("email: " +
+        _emailController.text +
+        " name: " +
+        _nameController.text +
+        " username: " +
+        _emailController.text +
+        " password: " +
+        _passwordController.text +
+        " userType: " +
+        _usertypeController.text);
     authService.signUpUser(
         context: context,
         email: _emailController.text,
         name: _nameController.text,
         username: _emailController.text,
         password: _passwordController.text,
-        accType: "USER");
+        accType: _usertypeController.text);
   }
 
   @override
@@ -52,7 +64,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 150),
+          const SizedBox(height: 40),
+          const Text("As",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Form(
               key: _signUpFormKey,
@@ -60,6 +75,54 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      SizedBox(
+                        width: 150,
+                        height: 50,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                    foregroundColor: _isUser
+                                        ? Colors.white
+                                        : Colors.grey[400],
+                                    backgroundColor: _isUser
+                                        ? Colors.green
+                                        : Colors.grey[200])
+                                .copyWith(
+                              elevation: ButtonStyleButton.allOrNull(0.0),
+                            ),
+                            child: const Text('User'),
+                            onPressed: () {
+                              _usertypeController.text = "USER";
+                              setState(() {
+                                _isUser = true;
+                              });
+                            }),
+                      ),
+                      const SizedBox(width: 40),
+                      SizedBox(
+                        width: 150,
+                        height: 50,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                    foregroundColor: !_isUser
+                                        ? Colors.white
+                                        : Colors.grey[400],
+                                    backgroundColor: !_isUser
+                                        ? Colors.green
+                                        : Colors.grey[200])
+                                .copyWith(
+                              elevation: ButtonStyleButton.allOrNull(0.0),
+                            ),
+                            child: const Text('Merchant'),
+                            onPressed: () {
+                              _usertypeController.text = "MERCHANT";
+                              setState(() {
+                                _isUser = false;
+                              });
+                            }),
+                      ),
+                    ]),
+                    const SizedBox(height: 20),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
@@ -120,14 +183,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             }),
                           ),
                         ),
+                        validator: (value) {},
                         obscureText: _isObscure,
-                        // validator: ((value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a valid password';
-                        //   } else if (value.length < 8) {
-                        //     return 'The password must have a minimum of 8 characters';
-                        //   }
-                        // }),
                       ),
                     ),
                     FlutterPwValidator(

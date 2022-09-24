@@ -3,7 +3,7 @@ import '../../utils/email_validator.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({Key? key}) : super(key: key);
-  static const routeName = '/forget';
+  static const routeName = '/forgetpassword';
 
   @override
   ForgetPasswordScreenState createState() => ForgetPasswordScreenState();

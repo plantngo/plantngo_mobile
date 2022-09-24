@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/forget");
+                      Navigator.pushNamed(context, "/forgetpassword");
                     },
                     child: const Text("Forget Password?"))
               ].expand(
@@ -123,22 +123,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  void _showDialog(String message) {
-    // print(context.owner);
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(message),
-        actions: [
-          TextButton(
-            child: const Text('OK'),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
       ),
     );
   }

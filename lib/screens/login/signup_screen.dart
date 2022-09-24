@@ -24,7 +24,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _usertypeController = TextEditingController();
+  final TextEditingController _usertypeController =
+      TextEditingController(text: "C");
+  final TextEditingController _companyController = TextEditingController();
 
   @override
   dispose() {
@@ -32,19 +34,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _usernameController.dispose();
+    _usertypeController.dispose();
+    _companyController.dispose();
   }
 
   void signUpUser() {
-    //set default usertype to Customer
-    _usertypeController.text = "C";
-    // print("email: " +
-    //     _emailController.text +
-    //     " username: " +
-    //     _usernameController.text +
-    //     " password: " +
-    //     _passwordController.text +
-    //     " userType: " +
-    //     _usertypeController.text);
     authService.signUpUser(
         context: context,
         email: _emailController.text,
@@ -53,8 +47,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
         userType: _usertypeController.text);
   }
 
+  void signUpMerchant() {
+    authService.signUpMerchant(
+        context: context,
+        email: _emailController.text,
+        username: _usernameController.text,
+        password: _passwordController.text,
+        userType: _usertypeController.text,
+        company: _companyController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
+    //set default usertype to Customer
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -116,8 +121,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           child: const Text('Merchant'),
                           onPressed: () {
-                            _usertypeController.text = "M";
                             setState(() {
+                              _usertypeController.text = "M";
                               _isUser = false;
                             });
                           }),
@@ -159,6 +164,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }),
                     ),
                   ),
+                  if (_usertypeController.text == "M")
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      height: 100,
+                      child: TextFormField(
+                        controller: _companyController,
+                        decoration: const InputDecoration(
+                            filled: true, labelText: "company"),
+                      ),
+                    ),
                   const SizedBox(height: 5),
                   Container(
                     decoration: BoxDecoration(
@@ -227,7 +244,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: const Text('Sign Up'),
                         onPressed: () {
                           if (_signUpFormKey.currentState!.validate()) {
-                            signUpUser();
+                            print(_usertypeController.text);
+                            _isUser ? signUpUser() : signUpMerchant();
                           }
                         }),
                   ),

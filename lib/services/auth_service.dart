@@ -17,23 +17,6 @@ class AuthService {
     required String userType,
   }) async {
     try {
-      User user = User(
-          username: username,
-          email: email,
-          password: password,
-          usertype: userType,
-          address: '',
-          token: '',
-          greenPoints: 0,
-          preferences: []);
-
-      // print(jsonEncode({
-      //   "username": username,
-      //   "email": email,
-      //   "password": password,
-      //   "userType": userType,
-      // }));
-
       http.Response res = await http.post(
         Uri.parse('$uri/api/v1/register'),
         body: jsonEncode({
@@ -41,6 +24,36 @@ class AuthService {
           "email": email,
           "password": password,
           "userType": userType,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      print(res.body);
+      // httpErrorHandle()
+    } catch (e) {
+      //some exception
+      print(e);
+    }
+  }
+
+  void signUpMerchant(
+      {required BuildContext context,
+      required String email,
+      required String password,
+      required String username,
+      required String userType,
+      required String company}) async {
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/v1/register'),
+        body: jsonEncode({
+          "username": username,
+          "email": email,
+          "password": password,
+          "userType": userType,
+          "company": company
         }),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

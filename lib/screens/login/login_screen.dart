@@ -101,10 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       // change the login to true
                       if (_formKey.currentState!.validate()) {
-                        // await context.read<AuthProvider>().login(loginForm);
                         signInUser();
-                        print(_emailController.text);
-                        print(_passwordController.text);
                       }
                     },
                   ),
@@ -112,8 +109,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, "/forgetpassword");
-
-                      
                     },
                     child: const Text("Forget Password?"))
               ].expand(

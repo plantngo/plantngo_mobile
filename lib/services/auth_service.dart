@@ -14,31 +14,44 @@ class AuthService {
     required String email,
     required String password,
     required String username,
-    required String accType,
+    required String userType,
   }) async {
     try {
       User user = User(
           username: username,
           email: email,
           password: password,
-          acctype: '',
+          usertype: userType,
           address: '',
           token: '',
-          company: '',
           greenPoints: 0,
           preferences: []);
 
+      // print(jsonEncode({
+      //   "username": username,
+      //   "email": email,
+      //   "password": password,
+      //   "userType": userType,
+      // }));
+
       http.Response res = await http.post(
         Uri.parse('$uri/api/v1/register'),
-        body: user.toJson(),
+        body: jsonEncode({
+          "username": username,
+          "email": email,
+          "password": password,
+          "userType": userType,
+        }),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
 
+      print(res.body);
       // httpErrorHandle()
     } catch (e) {
       //some exception
+      print(e);
     }
   }
 

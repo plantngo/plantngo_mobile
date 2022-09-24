@@ -8,10 +8,9 @@ class UserProvider extends ChangeNotifier {
     username: '',
     email: '',
     password: '',
-    acctype: '',
+    usertype: '',
     address: '',
     token: '',
-    company: '',
     greenPoints: 0,
     preferences: [],
   );

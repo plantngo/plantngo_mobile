@@ -7,10 +7,9 @@ class User {
   String username;
   String email;
   String password;
-  String acctype;
+  String usertype;
   String address;
   String token;
-  String? company;
   int? greenPoints;
   List<String>? preferences;
 
@@ -18,11 +17,10 @@ class User {
       {required this.username,
       required this.email,
       required this.password,
-      required this.acctype,
+      required this.usertype,
       required this.address,
       required this.token,
       required this.greenPoints,
-      required this.company,
       required this.preferences});
 
   factory User.fromJSON(Map<String, dynamic> json) => _$UserFromJson(json);

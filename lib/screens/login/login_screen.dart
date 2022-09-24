@@ -1,6 +1,5 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import '../../utils/email_validator.dart';
 import '../../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,6 +18,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService authService = AuthService();
+
+  @override
+  dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
 
   final _formKey = GlobalKey<FormState>();
 
@@ -55,7 +61,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   autofocus: true,
                   textInputAction: TextInputAction.next,
-                  validator: ((value) => validateEmail(value)),
+                  validator: ((value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        !EmailValidator.validate(value)) {
+                      return 'Please enter a valid email';
+                    }
+                  }),
                   decoration: const InputDecoration(
                     filled: true,
                     hintText: 'Your email address',

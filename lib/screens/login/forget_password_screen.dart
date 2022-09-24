@@ -1,5 +1,6 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import '../../utils/email_validator.dart';
+
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({Key? key}) : super(key: key);
@@ -37,7 +38,13 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   autofocus: true,
-                  validator: ((value) => validateEmail(value)),
+                  validator: ((value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        !EmailValidator.validate(value)) {
+                      return 'Please enter a valid email';
+                    }
+                  }),
                   decoration: const InputDecoration(
                     filled: true,
                     hintText: 'Your email address',

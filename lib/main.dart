@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       ),
       onGenerateRoute: ((settings) => generateRoute(settings)),
       home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-          ? Provider.of<UserProvider>(context).user.acctype == 'user'
+          ? Provider.of<UserProvider>(context).user.usertype == 'C'
               ? const App()
               : const Scaffold()
           : const LoginSignUpScreen(),

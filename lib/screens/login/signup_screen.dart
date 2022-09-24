@@ -63,68 +63,66 @@ class _SignUpScreenState extends State<SignUpScreen> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 40),
-          const Text("As",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          Form(
-            key: _signUpFormKey,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const SizedBox(height: 40),
+            const Text("As",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Form(
+              key: _signUpFormKey,
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 150,
-                        height: 50,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                    foregroundColor: _isUser
-                                        ? Colors.white
-                                        : Colors.grey[400],
-                                    backgroundColor: _isUser
-                                        ? Colors.green
-                                        : Colors.grey[200])
-                                .copyWith(
-                              elevation: ButtonStyleButton.allOrNull(0.0),
-                            ),
-                            child: const Text('User'),
-                            onPressed: () {
-                              _usertypeController.text = "USER";
-                              setState(() {
-                                _isUser = true;
-                              });
-                            }),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Expanded(
+                      flex: 3,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                                  foregroundColor:
+                                      _isUser ? Colors.white : Colors.grey[400],
+                                  backgroundColor:
+                                      _isUser ? Colors.green : Colors.grey[200])
+                              .copyWith(
+                            elevation: ButtonStyleButton.allOrNull(0.0),
+                          ),
+                          child: const Text('User'),
+                          onPressed: () {
+                            _usertypeController.text = "USER";
+                            setState(() {
+                              _isUser = true;
+                            });
+                          }),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        height: 0,
                       ),
-                      SizedBox(width: 40),
-                      SizedBox(
-                        width: 150,
-                        height: 50,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                    foregroundColor: !_isUser
-                                        ? Colors.white
-                                        : Colors.grey[400],
-                                    backgroundColor: !_isUser
-                                        ? Colors.green
-                                        : Colors.grey[200])
-                                .copyWith(
-                              elevation: ButtonStyleButton.allOrNull(0.0),
-                            ),
-                            child: const Text('Merchant'),
-                            onPressed: () {
-                              _usertypeController.text = "MERCHANT";
-                              setState(() {
-                                _isUser = false;
-                              });
-                            }),
-                      ),
-                    ],
-                  ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                                  foregroundColor: !_isUser
+                                      ? Colors.white
+                                      : Colors.grey[400],
+                                  backgroundColor: !_isUser
+                                      ? Colors.green
+                                      : Colors.grey[200])
+                              .copyWith(
+                            elevation: ButtonStyleButton.allOrNull(0.0),
+                          ),
+                          child: const Text('Merchant'),
+                          onPressed: () {
+                            _usertypeController.text = "MERCHANT";
+                            setState(() {
+                              _isUser = false;
+                            });
+                          }),
+                    ),
+                  ]),
                   const SizedBox(height: 20),
                   Container(
                     decoration: BoxDecoration(
@@ -236,8 +234,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

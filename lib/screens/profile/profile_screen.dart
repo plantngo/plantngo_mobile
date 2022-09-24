@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/screens/profile/user_profile_section.dart';
+import 'package:plantngo_frontend/screens/profile/user_settings_section.dart';
+import 'package:plantngo_frontend/utils/functions.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -15,9 +18,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
-            Text(
-              "Profile Page",
-            ),
+            UserProfileSection(),
+            SizedBox(height: 10),
+            UserSettingSection(),
           ],
         ),
       ),

@@ -22,9 +22,9 @@ void main() {
         initialRoute: '/',
         routes: {
           LoginSignUpScreen.routeName: (context) =>
-              context.watch<AuthProvider>().isLoggedIn
-                  ? App()
-                  : LoginSignUpScreen(),
+              // context.watch<AuthProvider>().isLoggedIn
+              App(),
+          // : LoginSignUpScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
           SignUpScreen.routeName: (context) => const SignUpScreen(),
           ForgetPasswordScreen.routeName: ((context) =>

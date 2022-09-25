@@ -25,12 +25,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usertypeController = TextEditingController();
+  final TextEditingController _companyController = TextEditingController();
+
   @override
   dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _nameController.dispose();
+    _usertypeController.dispose();
+    _companyController.dispose();
   }
 
   void signUpUser() {
@@ -44,13 +48,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _passwordController.text +
         " userType: " +
         _usertypeController.text);
-    authService.signUpUser(
-        context: context,
-        email: _emailController.text,
-        name: _nameController.text,
-        username: _emailController.text,
-        password: _passwordController.text,
-        accType: _usertypeController.text);
+
+    if (_isUser) {
+      authService.signUpUser(
+          context: context,
+          email: _emailController.text,
+          name: _nameController.text,
+          username: _emailController.text,
+          password: _passwordController.text,
+          accType: _usertypeController.text);
+    } else {
+      // sign up merchant
+    }
   }
 
   @override
@@ -95,7 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             });
                           }),
                     ),
-                    Expanded(
+                    const Expanded(
                       flex: 1,
                       child: SizedBox(
                         height: 0,
@@ -124,22 +133,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ]),
                   const SizedBox(height: 20),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                  if (_isUser)
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      height: 100,
+                      child: TextFormField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                            filled: true, labelText: "Name"),
+                        validator: ((value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your name';
+                          }
+                        }),
+                      ),
                     ),
-                    height: 100,
-                    child: TextFormField(
-                      controller: _nameController,
-                      decoration: const InputDecoration(
-                          filled: true, labelText: "Name"),
-                      validator: ((value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
-                        }
-                      }),
+                  if (!_isUser)
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      height: 100,
+                      child: TextFormField(
+                        controller: _companyController,
+                        decoration: const InputDecoration(
+                            filled: true, labelText: "Company"),
+                        validator: ((value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the company name';
+                          }
+                        }),
+                      ),
                     ),
-                  ),
                   const SizedBox(height: 5),
                   Container(
                     decoration: BoxDecoration(

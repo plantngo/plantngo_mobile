@@ -8,10 +8,10 @@ part of 'user.dart';
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
       username: json['username'] as String,
-      email: json['email'] as String,
-      password: json['password'] as String,
-      usertype: json['usertype'] as String,
-      address: json['address'] as String,
+      email: json['email'] as String?,
+      password: json['password'] as String?,
+      usertype: json['usertype'] as String?,
+      address: json['address'] as String?,
       token: json['token'] as String,
       greenPoints: json['greenPoints'] as int?,
       preferences: (json['preferences'] as List<dynamic>?)

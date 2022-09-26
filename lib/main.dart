@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/app.dart';
+import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:provider/provider.dart';
 import 'screens/all.dart';
@@ -9,6 +10,7 @@ import 'router.dart';
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => UserProvider()),
+    ChangeNotifierProvider(create: (_) => CustomerProvider()),
   ], child: const MyApp()));
 }
 
@@ -30,6 +32,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    print(Provider.of<CustomerProvider>(context).customer.token);
     return MaterialApp(
       title: 'Plant&Go',
       theme: ThemeData(
@@ -37,10 +40,8 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       onGenerateRoute: ((settings) => generateRoute(settings)),
-      home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-          ? Provider.of<UserProvider>(context).user.usertype == 'C'
-              ? const App()
-              : const Scaffold()
+      home: Provider.of<CustomerProvider>(context).customer.token.isNotEmpty
+          ? const App()
           : const LoginSignUpScreen(),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:provider/provider.dart';
 import '../utils/global_variables.dart';
 import 'dart:convert';
@@ -7,7 +8,7 @@ import '../utils/user_secure_storage.dart';
 import '../providers/user_provider.dart';
 
 class AuthService {
-  //signup user and redirect to login page
+  //signup customer and redirect to login page
   void signUpUser({
     required BuildContext context,
     required String email,
@@ -67,13 +68,14 @@ class AuthService {
     }
   }
 
-  //first time sign in user
+  //first time sign in user(both customer and merchant)
   void signInUser(
       {required BuildContext context,
       required String username,
       required String password,
       required String userType}) async {
     try {
+      var userProvider = Provider.of<CustomerProvider>(context, listen: false);
       http.Response res = await http.post(
         Uri.parse('$uri/api/v1/login'),
         body: jsonEncode(
@@ -83,9 +85,13 @@ class AuthService {
         },
       );
 
-      // UserSecureStorage.setToken(jsonDecode(res.body)['token']);
+      //set dummy customer
+      userProvider.setCustomer('{"username":"gabriel","token":"123token"}');
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
     } catch (e) {
-      // catch error
+      // catch errors
+      print(e);
     }
   }
 

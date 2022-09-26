@@ -15,14 +15,17 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure = true;
-  final TextEditingController _emailController = TextEditingController();
+  bool _isUser = true;
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usertypeController =
+      TextEditingController(text: "C");
   final AuthService authService = AuthService();
 
   @override
   dispose() {
     super.dispose();
-    _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
   }
 
@@ -30,10 +33,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void signInUser() {
     authService.signInUser(
-      context: context,
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
+        context: context,
+        username: _usernameController.text,
+        password: _passwordController.text,
+        userType: _usertypeController.text);
   }
 
   @override
@@ -43,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
         centerTitle: true,
         title: const Text(
           "Log In",
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
       body: Form(
@@ -53,25 +56,70 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               ...[
-                const SizedBox(
-                  height: 150,
-                ),
+                const Text("As",
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Expanded(
+                    flex: 3,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                                foregroundColor:
+                                    _isUser ? Colors.white : Colors.grey[400],
+                                backgroundColor:
+                                    _isUser ? Colors.green : Colors.grey[200])
+                            .copyWith(
+                          elevation: ButtonStyleButton.allOrNull(0.0),
+                        ),
+                        child: const Text('User'),
+                        onPressed: () {
+                          _usertypeController.text = "C";
+                          setState(() {
+                            _isUser = true;
+                          });
+                        }),
+                  ),
+                  const Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      height: 0,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                                foregroundColor:
+                                    !_isUser ? Colors.white : Colors.grey[400],
+                                backgroundColor:
+                                    !_isUser ? Colors.green : Colors.grey[200])
+                            .copyWith(
+                          elevation: ButtonStyleButton.allOrNull(0.0),
+                        ),
+                        child: const Text('Merchant'),
+                        onPressed: () {
+                          setState(() {
+                            _usertypeController.text = "M";
+                            _isUser = false;
+                          });
+                        }),
+                  ),
+                ]),
                 TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
+                  controller: _usernameController,
                   autofocus: true,
                   textInputAction: TextInputAction.next,
                   validator: ((value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        !EmailValidator.validate(value)) {
-                      return 'Please enter a valid email';
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a username';
                     }
+                    return null;
                   }),
                   decoration: const InputDecoration(
                     filled: true,
-                    hintText: 'Your email address',
-                    labelText: 'Email',
+                    hintText: 'Your username',
+                    labelText: 'Username',
                   ),
                 ),
                 TextFormField(

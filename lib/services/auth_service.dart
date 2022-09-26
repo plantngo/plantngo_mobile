@@ -68,24 +68,22 @@ class AuthService {
   }
 
   //first time sign in user
-  void signInUser({
-    required BuildContext context,
-    required String email,
-    required String password,
-  }) async {
+  void signInUser(
+      {required BuildContext context,
+      required String username,
+      required String password,
+      required String userType}) async {
     try {
       http.Response res = await http.post(
-        Uri.parse('$uri/auth/login'),
-        body: jsonEncode({
-          'email': email,
-          'password': password,
-        }),
+        Uri.parse('$uri/api/v1/login'),
+        body: jsonEncode(
+            {'username': username, 'password': password, 'userType': userType}),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
 
-      UserSecureStorage.setToken(jsonDecode(res.body)['token']);
+      // UserSecureStorage.setToken(jsonDecode(res.body)['token']);
     } catch (e) {
       // catch error
     }

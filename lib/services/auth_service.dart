@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../utils/global_variables.dart';
-import '../models/user.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../utils/user_secure_storage.dart';
@@ -114,7 +113,7 @@ class AuthService {
       );
 
       var response = jsonDecode(tokenRes.body);
-      print(tokenRes.body);
+
       if (response == true) {
         http.Response userRes = await http.get(
           Uri.parse('$uri/'),

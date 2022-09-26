@@ -94,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           child: const Text('User'),
                           onPressed: () {
-                            _usertypeController.text = "";
+                            _usertypeController.text = "C";
                             setState(() {
                               _isUser = true;
                             });
@@ -244,7 +244,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: const Text('Sign Up'),
                         onPressed: () {
                           if (_signUpFormKey.currentState!.validate()) {
-                            print(_usertypeController.text);
                             _isUser ? signUpUser() : signUpMerchant();
                           }
                         }),

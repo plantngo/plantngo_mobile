@@ -7,16 +7,17 @@ class Merchant {
   int? id;
   String? username;
   String? email;
-  int? company;
+  String? company;
   String token;
+  List<int>? product;
 
-  Merchant({
-    required this.id,
-    required this.username,
-    required this.email,
-    required this.company,
-    required this.token,
-  });
+  Merchant(
+      {required this.id,
+      required this.username,
+      required this.email,
+      required this.company,
+      required this.token,
+      required this.product});
 
   factory Merchant.fromJSON(Map<String, dynamic> json) =>
       _$MerchantFromJson(json);

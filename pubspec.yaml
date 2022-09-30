@@ -39,6 +39,7 @@ dependencies:
   flutter_secure_storage: ^6.0.0
   email_validator: ^2.1.16
   flutter_pw_validator: ^1.4.2
+  jwt_decode: ^0.3.1
 
 dev_dependencies:
   flutter_test:

@@ -15,8 +15,9 @@ class CustomerProvider extends ChangeNotifier {
 
   Customer get customer => _customer;
 
-  void setCustomer(String customer) {
-    Map<String, dynamic> customerMap = jsonDecode(customer);
+  void setCustomer(String customer, String token) {
+    Map<String, dynamic> customerMap = jsonDecode(customer)[0];
+    customerMap['token'] = token;
     _customer = Customer.fromJSON(customerMap);
     notifyListeners();
   }
@@ -24,5 +25,16 @@ class CustomerProvider extends ChangeNotifier {
   void setCustomerFromModel(Customer customer) {
     _customer = customer;
     notifyListeners();
+  }
+
+  void resetCustomer() {
+    _customer = Customer(
+      id: null,
+      username: '',
+      email: '',
+      token: '',
+      greenPoints: 0,
+      preference: [],
+    );
   }
 }

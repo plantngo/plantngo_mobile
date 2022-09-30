@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../utils/global_variables.dart';
 
 class BottomNavbar extends StatelessWidget {
   final ValueSetter<int> onTap;
@@ -32,10 +33,6 @@ class BottomNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          // topRight: Radius.circular(30),
-          // topLeft: Radius.circular(30),
-        ),
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).primaryColor,
@@ -45,10 +42,6 @@ class BottomNavbar extends StatelessWidget {
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
-          // topLeft: Radius.circular(30.0),
-          // topRight: Radius.circular(30.0),
-        ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Theme.of(context).backgroundColor,

@@ -1,7 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
-
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({Key? key}) : super(key: key);
   static const routeName = '/forgetpassword';
@@ -27,7 +26,6 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       ),
       body: Form(
           key: _formKey,
-          // autovalidateMode: AutovalidateMode.always,
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(

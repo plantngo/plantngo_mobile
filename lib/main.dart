@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/app.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
+import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:provider/provider.dart';
-import 'screens/all.dart';
-import 'providers/user_provider.dart';
+import 'utils/all.dart';
 import 'router.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => UserProvider()),
-    ChangeNotifierProvider(create: (_) => CustomerProvider()),
+    ChangeNotifierProvider(create: (context) => CustomerProvider()),
+    ChangeNotifierProvider(create: (context) => MerchantProvider()),
   ], child: const MyApp()));
 }
 
@@ -32,17 +31,24 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    print(Provider.of<CustomerProvider>(context).customer.token);
+    Widget app = const LoginSignUpScreen();
+
+    if (Provider.of<CustomerProvider>(context).customer.token.isNotEmpty) {
+      app = const CustomerApp();
+    } else if (Provider.of<MerchantProvider>(context)
+        .merchant
+        .token
+        .isNotEmpty) {
+      app = const MerchantApp();
+    }
     return MaterialApp(
-      title: 'Plant&Go',
-      theme: ThemeData(
-        colorSchemeSeed: const Color(0xff00aa58),
-        useMaterial3: true,
-      ),
-      onGenerateRoute: ((settings) => generateRoute(settings)),
-      home: Provider.of<CustomerProvider>(context).customer.token.isNotEmpty
-          ? const App()
-          : const LoginSignUpScreen(),
-    );
+        title: 'Plant&Go',
+        theme: ThemeData(
+          colorSchemeSeed: Colors.green,
+          brightness: Brightness.light,
+          useMaterial3: true,
+        ),
+        onGenerateRoute: ((settings) => generateRoute(settings)),
+        home: app);
   }
 }

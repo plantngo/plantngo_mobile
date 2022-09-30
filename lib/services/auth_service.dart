@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
+import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/utils/all.dart';
 import 'package:provider/provider.dart';
 import '../utils/global_variables.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../utils/user_secure_storage.dart';
-import '../providers/user_provider.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 
 class AuthService {
   //signup customer and redirect to login page
@@ -68,14 +70,13 @@ class AuthService {
     }
   }
 
-  //first time sign in user(both customer and merchant)
+  //first time sign in user(both customer and merchant
   void signInUser(
       {required BuildContext context,
       required String username,
       required String password,
       required String userType}) async {
     try {
-      var userProvider = Provider.of<CustomerProvider>(context, listen: false);
       http.Response res = await http.post(
         Uri.parse('$uri/api/v1/login'),
         body: jsonEncode(
@@ -85,53 +86,84 @@ class AuthService {
         },
       );
 
-      //set dummy customer
-      userProvider.setCustomer('{"username":"gabriel","token":"123token"}');
-      // ignore: use_build_context_synchronously
-      Navigator.pop(context);
+      if (res.statusCode == 200) {
+        UserSecureStorage.setToken(res.headers['jwt'].toString());
+
+        getUserData(context);
+        if (userType == "C") {
+          Navigator.pushNamedAndRemoveUntil(
+              context, CustomerApp.routeName, (route) => false);
+        }
+
+        if (userType == "M") {
+          Navigator.pushNamedAndRemoveUntil(
+              context, MerchantApp.routeName, (route) => false);
+        }
+      }
     } catch (e) {
       // catch errors
       print(e);
     }
   }
 
-  //get user data to check if it has been logged in and token expiry
+  //get user data to check if it has been logged in
   void getUserData(
     BuildContext context,
   ) async {
     try {
-      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      var customerProvider =
+          Provider.of<CustomerProvider>(context, listen: false);
+      var merchantProvider =
+          Provider.of<MerchantProvider>(context, listen: false);
       String? token = await UserSecureStorage.getToken();
 
-      print('Bearer $token');
-      if (token == null) {
+      if (token == null || token == "") {
         UserSecureStorage.setToken("");
-      }
+      } else {
+        Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
+        String username = payload['sub'];
+        String userType = payload['Authority'].toLowerCase();
 
-      var tokenRes = await http.post(
-        Uri.parse('$uri/tokenIsValid'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer' + '$token!',
-        },
-      );
-
-      var response = jsonDecode(tokenRes.body);
-
-      if (response == true) {
         http.Response userRes = await http.get(
-          Uri.parse('$uri/'),
+          Uri.parse('$uri/api/v1/$userType?username=$username'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $token!'
+            'Authorization': 'Bearer $token'
           },
         );
 
-        userProvider.setUser(userRes.body);
+        if (userType == "customer") {
+          customerProvider.setCustomer(userRes.body, token);
+        }
+
+        if (userType == "merchant") {
+          merchantProvider.setMerchant(userRes.body, token);
+        }
       }
     } catch (e) {
       //handle error
       // showSnackBar(context, e.toString());
+      print(e);
+    }
+  }
+
+  void logOut(BuildContext context) async {
+    var customerProvider =
+        Provider.of<CustomerProvider>(context, listen: false);
+    var merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    try {
+      UserSecureStorage.setToken('');
+      customerProvider.resetCustomer();
+      merchantProvider.resetMerchant();
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute<void>(
+              builder: (BuildContext context) => const LoginSignUpScreen()),
+          (route) => false);
+    } catch (e) {
+      // showSnackBar(context, e.toString());
+      print(e);
     }
   }
 }

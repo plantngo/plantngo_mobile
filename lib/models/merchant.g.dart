@@ -10,8 +10,10 @@ Merchant _$MerchantFromJson(Map<String, dynamic> json) => Merchant(
       id: json['id'] as int?,
       username: json['username'] as String?,
       email: json['email'] as String?,
-      company: json['company'] as int?,
+      company: json['company'] as String?,
       token: json['token'] as String,
+      product:
+          (json['product'] as List<dynamic>?)?.map((e) => e as int).toList(),
     );
 
 Map<String, dynamic> _$MerchantToJson(Merchant instance) => <String, dynamic>{
@@ -20,4 +22,5 @@ Map<String, dynamic> _$MerchantToJson(Merchant instance) => <String, dynamic>{
       'email': instance.email,
       'company': instance.company,
       'token': instance.token,
+      'product': instance.product,
     };

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/home/home_screen.dart';
-import 'package:plantngo_frontend/screens/profile/profile_screen.dart';
+import 'package:plantngo_frontend/screens/customer/home_screen.dart';
+import 'package:plantngo_frontend/screens/customer/profile_screen.dart';
 import 'package:plantngo_frontend/widgets/navigation/bottom_navbar.dart';
 
 class CustomerApp extends StatefulWidget {

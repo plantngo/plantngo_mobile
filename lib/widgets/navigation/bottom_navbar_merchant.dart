@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class BottomNavbar extends StatelessWidget {
+class BottomNavbarMerchant extends StatelessWidget {
   final ValueSetter<int> onTap;
   int selectedIndex;
 
-  BottomNavbar({
+  BottomNavbarMerchant({
     required this.onTap,
     required this.selectedIndex,
     Key? key,
@@ -12,12 +12,12 @@ class BottomNavbar extends StatelessWidget {
 
   final List<IconData> selectedIcon = [
     Icons.home_rounded,
-    Icons.store_mall_directory,
+    Icons.menu_book_rounded,
     Icons.account_circle_rounded,
   ];
   final List<IconData> unSelectedIcon = [
     Icons.home_outlined,
-    Icons.store_mall_directory_outlined,
+    Icons.menu_book_outlined,
     Icons.account_circle_outlined,
   ];
 
@@ -31,12 +31,12 @@ class BottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).primaryColor,
+            color: Colors.grey,
             spreadRadius: 0,
-            blurRadius: 5,
+            blurRadius: 2,
           ),
         ],
       ),
@@ -61,7 +61,7 @@ class BottomNavbar extends StatelessWidget {
               icon: Icon(
                 renderIcon(1),
               ),
-              label: 'Cart',
+              label: 'Menu',
             ),
             BottomNavigationBarItem(
               icon: Icon(

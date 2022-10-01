@@ -1,0 +1,24 @@
+{
+    "Mains": [
+        {
+            "id": 0,
+            "productName": "Carbonara",
+            "description": "tasty",
+            "price": 20.0,
+            "picture": "www.google.com",
+            "carbonFootprint": 123,
+            "category": "Mains"
+        }
+    ],
+    "Drinks": [
+        {
+            "id": 1,
+            "productName": "Coke",
+            "description": "tasty",
+            "price": 20.0,
+            "picture": "www.google.com",
+            "carbonFootprint": 123,
+            "category": "drinks"
+        }
+    ]
+}

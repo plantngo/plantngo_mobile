@@ -27,20 +27,20 @@ class _MenuItemTileState extends State<MenuItemTile> {
       ),
     ));
     for (var item in widget.value) {
-      bool available = item["available"];
+      bool available = true;
       productLists.add(ListTile(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${item["productName"]}'),
+            Text('${item.name}'),
             Text(
-              '\$${item["price"]}0',
+              '\$${item.price}0',
               style: const TextStyle(color: Colors.grey, fontSize: 15),
             ),
           ],
         ),
         trailing: Checkbox(
-          value: item["available"],
+          value: true,
           activeColor: Colors.green,
           onChanged: ((value) {
             setState(() {

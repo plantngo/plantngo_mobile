@@ -1,9 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:plantngo_frontend/models/category.dart';
+import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import '../merchant/merchant_setup_menu_screen.dart';
 import '../../widgets/merchantmenu/menu_item_tile.dart';
+import 'package:provider/provider.dart';
 
 class MerchantMenuScreen extends StatefulWidget {
   const MerchantMenuScreen({Key? key}) : super(key: key);
@@ -14,30 +14,32 @@ class MerchantMenuScreen extends StatefulWidget {
 }
 
 class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
-  int num = 3;
-  Map<String, dynamic> _categories = <String, dynamic>{};
+  List<Category>? _categories = [];
 
-  Future<void> readJson() async {
-    final String response = await rootBundle.loadString(
-        '/Users/jingkaiooi/Desktop/Plant&Go/plantngo_frontend/lib/testdata/products.json');
-    final data = await json.decode(response);
+  Future<void> loadMenu() async {
+    // final String response = await rootBundle.loadString(
+    //     '/Users/jingkaiooi/Desktop/Plant&Go/plantngo_frontend/lib/testdata/products.json');
+    // final data = await json.decode(response);
 
     setState(() {
-      _categories = data;
+      _categories = Provider.of<MerchantProvider>(context, listen: false)
+          .merchant
+          .categories;
     });
   }
 
   @override
   void initState() {
-    readJson();
+    loadMenu();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     List<MenuItemTile> categoryList = [];
-    _categories.forEach((key, value) {
-      categoryList.add(MenuItemTile(categoryName: key, value: value));
+    _categories?.forEach((value) {
+      categoryList
+          .add(MenuItemTile(categoryName: value.name, value: value.products));
     });
     return Scaffold(
       appBar: AppBar(
@@ -101,7 +103,7 @@ class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                 child: Text(
-                  "Main Menu ($num categories)",
+                  "Main Menu (${_categories?.length} categories)",
                   style: const TextStyle(
                       color: Color.fromARGB(171, 0, 0, 0),
                       fontSize: 20,

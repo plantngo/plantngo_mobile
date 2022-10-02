@@ -62,7 +62,6 @@ class AuthService {
         },
       );
 
-      print(res.body);
       // httpErrorHandle()
     } catch (e) {
       //some exception
@@ -125,7 +124,7 @@ class AuthService {
         String userType = payload['Authority'].toLowerCase();
 
         http.Response userRes = await http.get(
-          Uri.parse('$uri/api/v1/$userType?username=$username'),
+          Uri.parse('$uri/api/v1/$userType?$username'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token'

@@ -8,7 +8,6 @@ class Product {
   String? name;
   String? description;
   double? price;
-  String? picture;
   double? carbonEmission;
 
   Product(
@@ -16,7 +15,6 @@ class Product {
       required this.name,
       required this.description,
       required this.price,
-      required this.picture,
       required this.carbonEmission});
 
   factory Product.fromJSON(Map<String, dynamic> json) =>

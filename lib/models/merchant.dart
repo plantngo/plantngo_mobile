@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:plantngo_frontend/models/product.dart';
 
 part "merchant.g.dart";
 
@@ -9,7 +10,7 @@ class Merchant {
   String? email;
   String? company;
   String token;
-  List<int>? product;
+  List<Product>? products;
 
   Merchant(
       {required this.id,
@@ -17,7 +18,7 @@ class Merchant {
       required this.email,
       required this.company,
       required this.token,
-      required this.product});
+      required this.products});
 
   factory Merchant.fromJSON(Map<String, dynamic> json) =>
       _$MerchantFromJson(json);

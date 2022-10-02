@@ -4,20 +4,20 @@ part 'product.g.dart';
 
 @JsonSerializable()
 class Product {
-  int id;
-  String productName;
-  String description;
-  double price;
-  String picture;
-  double carbonFootprint;
+  int? id;
+  String? name;
+  String? description;
+  double? price;
+  String? picture;
+  double? carbonEmission;
 
   Product(
       {required this.id,
-      required this.productName,
+      required this.name,
       required this.description,
       required this.price,
       required this.picture,
-      required this.carbonFootprint});
+      required this.carbonEmission});
 
   factory Product.fromJSON(Map<String, dynamic> json) =>
       _$ProductFromJson(json);

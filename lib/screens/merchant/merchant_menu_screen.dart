@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../merchant/merchant_setup_menu_screen.dart';
+import '../../widgets/merchantmenu/menu_item_tile.dart';
 
 class MerchantMenuScreen extends StatefulWidget {
   const MerchantMenuScreen({Key? key}) : super(key: key);
@@ -11,9 +15,30 @@ class MerchantMenuScreen extends StatefulWidget {
 
 class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
   int num = 3;
+  Map<String, dynamic> _categories = <String, dynamic>{};
+
+  Future<void> readJson() async {
+    final String response = await rootBundle.loadString(
+        '/Users/jingkaiooi/Desktop/Plant&Go/plantngo_frontend/lib/testdata/products.json');
+    final data = await json.decode(response);
+
+    setState(() {
+      _categories = data;
+    });
+  }
+
+  @override
+  void initState() {
+    readJson();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<MenuItemTile> categoryList = [];
+    _categories.forEach((key, value) {
+      categoryList.add(MenuItemTile(categoryName: key, value: value));
+    });
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -88,29 +113,7 @@ class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
           Expanded(
             child: SingleChildScrollView(
                 child: Column(
-              children: const [
-                ExpansionTile(
-                  title: Text('ExpansionTile 1'),
-                  subtitle: Text('Trailing expansion arrow icon'),
-                  children: [
-                    ListTile(title: Text('This is tile number 1')),
-                  ],
-                ),
-                ExpansionTile(
-                  title: Text('ExpansionTile 1'),
-                  subtitle: Text('Trailing expansion arrow icon'),
-                  children: [
-                    ListTile(title: Text('This is tile number 1')),
-                  ],
-                ),
-                ExpansionTile(
-                  title: Text('ExpansionTile 1'),
-                  subtitle: Text('Trailing expansion arrow icon'),
-                  children: [
-                    ListTile(title: Text('This is tile number 1')),
-                  ],
-                ),
-              ],
+              children: categoryList,
             )),
           ),
         ],

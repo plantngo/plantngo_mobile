@@ -4,10 +4,31 @@
             "id": 0,
             "productName": "Carbonara",
             "description": "tasty",
+            "price": 20.00,
+            "picture": "www.google.com",
+            "carbonEmission": 123,
+            "category": "Mains",
+            "available": true
+        },
+        {
+            "id": 1,
+            "productName": "Coke",
+            "description": "tasty",
             "price": 20.0,
             "picture": "www.google.com",
-            "carbonFootprint": 123,
-            "category": "Mains"
+            "carbonEmission": 123,
+            "category": "drinks",
+            "available": false
+        },
+        {
+            "id": 1,
+            "productName": "Coke",
+            "description": "tasty",
+            "price": 20.0,
+            "picture": "www.google.com",
+            "carbonEmission": 123,
+            "category": "drinks",
+            "available": true
         }
     ],
     "Drinks": [
@@ -17,8 +38,9 @@
             "description": "tasty",
             "price": 20.0,
             "picture": "www.google.com",
-            "carbonFootprint": 123,
-            "category": "drinks"
+            "carbonEmission": 123,
+            "category": "drinks",
+            "available": true
         }
     ]
 }

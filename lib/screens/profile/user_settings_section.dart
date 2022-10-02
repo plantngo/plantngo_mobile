@@ -8,22 +8,18 @@ class UserSettingSection extends StatelessWidget {
     List<IconData> iconsList = [
       Icons.credit_card,
       Icons.compare_arrows,
-      Icons.info_sharp,
-      Icons.help,
+
     ];
     List<String> titleList = [
       "Payment Methods",
       "Profile Settings",
-      "",
-      "Privacy",
-      "Help",
+
+
     ];
     List<String> subtitleList = [
       "",
       "",
-      "",
-      "",
-      "",
+  
     ];
     List<Widget> routeList = [];
     return Column(

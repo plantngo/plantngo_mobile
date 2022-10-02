@@ -3,7 +3,7 @@ import '../../utils/global_variables.dart';
 
 class BottomNavbar extends StatelessWidget {
   final ValueSetter<int> onTap;
-  int selectedIndex;
+  final int selectedIndex;
 
   BottomNavbar({
     required this.onTap,

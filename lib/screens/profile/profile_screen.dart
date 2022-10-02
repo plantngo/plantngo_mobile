@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
+import 'package:plantngo_frontend/screens/profile/user_profile_section.dart';
+import 'package:plantngo_frontend/screens/profile/user_settings_section.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -25,6 +27,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const Text(
               "Profile Page",
             ),
+            UserProfileSection(),
+            SizedBox(height: 10),
+            UserSettingSection(),
             SizedBox(
               width: 300,
               height: 40,

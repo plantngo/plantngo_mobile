@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/home/home_screen.dart';
-import 'package:plantngo_frontend/screens/home/home_screen_merchant.dart';
-import 'package:plantngo_frontend/screens/profile/profile_screen.dart';
-import 'package:plantngo_frontend/widgets/navigation/bottom_navbar.dart';
+import 'package:plantngo_frontend/screens/merchant/merchant_home_screen.dart';
+import 'package:plantngo_frontend/screens/customer/profile_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/merchant_menu_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/merchant_account_screen.dart';
+import 'package:plantngo_frontend/widgets/navigation/bottom_navbar_merchant.dart';
 
 class MerchantApp extends StatefulWidget {
   static const routeName = '/merchantapp';
@@ -19,9 +20,9 @@ class _MerchantAppState extends State<MerchantApp> {
   int topNavbarSelectedIndex = 0;
 
   final List<Widget> screens = const [
-    HomeScreenMerchant(),
-    Scaffold(),
-    ProfileScreen(),
+    MerchantHomeScreen(),
+    MerchantMenuScreen(),
+    MerchantAccountScreen(),
   ];
 
   void onBottomNavbarTap(int selectedIndex) {
@@ -39,7 +40,6 @@ class _MerchantAppState extends State<MerchantApp> {
     return DefaultTabController(
       length: 5,
       child: Scaffold(
-        appBar: AppBar(),
         body: PageView(
           controller: pageController,
           onPageChanged: onPageChanged,
@@ -47,7 +47,7 @@ class _MerchantAppState extends State<MerchantApp> {
           scrollDirection: Axis.horizontal,
           children: screens,
         ),
-        bottomNavigationBar: BottomNavbar(
+        bottomNavigationBar: BottomNavbarMerchant(
           onTap: onBottomNavbarTap,
           selectedIndex: bottomNavbarSelectedIndex,
         ),

@@ -17,7 +17,6 @@ class EditCategoryScreen extends StatefulWidget {
 
 class _EditCategoryScreenState extends State<EditCategoryScreen> {
   final MerchantService merchantService = MerchantService();
-  AuthService authService = AuthService();
   @override
   void initState() {
     _categoryNameController.text = widget.categoryName;
@@ -70,7 +69,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                   onPressed: () async {
                     try {
                       await deleteCategory();
-                      authService.getUserData(context);
+                      AuthService.getUserData(context);
                       Navigator.pop(context);
                     } catch (e) {
                       print(e);

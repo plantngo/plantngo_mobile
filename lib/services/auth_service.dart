@@ -11,7 +11,7 @@ import 'package:jwt_decode/jwt_decode.dart';
 
 class AuthService {
   //signup customer and redirect to login page
-  void signUpUser({
+  static void signUpUser({
     required BuildContext context,
     required String email,
     required String password,
@@ -40,7 +40,7 @@ class AuthService {
     }
   }
 
-  void signUpMerchant(
+  static void signUpMerchant(
       {required BuildContext context,
       required String email,
       required String password,
@@ -70,7 +70,7 @@ class AuthService {
   }
 
   //first time sign in user(both customer and merchant
-  void signInUser(
+  static void signInUser(
       {required BuildContext context,
       required String username,
       required String password,
@@ -106,7 +106,7 @@ class AuthService {
   }
 
   //get user data to check if it has been logged in
-  void getUserData(
+  static void getUserData(
     BuildContext context,
   ) async {
     try {
@@ -146,7 +146,7 @@ class AuthService {
     }
   }
 
-  void logOut(BuildContext context) async {
+  static void logOut(BuildContext context) async {
     var customerProvider =
         Provider.of<CustomerProvider>(context, listen: false);
     var merchantProvider =

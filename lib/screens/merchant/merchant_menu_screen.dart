@@ -16,27 +16,15 @@ class MerchantMenuScreen extends StatefulWidget {
 }
 
 class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
-  List<Category>? _categories = [];
   final MerchantService merchantService = MerchantService();
-
-  void loadMenu() async {
-    _categories = await merchantService.fetchAllCategories(context);
-    setState(() {});
-  }
 
   @override
   void initState() {
-    loadMenu();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<MenuItemTile> categoryList = [];
-    _categories?.forEach((value) {
-      categoryList
-          .add(MenuItemTile(categoryName: value.name, value: value.products));
-    });
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,

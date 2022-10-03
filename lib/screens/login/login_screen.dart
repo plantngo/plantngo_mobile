@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usertypeController =
       TextEditingController(text: "C");
-  final AuthService authService = AuthService();
+
 
   @override
   dispose() {
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   void signInUser() {
-    authService.signInUser(
+    AuthService.signInUser(
         context: context,
         username: _usernameController.text,
         password: _passwordController.text,

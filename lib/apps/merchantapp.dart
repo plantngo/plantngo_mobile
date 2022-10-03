@@ -3,6 +3,7 @@ import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_home_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_menu_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_account_screen.dart';
+import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/widgets/navigation/bottom_navbar_merchant.dart';
 import 'package:provider/provider.dart';
 
@@ -33,8 +34,7 @@ class _MerchantAppState extends State<MerchantApp> {
   void onPageChanged(int index) {
     switch (index) {
       case 1:
-        Provider.of<MerchantCategoryProvider>(context, listen: false)
-            .setCategories(context);
+        AuthService.getUserData(context);
         break;
       default:
     }

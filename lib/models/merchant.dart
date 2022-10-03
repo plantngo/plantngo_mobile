@@ -10,7 +10,7 @@ class Merchant {
   String? email;
   String? company;
   String token;
-  List<Category>? categories;
+  List<Category> categories;
 
   Merchant(
       {required this.id,

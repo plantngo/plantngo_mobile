@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
+import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:provider/provider.dart';
 
 class EditCategoryScreen extends StatefulWidget {
-  EditCategoryScreen(
-      {Key? key,
-      required this.categoryName,
-      required this.merchantCategoryProvider});
+  EditCategoryScreen({Key? key, required this.categoryName});
 
-  MerchantCategoryProvider merchantCategoryProvider;
   static const routeName = "/editcategory";
   String categoryName;
 
@@ -19,6 +17,7 @@ class EditCategoryScreen extends StatefulWidget {
 
 class _EditCategoryScreenState extends State<EditCategoryScreen> {
   final MerchantService merchantService = MerchantService();
+  AuthService authService = AuthService();
   @override
   void initState() {
     _categoryNameController.text = widget.categoryName;
@@ -71,7 +70,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                   onPressed: () async {
                     try {
                       await deleteCategory();
-                      widget.merchantCategoryProvider.setCategories(context);
+                      authService.getUserData(context);
                       Navigator.pop(context);
                     } catch (e) {
                       print(e);

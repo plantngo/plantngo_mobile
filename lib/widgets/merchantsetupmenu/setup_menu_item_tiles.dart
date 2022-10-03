@@ -6,11 +6,9 @@ class SetupMenuItemTile extends StatefulWidget {
   const SetupMenuItemTile(
       {super.key,
       this.value,
-      required this.categoryName,
-      required this.merchantCategoryProvider});
+      required this.categoryName,});
 
   final dynamic value;
-  final MerchantCategoryProvider merchantCategoryProvider;
   final String categoryName;
 
   @override
@@ -55,8 +53,7 @@ class _SetupMenuItemTileState extends State<SetupMenuItemTile> {
                         MaterialPageRoute(
                           builder: (context) => EditCategoryScreen(
                               categoryName: categoryName,
-                              merchantCategoryProvider:
-                                  widget.merchantCategoryProvider),
+                              ),
                         ),
                       );
                     },

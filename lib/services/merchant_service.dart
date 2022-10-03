@@ -17,7 +17,7 @@ class MerchantService {
     String? token = await UserSecureStorage.getToken();
 
     try {
-      http.Response res = await http.post(
+      http.Response res = await http.put(
           Uri.parse(
               '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$oldCategoryName'),
           headers: {

@@ -3,7 +3,6 @@ import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
-import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:provider/provider.dart';
 import 'utils/all.dart';
 import 'router.dart';

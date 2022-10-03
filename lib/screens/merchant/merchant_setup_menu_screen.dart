@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
+import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:provider/provider.dart';
 import '../../models/category.dart';
@@ -28,9 +29,9 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
       appBar: AppBar(
         title: const Text("Set Up Menu"),
       ),
-      body: Consumer<MerchantCategoryProvider>(
-        builder: (BuildContext context,
-            MerchantCategoryProvider merchantProvider, child) {
+      body: Consumer<MerchantProvider>(
+        builder:
+            (BuildContext context, MerchantProvider merchantProvider, child) {
           return Column(
             children: [
               SizedBox(
@@ -42,7 +43,7 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                     child: Text(
-                      "Main Menu (${merchantProvider.categories.length} categories)",
+                      "Main Menu (${merchantProvider.merchant.categories.length} categories)",
                       style: const TextStyle(
                           color: Color.fromARGB(171, 0, 0, 0),
                           fontSize: 20,
@@ -54,11 +55,9 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
               Expanded(
                 child: SingleChildScrollView(
                     child: Column(children: <Widget>[
-                  for (var value in merchantProvider.categories)
+                  for (var value in merchantProvider.merchant.categories)
                     SetupMenuItemTile(
-                        categoryName: value.name,
-                        value: value.products,
-                        merchantCategoryProvider: merchantProvider)
+                        categoryName: value.name, value: value.products)
                 ])),
               ),
             ],

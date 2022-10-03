@@ -1,9 +1,9 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import '../../validators/email_validator.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({Key? key}) : super(key: key);
-  static const routeName = '/forget';
+  static const routeName = '/forgetpassword';
 
   @override
   ForgetPasswordScreenState createState() => ForgetPasswordScreenState();
@@ -21,12 +21,11 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         centerTitle: true,
         title: const Text(
           "Reset Password",
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
       body: Form(
           key: _formKey,
-          // autovalidateMode: AutovalidateMode.always,
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -37,7 +36,13 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   autofocus: true,
-                  validator: ((value) => validateEmail(value)),
+                  validator: ((value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        !EmailValidator.validate(value)) {
+                      return 'Please enter a valid email';
+                    }
+                  }),
                   decoration: const InputDecoration(
                     filled: true,
                     hintText: 'Your email address',

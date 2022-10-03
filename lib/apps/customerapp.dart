@@ -10,10 +10,11 @@ class CustomerApp extends StatefulWidget {
   const CustomerApp({super.key});
 
   @override
-  State<App> createState() => _AppState();
+  State<CustomerApp> createState() => _CustomerAppState();
+
 }
 
-class _AppState extends State<App> {
+class _CustomerAppState extends State<CustomerApp> {
   PageController pageController = PageController();
 
   int bottomNavbarSelectedIndex = 0;

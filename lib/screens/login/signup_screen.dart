@@ -21,10 +21,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _isUser = true;
   bool _isValidPassword = false;
 
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _usertypeController = TextEditingController();
+  final TextEditingController _usertypeController =
+      TextEditingController(text: "C");
   final TextEditingController _companyController = TextEditingController();
 
   @override
@@ -32,38 +33,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _nameController.dispose();
+    _usernameController.dispose();
     _usertypeController.dispose();
     _companyController.dispose();
   }
 
   void signUpUser() {
-    print("email: " +
-        _emailController.text +
-        " name: " +
-        _nameController.text +
-        " username: " +
-        _emailController.text +
-        " password: " +
-        _passwordController.text +
-        " userType: " +
-        _usertypeController.text);
+    authService.signUpUser(
+        context: context,
+        email: _emailController.text,
+        username: _usernameController.text,
+        password: _passwordController.text,
+        userType: _usertypeController.text);
+  }
 
-    if (_isUser) {
-      authService.signUpUser(
-          context: context,
-          email: _emailController.text,
-          name: _nameController.text,
-          username: _emailController.text,
-          password: _passwordController.text,
-          accType: _usertypeController.text);
-    } else {
-      // sign up merchant
-    }
+  void signUpMerchant() {
+    authService.signUpMerchant(
+        context: context,
+        email: _emailController.text,
+        username: _usernameController.text,
+        password: _passwordController.text,
+        userType: _usertypeController.text,
+        company: _companyController.text);
   }
 
   @override
   Widget build(BuildContext context) {
+    //set default usertype to Customer
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -98,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           child: const Text('User'),
                           onPressed: () {
-                            _usertypeController.text = "USER";
+                            _usertypeController.text = "C";
                             setState(() {
                               _isUser = true;
                             });
@@ -125,8 +121,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           child: const Text('Merchant'),
                           onPressed: () {
-                            _usertypeController.text = "MERCHANT";
                             setState(() {
+                              _usertypeController.text = "M";
                               _isUser = false;
                             });
                           }),
@@ -150,22 +146,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         }),
                       ),
                     ),
-                  if (!_isUser)
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      height: 100,
-                      child: TextFormField(
-                        controller: _companyController,
-                        decoration: const InputDecoration(
-                            filled: true, labelText: "Company"),
-                        validator: ((value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the company name';
-                          }
-                        }),
-                      ),
+                    height: 100,
+                    child: TextFormField(
+                      controller: _usernameController,
+                      decoration: const InputDecoration(
+                          filled: true, labelText: "username"),
+                      validator: ((value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your username';
+                        }
+                      }),
                     ),
                   const SizedBox(height: 5),
                   Container(
@@ -186,6 +176,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }),
                     ),
                   ),
+                  if (_usertypeController.text == "M")
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      height: 100,
+                      child: TextFormField(
+                        controller: _companyController,
+                        decoration: const InputDecoration(
+                            filled: true, labelText: "company"),
+                      ),
+                    ),
                   const SizedBox(height: 5),
                   Container(
                     decoration: BoxDecoration(
@@ -254,7 +256,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: const Text('Sign Up'),
                         onPressed: () {
                           if (_signUpFormKey.currentState!.validate()) {
-                            signUpUser();
+                            print(_usertypeController.text);
+                            _isUser ? signUpUser() : signUpMerchant();
                           }
                         }),
                   ),

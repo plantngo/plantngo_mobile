@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:plantngo_frontend/providers/auth_provider.dart';
-import 'package:provider/provider.dart';
-import '../../models/login_form.dart';
-import '../../validators/email_validator.dart';
 import '../../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
-  final http.Client? httpClient;
 
   const LoginScreen({
-    this.httpClient,
     super.key,
   });
 
@@ -20,21 +13,29 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // LoginForm loginForm = LoginForm();
   bool _isObscure = true;
-  final TextEditingController _emailController = TextEditingController();
+  bool _isUser = true;
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usertypeController =
+      TextEditingController(text: "C");
   final AuthService authService = AuthService();
-  // LogInService logInService = LogInService();
+
+  @override
+  dispose() {
+    super.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
+  }
 
   final _formKey = GlobalKey<FormState>();
 
   void signInUser() {
     authService.signInUser(
-      context: context,
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
+        context: context,
+        username: _usernameController.text,
+        password: _passwordController.text,
+        userType: _usertypeController.text);
   }
 
   @override
@@ -44,34 +45,81 @@ class _LoginScreenState extends State<LoginScreen> {
         centerTitle: true,
         title: const Text(
           "Log In",
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
       body: Form(
         key: _formKey,
-        // autovalidateMode: AutovalidateMode.always,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
               ...[
-                const SizedBox(
-                  height: 150,
-                ),
+                const Text("As",
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Expanded(
+                    flex: 3,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                                foregroundColor:
+                                    _isUser ? Colors.white : Colors.grey[400],
+                                backgroundColor:
+                                    _isUser ? Colors.green : Colors.grey[200])
+                            .copyWith(
+                          elevation: ButtonStyleButton.allOrNull(0.0),
+                        ),
+                        child: const Text('User'),
+                        onPressed: () {
+                          _usertypeController.text = "C";
+                          setState(() {
+                            _isUser = true;
+                          });
+                        }),
+                  ),
+                  const Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      height: 0,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                                foregroundColor:
+                                    !_isUser ? Colors.white : Colors.grey[400],
+                                backgroundColor:
+                                    !_isUser ? Colors.green : Colors.grey[200])
+                            .copyWith(
+                          elevation: ButtonStyleButton.allOrNull(0.0),
+                        ),
+                        child: const Text('Merchant'),
+                        onPressed: () {
+                          setState(() {
+                            _usertypeController.text = "M";
+                            _isUser = false;
+                          });
+                        }),
+                  ),
+                ]),
                 TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
+                  controller: _usernameController,
                   autofocus: true,
                   textInputAction: TextInputAction.next,
-                  validator: ((value) => validateEmail(value)),
+                  validator: ((value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a username';
+                    }
+                    return null;
+                  }),
                   decoration: const InputDecoration(
                     filled: true,
-                    hintText: 'Your email address',
-                    labelText: 'Email',
+                    hintText: 'Your username',
+                    labelText: 'Username',
                   ),
-                  // onChanged: (value) {
-                  //   loginForm.email = value;
-                  // },
                 ),
                 TextFormField(
                   controller: _passwordController,
@@ -95,9 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return null;
                   }),
-                  // onChanged: (value) {
-                  //   loginForm.password = value;
-                  // },
                 ),
                 SizedBox(
                   width: 300,
@@ -115,23 +160,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       // change the login to true
                       if (_formKey.currentState!.validate()) {
-                        // await context.read<AuthProvider>().login(loginForm);
                         signInUser();
                       }
-
-                      // if (context.read<AuthProvider>().isLoggedIn) {
-                      //   Navigator.of(context).pop();
-                      // } else {
-                      //   print("wrong credentials");
-                      // }
-
-                      // pop the current screen off
                     },
                   ),
                 ),
                 TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/forget");
+                      Navigator.pushNamed(context, "/forgetpassword");
                     },
                     child: const Text("Forget Password?"))
               ].expand(
@@ -145,22 +181,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  void _showDialog(String message) {
-    // print(context.owner);
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(message),
-        actions: [
-          TextButton(
-            child: const Text('OK'),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
       ),
     );
   }

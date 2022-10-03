@@ -31,7 +31,7 @@ class MerchantService {
     }
   }
 
-  void deleteCategory(
+  Future deleteCategory(
       {required BuildContext context, required String category}) async {
     final merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);
@@ -77,5 +77,4 @@ class MerchantService {
 
     return categories;
   }
-
 }

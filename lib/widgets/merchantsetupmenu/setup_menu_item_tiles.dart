@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/screens/merchant/edit_category_screen.dart';
 
 class SetupMenuItemTile extends StatefulWidget {
-  const SetupMenuItemTile({super.key, this.value, required this.categoryName});
+  const SetupMenuItemTile(
+      {super.key,
+      this.value,
+      required this.categoryName,
+      required this.merchantCategoryProvider});
 
   final dynamic value;
+  final MerchantCategoryProvider merchantCategoryProvider;
   final String categoryName;
 
   @override
@@ -47,8 +53,10 @@ class _SetupMenuItemTileState extends State<SetupMenuItemTile> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              EditCategoryScreen(categoryName: categoryName),
+                          builder: (context) => EditCategoryScreen(
+                              categoryName: categoryName,
+                              merchantCategoryProvider:
+                                  widget.merchantCategoryProvider),
                         ),
                       );
                     },

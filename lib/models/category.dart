@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:plantngo_frontend/models/product.dart';
 

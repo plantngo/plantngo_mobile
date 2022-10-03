@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
+import 'package:provider/provider.dart';
 
 class EditCategoryScreen extends StatefulWidget {
-  EditCategoryScreen({Key? key, required this.categoryName});
+  EditCategoryScreen(
+      {Key? key,
+      required this.categoryName,
+      required this.merchantCategoryProvider});
 
+  MerchantCategoryProvider merchantCategoryProvider;
   static const routeName = "/editcategory";
   String categoryName;
 
@@ -26,8 +32,8 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
         context: context);
   }
 
-  void deleteCategory() {
-    merchantService.deleteCategory(
+  Future deleteCategory() async {
+    await merchantService.deleteCategory(
         context: context, category: widget.categoryName);
   }
 
@@ -62,9 +68,14 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                   ).copyWith(
                     elevation: ButtonStyleButton.allOrNull(0.0),
                   ),
-                  onPressed: () {
-                    deleteCategory();
-                    Navigator.pop(context, true);
+                  onPressed: () async {
+                    try {
+                      await deleteCategory();
+                      widget.merchantCategoryProvider.setCategories(context);
+                      Navigator.pop(context);
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                   child: const Text("Delete Category")),
             )

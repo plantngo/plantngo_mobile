@@ -31,29 +31,40 @@ class _MerchantAppState extends State<MerchantApp> {
   }
 
   void onPageChanged(int index) {
+    switch (index) {
+      case 1:
+        Provider.of<MerchantCategoryProvider>(context, listen: false)
+            .setCategories(context);
+        break;
+      default:
+    }
     setState(() {
       bottomNavbarSelectedIndex = index;
     });
   }
 
   @override
+  void initState() {
+    super.initState();
+    Provider.of<MerchantCategoryProvider>(context, listen: false)
+        .setCategories(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: ((context) => MerchantCategoryProvider()),
-      child: DefaultTabController(
-        length: 5,
-        child: Scaffold(
-          body: PageView(
-            controller: pageController,
-            onPageChanged: onPageChanged,
-            physics: const NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            children: screens,
-          ),
-          bottomNavigationBar: BottomNavbarMerchant(
-            onTap: onBottomNavbarTap,
-            selectedIndex: bottomNavbarSelectedIndex,
-          ),
+    return DefaultTabController(
+      length: 5,
+      child: Scaffold(
+        body: PageView(
+          controller: pageController,
+          onPageChanged: onPageChanged,
+          physics: const NeverScrollableScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          children: screens,
+        ),
+        bottomNavigationBar: BottomNavbarMerchant(
+          onTap: onBottomNavbarTap,
+          selectedIndex: bottomNavbarSelectedIndex,
         ),
       ),
     );

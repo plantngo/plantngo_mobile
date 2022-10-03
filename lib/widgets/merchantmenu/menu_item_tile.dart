@@ -4,6 +4,7 @@ class MenuItemTile extends StatefulWidget {
   const MenuItemTile({Key? key, this.value, required this.categoryName});
 
   final dynamic value;
+
   final String categoryName;
 
   @override

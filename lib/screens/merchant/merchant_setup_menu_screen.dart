@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:provider/provider.dart';
 import '../../models/category.dart';
@@ -14,55 +15,55 @@ class MerchantSetupMenuScreen extends StatefulWidget {
 }
 
 class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
-  List<Category>? _categories = [];
   final MerchantService merchantService = MerchantService();
-
-  void loadMenu() async {
-    _categories = await merchantService.fetchAllCategories(context);
-    setState(() {});
-  }
 
   @override
   void initState() {
-    loadMenu();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<SetupMenuItemTile> categoryList = [];
-    _categories?.forEach((value) {
-      categoryList.add(
-          SetupMenuItemTile(categoryName: value.name, value: value.products));
-    });
     return Scaffold(
       appBar: AppBar(
         title: const Text("Set Up Menu"),
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            height: 56,
-            child: Container(
-              alignment: Alignment.centerLeft,
-              color: const Color.fromARGB(31, 211, 211, 211),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                child: Text(
-                  "Main Menu (${_categories?.length} categories)",
-                  style: const TextStyle(
-                      color: Color.fromARGB(171, 0, 0, 0),
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400),
+      body: Consumer<MerchantCategoryProvider>(
+        builder: (BuildContext context,
+            MerchantCategoryProvider merchantProvider, child) {
+          return Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  color: const Color.fromARGB(31, 211, 211, 211),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    child: Text(
+                      "Main Menu (${merchantProvider.categories.length} categories)",
+                      style: const TextStyle(
+                          color: Color.fromARGB(171, 0, 0, 0),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(child: Column(children: categoryList)),
-          ),
-        ],
+              Expanded(
+                child: SingleChildScrollView(
+                    child: Column(children: <Widget>[
+                  for (var value in merchantProvider.categories)
+                    SetupMenuItemTile(
+                        categoryName: value.name,
+                        value: value.products,
+                        merchantCategoryProvider: merchantProvider)
+                ])),
+              ),
+            ],
+          );
+        },
       ),
       bottomNavigationBar: SizedBox(
         height: 115,

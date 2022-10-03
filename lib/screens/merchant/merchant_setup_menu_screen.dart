@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/screens/merchant/add_category_screen.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:provider/provider.dart';
 import '../../models/category.dart';
@@ -126,7 +127,7 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
                                 Navigator.pushNamed(
-                                    context, MerchantSetupMenuScreen.routeName);
+                                    context, AddCategoryScreen.routeName);
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,

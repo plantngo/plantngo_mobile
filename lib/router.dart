@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/screens/login/signup_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/add_category_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/edit_category_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_menu_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_setup_menu_screen.dart';
 import 'utils/all.dart';
@@ -35,7 +37,9 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case MerchantMenuScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => const MerchantMenuScreen());
-
+    case AddCategoryScreen.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => const AddCategoryScreen());
     default:
       return MaterialPageRoute(
         settings: routeSettings,

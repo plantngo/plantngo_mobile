@@ -8,7 +8,7 @@ import '../utils/global_variables.dart';
 import '../utils/user_secure_storage.dart';
 
 class MerchantService {
-  void editCategory(
+  static Future editCategory(
       {required String oldCategoryName,
       required String newCategoryName,
       required BuildContext context}) async {
@@ -31,7 +31,7 @@ class MerchantService {
     }
   }
 
-  Future deleteCategory(
+  static Future deleteCategory(
       {required BuildContext context, required String category}) async {
     final merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);
@@ -50,7 +50,27 @@ class MerchantService {
     }
   }
 
-  Future<List<Category>> fetchAllCategories(BuildContext context) async {
+  static Future addCategory(
+      {required BuildContext context, required String category}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+
+    try {
+      http.Response res = await http.post(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({"name": category}));
+    } catch (e) {
+      //catch exception
+    }
+  }
+
+  static Future<List<Category>> fetchAllCategories(BuildContext context) async {
     final merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);
     String? token = await UserSecureStorage.getToken();

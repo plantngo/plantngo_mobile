@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
-import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
-import 'package:provider/provider.dart';
 
 class EditCategoryScreen extends StatefulWidget {
   EditCategoryScreen({Key? key, required this.categoryName});
@@ -16,22 +13,21 @@ class EditCategoryScreen extends StatefulWidget {
 }
 
 class _EditCategoryScreenState extends State<EditCategoryScreen> {
-  final MerchantService merchantService = MerchantService();
   @override
   void initState() {
     _categoryNameController.text = widget.categoryName;
     super.initState();
   }
 
-  void saveChanges() {
-    merchantService.editCategory(
+  Future saveChanges() async {
+    await MerchantService.editCategory(
         oldCategoryName: widget.categoryName,
         newCategoryName: _categoryNameController.text,
         context: context);
   }
 
   Future deleteCategory() async {
-    await merchantService.deleteCategory(
+    await MerchantService.deleteCategory(
         context: context, category: widget.categoryName);
   }
 
@@ -95,8 +91,11 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                 elevation: ButtonStyleButton.allOrNull(0.0),
               ),
               child: const Text('Save Changes'),
-              onPressed: () {
-                saveChanges();
+              onPressed: () async {
+                await saveChanges();
+
+                AuthService.getUserData(context);
+                Navigator.pop(context);
               }),
         ),
       ),

@@ -7,10 +7,8 @@ class MerchantCategoryProvider extends ChangeNotifier {
 
   List<Category> get categories => _categories;
 
-  MerchantService merchantService = MerchantService();
-
   setCategories(BuildContext context) async {
-    _categories = await merchantService.fetchAllCategories(context);
+    _categories = await MerchantService.fetchAllCategories(context);
     notifyListeners();
   }
 }

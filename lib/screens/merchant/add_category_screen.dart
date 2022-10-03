@@ -24,15 +24,12 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
         title: const Text("Add Category"),
       ),
       body: Form(
-          child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: TextFormField(
-          controller: _categoryNameController,
-          textInputAction: TextInputAction.next,
-          decoration: const InputDecoration(
-            filled: true,
-            labelText: 'Category Name',
-          ),
+          child: TextFormField(
+        controller: _categoryNameController,
+        textInputAction: TextInputAction.next,
+        decoration: const InputDecoration(
+          filled: true,
+          labelText: 'Category Name',
         ),
       )),
       bottomNavigationBar: SizedBox(

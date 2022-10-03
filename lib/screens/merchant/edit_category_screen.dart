@@ -19,6 +19,13 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _categoryNameController.dispose();
+  }
+
   Future saveChanges() async {
     await MerchantService.editCategory(
         oldCategoryName: widget.categoryName,

@@ -70,6 +70,35 @@ class MerchantService {
     }
   }
 
+  static Future addProduct(
+      {required BuildContext context,
+      required String name,
+      required String description,
+      required double price,
+      required double emission,
+      required String category}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+    try {
+      http.Response res = await http.post(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "name": name,
+            "price": price,
+            "description": description,
+            "carbonEmission": emission
+          }));
+    } catch (e) {
+      //catch exception
+    }
+  }
+
   static Future<List<Category>> fetchAllCategories(BuildContext context) async {
     final merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);

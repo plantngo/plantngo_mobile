@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/category.dart';
-import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/services/merchant_service.dart';
 import '../merchant/merchant_setup_menu_screen.dart';
 import '../../widgets/merchantmenu/menu_item_tile.dart';
-import 'package:provider/provider.dart';
 
 class MerchantMenuScreen extends StatefulWidget {
   const MerchantMenuScreen({Key? key}) : super(key: key);
@@ -15,17 +14,10 @@ class MerchantMenuScreen extends StatefulWidget {
 
 class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
   List<Category>? _categories = [];
-
-  Future<void> loadMenu() async {
-    // final String response = await rootBundle.loadString(
-    //     '/Users/jingkaiooi/Desktop/Plant&Go/plantngo_frontend/lib/testdata/products.json');
-    // final data = await json.decode(response);
-
-    setState(() {
-      _categories = Provider.of<MerchantProvider>(context, listen: false)
-          .merchant
-          .categories;
-    });
+  final MerchantService merchantService = MerchantService();
+  void loadMenu() async {
+    _categories = await merchantService.fetchAllCategories(context);
+    setState(() {});
   }
 
   @override

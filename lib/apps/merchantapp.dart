@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_home_screen.dart';
-import 'package:plantngo_frontend/screens/customer/profile_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_menu_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_account_screen.dart';
 import 'package:plantngo_frontend/widgets/navigation/bottom_navbar_merchant.dart';
+import 'package:provider/provider.dart';
 
 class MerchantApp extends StatefulWidget {
   static const routeName = '/merchantapp';
@@ -37,19 +38,22 @@ class _MerchantAppState extends State<MerchantApp> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 5,
-      child: Scaffold(
-        body: PageView(
-          controller: pageController,
-          onPageChanged: onPageChanged,
-          physics: const NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          children: screens,
-        ),
-        bottomNavigationBar: BottomNavbarMerchant(
-          onTap: onBottomNavbarTap,
-          selectedIndex: bottomNavbarSelectedIndex,
+    return ChangeNotifierProvider(
+      create: ((context) => MerchantCategoryProvider()),
+      child: DefaultTabController(
+        length: 5,
+        child: Scaffold(
+          body: PageView(
+            controller: pageController,
+            onPageChanged: onPageChanged,
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            children: screens,
+          ),
+          bottomNavigationBar: BottomNavbarMerchant(
+            onTap: onBottomNavbarTap,
+            selectedIndex: bottomNavbarSelectedIndex,
+          ),
         ),
       ),
     );

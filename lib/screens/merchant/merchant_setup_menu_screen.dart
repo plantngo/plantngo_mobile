@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/services/merchant_service.dart';
+import 'package:provider/provider.dart';
+import '../../models/category.dart';
+import '../../widgets/merchantsetupmenu/setup_menu_item_tiles.dart';
 
 class MerchantSetupMenuScreen extends StatefulWidget {
   const MerchantSetupMenuScreen({Key? key}) : super(key: key);
@@ -10,8 +14,27 @@ class MerchantSetupMenuScreen extends StatefulWidget {
 }
 
 class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
+  List<Category>? _categories = [];
+  final MerchantService merchantService = MerchantService();
+
+  void loadMenu() async {
+    _categories = await merchantService.fetchAllCategories(context);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    loadMenu();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<SetupMenuItemTile> categoryList = [];
+    _categories?.forEach((value) {
+      categoryList.add(
+          SetupMenuItemTile(categoryName: value.name, value: value.products));
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text("Set Up Menu"),
@@ -27,7 +50,7 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                 child: Text(
-                  "Main Menu ($num categories)",
+                  "Main Menu (${_categories?.length} categories)",
                   style: const TextStyle(
                       color: Color.fromARGB(171, 0, 0, 0),
                       fontSize: 20,
@@ -37,32 +60,7 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-                child: Column(
-              children: const [
-                ExpansionTile(
-                  title: Text('ExpansionTile 1'),
-                  subtitle: Text('Trailing expansion arrow icon'),
-                  children: [
-                    ListTile(title: Text('This is tile number 1')),
-                  ],
-                ),
-                ExpansionTile(
-                  title: Text('ExpansionTile 1'),
-                  subtitle: Text('Trailing expansion arrow icon'),
-                  children: [
-                    ListTile(title: Text('This is tile number 1')),
-                  ],
-                ),
-                ExpansionTile(
-                  title: Text('ExpansionTile 1'),
-                  subtitle: Text('Trailing expansion arrow icon'),
-                  children: [
-                    ListTile(title: Text('This is tile number 1')),
-                  ],
-                ),
-              ],
-            )),
+            child: SingleChildScrollView(child: Column(children: categoryList)),
           ),
         ],
       ),
@@ -87,17 +85,75 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
                   builder: (BuildContext context) {
                     return Container(
                       height: 200,
-                      color: Colors.amber,
+                      color: Colors.white,
                       child: Center(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            const Text('Modal BottomSheet'),
-                            ElevatedButton(
-                              child: const Text('Close BottomSheet'),
-                              onPressed: () => Navigator.pop(context),
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, MerchantSetupMenuScreen.routeName);
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Text(
+                                      "Add a new Item",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
+                            const Divider(
+                              color: Colors.black,
+                            ),
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, MerchantSetupMenuScreen.routeName);
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Text(
+                                      "Add a new Category",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            )
                           ],
                         ),
                       ),

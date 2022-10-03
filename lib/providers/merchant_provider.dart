@@ -1,9 +1,6 @@
 import 'dart:convert';
-
 import '../models/merchant.dart';
 import 'package:flutter/material.dart';
-
-import '../models/product.dart';
 
 class MerchantProvider extends ChangeNotifier {
   Merchant _merchant = Merchant(

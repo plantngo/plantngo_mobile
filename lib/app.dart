@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/home/home_screen.dart';
-import 'package:plantngo_frontend/screens/profile/profile_screen.dart';
+import 'package:plantngo_frontend/screens/customer/home_screen.dart';
+import 'package:plantngo_frontend/screens/customer/profile_screen.dart';
+import 'package:plantngo_frontend/screens/customer/reward_shop_screen.dart';
 import 'package:plantngo_frontend/widgets/navigation/bottom_navbar.dart';
 
-class App extends StatefulWidget {
-  const App({super.key});
+
+class CustomerApp extends StatefulWidget {
+  static const routeName = '/customerapp';
+  const CustomerApp({super.key});
 
   @override
   State<App> createState() => _AppState();
@@ -18,7 +21,7 @@ class _AppState extends State<App> {
 
   final List<Widget> screens = const [
     HomeScreen(),
-    Scaffold(),
+    RewardShop(),
     ProfileScreen(),
   ];
 

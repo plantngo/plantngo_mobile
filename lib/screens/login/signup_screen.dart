@@ -129,34 +129,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ]),
                   const SizedBox(height: 20),
-                  if (_isUser)
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      height: 100,
-                      child: TextFormField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                            filled: true, labelText: "Name"),
-                        validator: ((value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your name';
-                          }
-                        }),
-                      ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     height: 100,
                     child: TextFormField(
                       controller: _usernameController,
                       decoration: const InputDecoration(
-                          filled: true, labelText: "username"),
+                          filled: true, labelText: "Username"),
                       validator: ((value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your username';
                         }
                       }),
                     ),
+                  ),
                   const SizedBox(height: 5),
                   Container(
                     decoration: BoxDecoration(
@@ -185,7 +173,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: TextFormField(
                         controller: _companyController,
                         decoration: const InputDecoration(
-                            filled: true, labelText: "company"),
+                            filled: true, labelText: "Company"),
                       ),
                     ),
                   const SizedBox(height: 5),

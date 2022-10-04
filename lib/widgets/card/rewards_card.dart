@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:plantngo_frontend/models/rewards.dart';
 
 class RewardsCard extends StatelessWidget {
   const RewardsCard({super.key});
@@ -8,50 +7,62 @@ class RewardsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
-    var heading = "Heading";
-    var subheading = "Promotion Description";
-    var supportingText = "supporting Text";
+    var rewardName = "Heading";
+    var price = "<Price>";
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-        elevation: 2.0,
-        color: Colors.white,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Flexible(
-                  flex: 5,
-                  child: ListTile(
-                    // insert company logo here
-                    leading: FlutterLogo(size: 50.0),
-                    title: Text(heading),
-                    subtitle: Text(subheading),
+        elevation: 4.0,
+        child: Container(
+          height: 100,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            gradient: LinearGradient(
+              stops: [0.02, 0.02],
+              colors: [Colors.greenAccent, Colors.white],
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Flexible(
+                    flex: 5,
+                    child: ListTile(
+                      // insert company logo here
+                      leading: FlutterLogo(size: 50.0),
+                      title: Text(rewardName,
+                          style: const TextStyle(fontSize: 20)),
+                      subtitle: Text("Price: $price",
+                          style: TextStyle(
+                              fontSize: 15, color: Colors.orange[900])),
+                    ),
                   ),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8, bottom: 4),
-                        child: IconButton(
-                          icon: const Icon(Icons.add_shopping_cart),
-                          onPressed: () {/* ... */},
-                          style: IconButton.styleFrom(
-                            foregroundColor: colors.onSecondaryContainer,
+                  Flexible(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 16, bottom: 4, top: 26),
+                          child: IconButton(
+                            icon: const Icon(Icons.add_shopping_cart, size: 30),
+                            onPressed: () {},
+                            style: IconButton.styleFrom(
+                              foregroundColor: colors.onSecondaryContainer,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

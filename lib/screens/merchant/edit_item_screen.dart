@@ -6,15 +6,28 @@ import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:provider/provider.dart';
 
-class AddItemScreen extends StatefulWidget {
-  const AddItemScreen({Key? key}) : super(key: key);
-  static const routeName = "/additem";
+class EditItemScreen extends StatefulWidget {
+  EditItemScreen(
+      {super.key,
+      required this.name,
+      required this.description,
+      required this.price,
+      required this.carbonEmission,
+      required this.category});
+
+  String name;
+  String description;
+  double price;
+  double carbonEmission;
+  String category;
+
+  static const routeName = "/edititem";
 
   @override
-  _AddItemScreenState createState() => _AddItemScreenState();
+  _EditItemScreenState createState() => _EditItemScreenState();
 }
 
-class _AddItemScreenState extends State<AddItemScreen> {
+class _EditItemScreenState extends State<EditItemScreen> {
   final TextEditingController _itemNameController = TextEditingController();
   final TextEditingController _itemDescriptionController =
       TextEditingController();
@@ -22,9 +35,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final TextEditingController _itemEmissionController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   List<String> categories = [];
+  //todo
   var image = null;
 
   String dropdownValue = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _itemNameController.text = widget.name;
+    _itemDescriptionController.text = widget.description;
+    _itemPriceController.text = widget.price.toString();
+    _itemEmissionController.text = widget.carbonEmission.toString();
+    dropdownValue = widget.category;
+  }
 
   @override
   void didChangeDependencies() {
@@ -34,27 +59,32 @@ class _AddItemScreenState extends State<AddItemScreen> {
         .categories
         .map((e) => categories.add(e.name))
         .toList();
-    dropdownValue = categories.first;
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _itemDescriptionController.dispose();
-    _itemEmissionController.dispose();
-    _itemNameController.dispose();
-    _itemPriceController.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  //   _itemDescriptionController.dispose();
+  //   _itemEmissionController.dispose();
+  //   _itemNameController.dispose();
+  //   _itemPriceController.dispose();
+  // }
 
-  Future addItem() async {
-    await MerchantService.addProduct(
+  Future saveChanges() async {
+    await MerchantService.editProduct(
         context: context,
-        name: _itemNameController.text,
+        newName: _itemNameController.text,
+        oldName: widget.name,
         description: _itemDescriptionController.text,
         price: double.parse(_itemPriceController.text),
         emission: double.parse(_itemEmissionController.text),
         category: dropdownValue);
+  }
+
+  Future deleteItem() async {
+    await MerchantService.deleteProduct(
+        context: context, name: widget.name, category: widget.category);
   }
 
   void selectImage() async {
@@ -68,7 +98,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Item"),
+        title: const Text("Edit Item"),
       ),
       body: Form(
           key: _formKey,
@@ -106,23 +136,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     size: 40,
                                   ),
                                   const SizedBox(height: 15),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Select Product Image',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey.shade400,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Maximum 2MB. Accepted file types: PNG, JPG',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey.shade400,
-                                        ),
-                                      ),
-                                    ],
+                                  Text(
+                                    'Select Product Images',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.grey.shade400,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -226,27 +245,57 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 ],
               ))),
       bottomNavigationBar: SizedBox(
-        height: 115,
+        height: 175,
         child: Container(
           padding: const EdgeInsets.all(35),
           color: const Color.fromARGB(33, 158, 158, 158),
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-              ).copyWith(
-                elevation: ButtonStyleButton.allOrNull(0.0),
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      backgroundColor: Colors.white30,
+                    ).copyWith(
+                      elevation: ButtonStyleButton.allOrNull(0.0),
+                    ),
+                    child: const Text(
+                      'Delete Item',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        await deleteItem();
+                        AuthService.getUserData(context);
+                        Navigator.pop(context);
+                      }
+                    }),
               ),
-              child: const Text('Add Item'),
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  await addItem();
-                  AuthService.getUserData(context);
-                  Navigator.pop(context);
-                }
-              }),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                    ).copyWith(
+                      elevation: ButtonStyleButton.allOrNull(0.0),
+                    ),
+                    child: const Text('Save Changes'),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        await saveChanges();
+                        AuthService.getUserData(context);
+                        Navigator.pop(context);
+                      }
+                    }),
+              ),
+            ],
+          ),
         ),
       ),
     );

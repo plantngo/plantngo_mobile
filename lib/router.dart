@@ -3,6 +3,7 @@ import 'package:plantngo_frontend/screens/login/signup_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/add_category_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/add_item_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/edit_category_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/edit_item_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_menu_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_setup_menu_screen.dart';
 import 'utils/all.dart';

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/screens/merchant/edit_category_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/edit_item_screen.dart';
 
 class SetupMenuItemTile extends StatefulWidget {
-  const SetupMenuItemTile(
-      {super.key,
-      this.value,
-      required this.categoryName,});
+  const SetupMenuItemTile({
+    super.key,
+    this.value,
+    required this.categoryName,
+  });
 
   final dynamic value;
   final String categoryName;
@@ -31,8 +33,21 @@ class _SetupMenuItemTileState extends State<SetupMenuItemTile> {
               ),
             ],
           ),
-          trailing:
-              TextButton(onPressed: () {}, child: const Text("Edit Item"))));
+          trailing: TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditItemScreen(
+                        name: item.name,
+                        price: item.price,
+                        description: item.description,
+                        carbonEmission: item.carbonEmission,
+                        category: widget.categoryName,
+                      ),
+                    ));
+              },
+              child: const Text("Edit Item"))));
     }
     String categoryName = widget.categoryName;
     return ExpansionTile(
@@ -52,8 +67,8 @@ class _SetupMenuItemTileState extends State<SetupMenuItemTile> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => EditCategoryScreen(
-                              categoryName: categoryName,
-                              ),
+                            categoryName: categoryName,
+                          ),
                         ),
                       );
                     },

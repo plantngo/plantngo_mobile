@@ -18,18 +18,28 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _categoryNameController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Category"),
       ),
       body: Form(
-          child: TextFormField(
-        controller: _categoryNameController,
-        textInputAction: TextInputAction.next,
-        decoration: const InputDecoration(
-          filled: true,
-          labelText: 'Category Name',
+          child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: TextFormField(
+          controller: _categoryNameController,
+          textInputAction: TextInputAction.next,
+          decoration: const InputDecoration(
+            filled: true,
+            labelText: 'Category Name',
+          ),
         ),
       )),
       bottomNavigationBar: SizedBox(
@@ -48,9 +58,13 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
               ),
               child: const Text('Add Category'),
               onPressed: () async {
-                await addCategory(_categoryNameController.text);
-                AuthService.getUserData(context);
-                Navigator.pop(context);
+                try {
+                  await addCategory(_categoryNameController.text);
+                  AuthService.getUserData(context);
+                  Navigator.pop(context);
+                } catch (e) {
+                  print(e);
+                }
               }),
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 
 class EditCategoryScreen extends StatefulWidget {
-  EditCategoryScreen({Key? key, required this.categoryName});
+  EditCategoryScreen({super.key, required this.categoryName});
 
   static const routeName = "/editcategory";
   String categoryName;
@@ -21,7 +21,6 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _categoryNameController.dispose();
   }

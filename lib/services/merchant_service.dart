@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -99,6 +101,56 @@ class MerchantService {
     }
   }
 
+  static Future editProduct(
+      {required BuildContext context,
+      required String oldName,
+      required String newName,
+      required String description,
+      required double price,
+      required double emission,
+      required String category}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+    try {
+      http.Response res = await http.put(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category/$oldName'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "name": newName,
+            "price": price,
+            "description": description,
+            "carbonEmission": emission
+          }));
+    } catch (e) {
+      //catch exception
+    }
+  }
+
+  static Future deleteProduct(
+      {required BuildContext context,
+      required String name,
+      required String category}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+    try {
+      http.Response res = await http.delete(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category/$name'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          });
+    } catch (e) {
+      //catch exception
+    }
+  }
+
   static Future<List<Category>> fetchAllCategories(BuildContext context) async {
     final merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);
@@ -125,5 +177,21 @@ class MerchantService {
     }
 
     return categories;
+  }
+
+  static Future<File?> pickImage() async {
+    dynamic image;
+    try {
+      var files = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+      );
+      if (files != null && files.files.isNotEmpty) {
+        image = File(files.files.first.path!);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return image;
   }
 }

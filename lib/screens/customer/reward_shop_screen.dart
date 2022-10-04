@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:plantngo_frontend/widgets/card/rewards_card.dart';
-
+import 'package:plantngo_frontend/providers/customer_provider.dart';
+import 'package:plantngo_frontend/models/rewards.dart';
+import 'package:provider/provider.dart';
 
 class RewardShop extends StatefulWidget {
   const RewardShop({super.key});
@@ -12,14 +12,19 @@ class RewardShop extends StatefulWidget {
 }
 
 class _RewardShopState extends State<RewardShop> {
-  var greenPoints = 0;
+  var cartItems = [];
 
   @override
   Widget build(BuildContext context) {
+    var customerProvider = Provider.of<CustomerProvider>(context, listen: true);
+    var greenPoints = (customerProvider.customer.greenPoints == null)
+        ? 0
+        : customerProvider.customer.greenPoints;
+
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
-        title: Text(
+        centerTitle: true,
+        title: const Text(
           "Rewards Shop",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -31,40 +36,53 @@ class _RewardShopState extends State<RewardShop> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  "Green Points: ${greenPoints}",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Green Points: $greenPoints",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
                 ),
               ],
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      RewardsCard(),
-                      RewardsCard(),
-                      RewardsCard(),
-                      RewardsCard(),
-                      RewardsCard(),
-                      RewardsCard(),
-                      RewardsCard(),
-                      RewardsCard(),
-                    ],
-                  ),
-                ],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        RewardsCard(),
+                        RewardsCard(),
+                        RewardsCard(),
+                        RewardsCard(),
+                        RewardsCard(),
+                        RewardsCard(),
+                        RewardsCard(),
+                        RewardsCard(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        // Lead to checkout page
-        onPressed: () {},
-        child: const Icon(Icons.shopping_cart),
+      floatingActionButton: Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+        ),
+        child: FloatingActionButton(
+          backgroundColor: Color.fromARGB(225, 33, 150, 246),
+          shape: const CircleBorder(),
+          // Lead to checkout page
+          onPressed: () {},
+          child: const Icon(Icons.shopping_cart, color: Colors.black),
+        ),
       ),
     );
   }

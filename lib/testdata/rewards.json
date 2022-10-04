@@ -1,0 +1,39 @@
+{
+    "Rewards": [
+        {
+            "id": 0,
+            "name": "10% off your 1st purchase!",
+            "price": 0
+        },
+        {
+            "id": 1,
+            "name": "1-1 Vegan Pizza with PizzaHut",
+            "price": 100
+        },
+        {
+            "id": 2,
+            "name": "30% off 500g Impossible Meat",
+            "price": 40
+        },
+        {
+            "id": 3,
+            "name": "10% total bill at VeganBurgs",
+            "price": 20
+        },
+        {
+            "id": 4,
+            "name": "30% off mains at Nalan Restaurant",
+            "price": 20
+        },
+        {
+            "id": 5,
+            "name": "Free 6pc Vegetarian XLB off mains at Ding Tai Fung",
+            "price": 10
+        },
+        {
+            "id": 6,
+            "name": "40% off Mock Salmon at Everyday Vegan Grocer",
+            "price": 20
+        }
+    ]
+}

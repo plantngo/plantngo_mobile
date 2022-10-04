@@ -43,6 +43,7 @@ class _MyAppState extends State<MyApp> {
     }
     return MaterialApp(
         title: 'Plant&Go',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorSchemeSeed: Colors.green,
           brightness: Brightness.light,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/customer/home_screen.dart';
+import 'package:plantngo_frontend/screens/customer/home/home_screen.dart';
 import 'package:plantngo_frontend/screens/customer/profile_screen.dart';
 import 'package:plantngo_frontend/widgets/navigation/bottom_navbar.dart';
 
@@ -9,7 +9,6 @@ class CustomerApp extends StatefulWidget {
 
   @override
   State<CustomerApp> createState() => _CustomerAppState();
-
 }
 
 class _CustomerAppState extends State<CustomerApp> {

@@ -36,7 +36,7 @@ class _CustomerAppState extends State<CustomerApp> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(),
         body: PageView(

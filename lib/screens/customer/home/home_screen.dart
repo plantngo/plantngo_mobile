@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_delegate.dart';
+import 'package:plantngo_frontend/services/location_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,11 +11,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   fetchLocation() async {
-    // List<Location> locations =
-    //     await locationFromAddress("Woodland drive 16, Singapore");
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(52.2165157, 6.9437819);
-    print(placemarks);
+    Future<dynamic> position = determinePosition();
   }
 
   @override
@@ -27,15 +22,49 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const searchFieldPlaceholder = "Vegetarian Pizza ...";
+
     return Scaffold(
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            Text(
-              "Home Page",
-            ),
-          ],
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 40,
+              ),
+              FractionallySizedBox(
+                widthFactor: 0.7,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    filled: true,
+                    hintStyle: TextStyle(
+                      color: Colors.grey[800],
+                    ),
+                    fillColor: Colors.white,
+                    hintText: searchFieldPlaceholder,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 20,
+                    ),
+                  ),
+                  readOnly: true,
+                  onTap: () {
+                    showSearch(
+                      context: context,
+                      delegate: MerchantSearchDelegate(
+                        searchFieldPlaceholder: searchFieldPlaceholder,
+                      ),
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -11,10 +11,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final AuthService authService = AuthService();
 
   void logOut() {
-    authService.logOut(context);
+    AuthService.logOut(context);
   }
 
   @override

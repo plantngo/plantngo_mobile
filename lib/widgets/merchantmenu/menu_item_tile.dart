@@ -4,6 +4,7 @@ class MenuItemTile extends StatefulWidget {
   const MenuItemTile({Key? key, this.value, required this.categoryName});
 
   final dynamic value;
+
   final String categoryName;
 
   @override
@@ -52,8 +53,16 @@ class _MenuItemTileState extends State<MenuItemTile> {
     }
     String categoryName = widget.categoryName;
     return ExpansionTile(
-        title: Text(categoryName),
-        subtitle: Text("${productLists.length - 1} items"),
+        title: Row(
+          children: [
+            Text(categoryName),
+            const Spacer(),
+            Text(
+              "${productLists.length - 1} items",
+              style: const TextStyle(color: Colors.grey),
+            ),
+          ],
+        ),
         children: productLists);
   }
 }

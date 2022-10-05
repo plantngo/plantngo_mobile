@@ -8,10 +8,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../utils/user_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:plantngo_frontend/utils/error_handling.dart';
 
 class AuthService {
   //signup customer and redirect to login page
-  void signUpUser({
+  static void signUpUser({
     required BuildContext context,
     required String email,
     required String password,
@@ -32,15 +33,23 @@ class AuthService {
         },
       );
 
-      print(res.body);
-      // httpErrorHandle()
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            'Account created! Login with the same credentials!',
+          );
+        },
+      );
     } catch (e) {
-      //some exception
-      print(e);
+      showSnackBar(context, e.toString());
     }
   }
 
-  void signUpMerchant(
+  static void signUpMerchant(
       {required BuildContext context,
       required String email,
       required String password,
@@ -62,15 +71,23 @@ class AuthService {
         },
       );
 
-      // httpErrorHandle()
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            'Account created! Login with the same credentials!',
+          );
+        },
+      );
     } catch (e) {
-      //some exception
-      print(e);
+      showSnackBar(context, e.toString());
     }
   }
 
   //first time sign in user(both customer and merchant
-  void signInUser(
+  static void signInUser(
       {required BuildContext context,
       required String username,
       required String password,
@@ -85,28 +102,35 @@ class AuthService {
         },
       );
 
-      if (res.statusCode == 200) {
-        UserSecureStorage.setToken(res.headers['jwt'].toString());
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          UserSecureStorage.setToken(res.headers['jwt'].toString());
 
-        getUserData(context);
-        if (userType == "C") {
-          Navigator.pushNamedAndRemoveUntil(
-              context, CustomerApp.routeName, (route) => false);
-        }
+          getUserData(context);
+          if (userType == "C") {
+            Navigator.pushNamedAndRemoveUntil(
+                context, CustomerApp.routeName, (route) => false);
+          }
 
-        if (userType == "M") {
-          Navigator.pushNamedAndRemoveUntil(
-              context, MerchantApp.routeName, (route) => false);
-        }
-      }
+          if (userType == "M") {
+            Navigator.pushNamedAndRemoveUntil(
+                context, MerchantApp.routeName, (route) => false);
+          }
+          showSnackBar(
+            context,
+            'Signed In',
+          );
+        },
+      );
     } catch (e) {
-      // catch errors
-      print(e);
+      showSnackBar(context, e.toString());
     }
   }
 
   //get user data to check if it has been logged in
-  void getUserData(
+  static void getUserData(
     BuildContext context,
   ) async {
     try {
@@ -140,13 +164,11 @@ class AuthService {
         }
       }
     } catch (e) {
-      //handle error
-      // showSnackBar(context, e.toString());
-      print(e);
+      showSnackBar(context, e.toString());
     }
   }
 
-  void logOut(BuildContext context) async {
+  static void logOut(BuildContext context) async {
     var customerProvider =
         Provider.of<CustomerProvider>(context, listen: false);
     var merchantProvider =
@@ -161,8 +183,7 @@ class AuthService {
               builder: (BuildContext context) => const LoginSignUpScreen()),
           (route) => false);
     } catch (e) {
-      // showSnackBar(context, e.toString());
-      print(e);
+      showSnackBar(context, e.toString());
     }
   }
 }

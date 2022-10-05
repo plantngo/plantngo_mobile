@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/providers/customer_provider.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,12 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:[
-                
-            ])
+          children: const [
+            Text(
+              "Home Page",
+            ),
           ],
         ),
       ),

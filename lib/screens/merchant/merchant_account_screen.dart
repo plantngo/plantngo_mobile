@@ -9,10 +9,8 @@ class MerchantAccountScreen extends StatefulWidget {
 }
 
 class _MerchantAccountScreenState extends State<MerchantAccountScreen> {
-  final AuthService authService = AuthService();
-
   void logOut() {
-    authService.logOut(context);
+    AuthService.logOut(context);
   }
 
   @override

@@ -1,0 +1,197 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:plantngo_frontend/models/category.dart';
+import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:provider/provider.dart';
+import '../utils/global_variables.dart';
+import '../utils/user_secure_storage.dart';
+
+class MerchantService {
+  static Future editCategory(
+      {required String oldCategoryName,
+      required String newCategoryName,
+      required BuildContext context}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+
+    try {
+      http.Response res = await http.put(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$oldCategoryName'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({"name": newCategoryName}));
+    } catch (e) {
+      //todo exception
+
+    }
+  }
+
+  static Future deleteCategory(
+      {required BuildContext context, required String category}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+
+    try {
+      http.Response res = await http.delete(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          });
+    } catch (e) {
+      //todo exception
+    }
+  }
+
+  static Future addCategory(
+      {required BuildContext context, required String category}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+
+    try {
+      http.Response res = await http.post(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({"name": category}));
+    } catch (e) {
+      //catch exception
+    }
+  }
+
+  static Future addProduct(
+      {required BuildContext context,
+      required String name,
+      required String description,
+      required double price,
+      required double emission,
+      required String category}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+    try {
+      http.Response res = await http.post(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "name": name,
+            "price": price,
+            "description": description,
+            "carbonEmission": emission
+          }));
+    } catch (e) {
+      //catch exception
+    }
+  }
+
+  static Future editProduct(
+      {required BuildContext context,
+      required String oldName,
+      required String newName,
+      required String description,
+      required double price,
+      required double emission,
+      required String category}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+    try {
+      http.Response res = await http.put(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category/$oldName'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "name": newName,
+            "price": price,
+            "description": description,
+            "carbonEmission": emission
+          }));
+    } catch (e) {
+      //catch exception
+    }
+  }
+
+  static Future deleteProduct(
+      {required BuildContext context,
+      required String name,
+      required String category}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+    try {
+      http.Response res = await http.delete(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category/$name'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          });
+    } catch (e) {
+      //catch exception
+    }
+  }
+
+  static Future<List<Category>> fetchAllCategories(BuildContext context) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+
+    List<Category> categories = [];
+
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$uri/api/v1/merchant/${merchantProvider.merchant.username}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+      );
+      if (res.statusCode == 200) {
+        for (var i = 0; i < jsonDecode(res.body)["categories"].length; i++) {
+          categories
+              .add(Category.fromJSON(jsonDecode(res.body)["categories"][i]));
+        }
+      }
+    } catch (e) {
+      //to do catch exception
+    }
+
+    return categories;
+  }
+
+  static Future<File?> pickImage() async {
+    dynamic image;
+    try {
+      var files = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+      );
+      if (files != null && files.files.isNotEmpty) {
+        image = File(files.files.first.path!);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return image;
+  }
+}

@@ -14,7 +14,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final AuthService authService = AuthService();
   final _signUpFormKey = GlobalKey<FormState>();
 
   bool _isObscure = true;
@@ -39,7 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void signUpUser() {
-    authService.signUpUser(
+    AuthService.signUpUser(
         context: context,
         email: _emailController.text,
         username: _usernameController.text,
@@ -48,7 +47,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void signUpMerchant() {
-    authService.signUpMerchant(
+    AuthService.signUpMerchant(
         context: context,
         email: _emailController.text,
         username: _usernameController.text,

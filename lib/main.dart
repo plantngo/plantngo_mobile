@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
+import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => CustomerProvider()),
     ChangeNotifierProvider(create: (context) => MerchantProvider()),
+    ChangeNotifierProvider(create: (context) => MerchantCategoryProvider()),
   ], child: const MyApp()));
 }
 
@@ -26,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    authService.getUserData(context);
+    AuthService.getUserData(context);
   }
 
   @override

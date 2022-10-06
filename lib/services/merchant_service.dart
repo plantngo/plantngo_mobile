@@ -8,6 +8,7 @@ import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:provider/provider.dart';
 import '../utils/global_variables.dart';
 import '../utils/user_secure_storage.dart';
+import 'package:plantngo_frontend/utils/error_handling.dart';
 
 class MerchantService {
   static Future editCategory(
@@ -27,9 +28,18 @@ class MerchantService {
             'Authorization': 'Bearer $token'
           },
           body: jsonEncode({"name": newCategoryName}));
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            res.body,
+          );
+        },
+      );
     } catch (e) {
-      //todo exception
-
+      showSnackBar(context, e.toString());
     }
   }
 
@@ -47,8 +57,18 @@ class MerchantService {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token'
           });
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            res.body,
+          );
+        },
+      );
     } catch (e) {
-      //todo exception
+      showSnackBar(context, e.toString());
     }
   }
 
@@ -67,6 +87,16 @@ class MerchantService {
             'Authorization': 'Bearer $token'
           },
           body: jsonEncode({"name": category}));
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            res.body,
+          );
+        },
+      );
     } catch (e) {
       //catch exception
     }
@@ -96,6 +126,16 @@ class MerchantService {
             "description": description,
             "carbonEmission": emission
           }));
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            res.body,
+          );
+        },
+      );
     } catch (e) {
       //catch exception
     }
@@ -126,6 +166,16 @@ class MerchantService {
             "description": description,
             "carbonEmission": emission
           }));
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            res.body,
+          );
+        },
+      );
     } catch (e) {
       //catch exception
     }
@@ -146,6 +196,16 @@ class MerchantService {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token'
           });
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            res.body,
+          );
+        },
+      );
     } catch (e) {
       //catch exception
     }

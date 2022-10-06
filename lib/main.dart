@@ -24,6 +24,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AuthService authService = AuthService();
+  final _messengerKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
   void initState() {
@@ -44,6 +45,7 @@ class _MyAppState extends State<MyApp> {
       app = const MerchantApp();
     }
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Plant&Go',
         theme: ThemeData(
           colorSchemeSeed: Colors.green,

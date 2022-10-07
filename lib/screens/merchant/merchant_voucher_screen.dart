@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/widgets/merchantvoucher/merchant_voucher_tile.dart';
 
 class MerchantVoucherScreen extends StatefulWidget {
   const MerchantVoucherScreen({Key? key}) : super(key: key);
@@ -40,28 +41,10 @@ class _MerchantVoucherScreenState extends State<MerchantVoucherScreen> {
           SingleChildScrollView(
             child: Column(
               children: [
-                GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      print("hi");
-                    },
-                    child: const ListTile(
-                      leading: Icon(
-                        Icons.percent_rounded,
-                        color: Colors.green,
-                        size: 30,
-                      ),
-                      title: Text(
-                        "20% off all products",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      subtitle: Text("Valid for 30 days"),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.grey,
-                        size: 30,
-                      ),
-                    )),
+                const MerchantVoucherTile(
+                    voucherTitle: "30% off Main courses",
+                    voucherValue: 20,
+                    voucherDescription: "Valid for 30 days"),
                 const Divider(),
                 GestureDetector(
                     behavior: HitTestBehavior.translucent,

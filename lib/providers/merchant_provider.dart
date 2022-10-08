@@ -9,7 +9,8 @@ class MerchantProvider extends ChangeNotifier {
       email: '',
       token: '',
       company: '',
-      categories: []);
+      categories: [],
+      vouchers: []);
 
   Merchant get merchant => _merchant;
 
@@ -33,6 +34,7 @@ class MerchantProvider extends ChangeNotifier {
       token: '',
       company: '',
       categories: [],
+      vouchers: [],
     );
   }
 }

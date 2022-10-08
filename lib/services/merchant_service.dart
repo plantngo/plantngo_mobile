@@ -254,4 +254,43 @@ class MerchantService {
     }
     return image;
   }
+
+  static Future createVoucher(
+      {required BuildContext context,
+      required double value,
+      required double discount,
+      required String description,
+      required String type}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+
+    try {
+      http.Response res = await http.post(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/vouchers'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "value": value,
+            "discount": discount,
+            "description": description,
+            "type": type
+          }));
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            res.body,
+          );
+        },
+      );
+    } catch (e) {
+      //catch exception
+    }
+  }
 }

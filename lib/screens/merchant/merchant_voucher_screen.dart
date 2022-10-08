@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/screens/merchant/create_voucher_screen.dart';
 import 'package:plantngo_frontend/widgets/merchantvoucher/merchant_voucher_tile.dart';
 
 class MerchantVoucherScreen extends StatefulWidget {
@@ -112,7 +113,9 @@ class _MerchantVoucherScreenState extends State<MerchantVoucherScreen> {
                 elevation: ButtonStyleButton.allOrNull(0.0),
               ),
               child: const Text('Create Voucher'),
-              onPressed: () async {}),
+              onPressed: () async {
+                Navigator.pushNamed(context, CreateVoucherScreen.routeName);
+              }),
         ),
       ),
     );

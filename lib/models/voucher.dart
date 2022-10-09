@@ -22,4 +22,11 @@ class Voucher {
       _$VoucherFromJson(json);
 
   Map<String, dynamic> toJSON() => _$VoucherToJson(this);
+
+  @override
+  String toString(){
+    return toJSON().toString();
+  }
+
+  static fromJson(Map<String, dynamic> e) {}
 }

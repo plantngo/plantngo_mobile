@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/providers/customer_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

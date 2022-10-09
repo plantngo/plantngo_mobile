@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:plantngo_frontend/models/voucher.dart';
 
 part "customer.g.dart";
 
@@ -10,6 +11,8 @@ class Customer {
   int? greenPoints;
   String token;
   List<String>? preference;
+  List<Voucher> ownedVouchers;
+  List<Voucher> vouchersCart;
 
   Customer(
       {required this.id,
@@ -17,7 +20,10 @@ class Customer {
       required this.email,
       required this.greenPoints,
       required this.token,
-      required this.preference});
+      required this.preference,
+      required this.ownedVouchers,
+      required this.vouchersCart
+      });
 
   factory Customer.fromJSON(Map<String, dynamic> json) =>
       _$CustomerFromJson(json);

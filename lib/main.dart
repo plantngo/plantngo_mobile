@@ -5,6 +5,7 @@ import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'providers/voucher_shop_provider.dart';
 import 'utils/all.dart';
 import 'router.dart';
 
@@ -14,6 +15,7 @@ void main() {
     ChangeNotifierProvider(create: (context) => MerchantProvider()),
     ChangeNotifierProvider(create: (context) => MerchantCategoryProvider()),
     ChangeNotifierProvider(create: (context) => LocationProvider()),
+    ChangeNotifierProvider(create: (context) => VoucherShopProvider()),
   ], child: const MyApp()));
 }
 

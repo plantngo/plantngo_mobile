@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/screens/customer/home/home_screen.dart';
 import 'package:plantngo_frontend/screens/customer/profile_screen.dart';
-import 'package:plantngo_frontend/screens/customer/reward_shop_screen.dart';
+import 'package:plantngo_frontend/screens/customer/voucherShop/voucher_shop_screen.dart';
 import 'package:plantngo_frontend/widgets/navigation/bottom_navbar.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/voucher_shop_provider.dart';
 
 
 class CustomerApp extends StatefulWidget {
@@ -14,6 +17,7 @@ class CustomerApp extends StatefulWidget {
 }
 
 class _CustomerAppState extends State<CustomerApp> {
+
   PageController pageController = PageController();
 
   int bottomNavbarSelectedIndex = 0;
@@ -21,7 +25,7 @@ class _CustomerAppState extends State<CustomerApp> {
 
   final List<Widget> screens = const [
     HomeScreen(),
-    RewardShop(),
+    VoucherShop(),
     ProfileScreen(),
   ];
 

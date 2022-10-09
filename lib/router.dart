@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/screens/customer/voucherShop/voucher_checkout_screen.dart';
 import 'package:plantngo_frontend/screens/login/signup_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/add_category_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/add_item_screen.dart';
@@ -59,6 +60,9 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case CreateVoucherScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => const CreateVoucherScreen());
+    case VoucherCheckout.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => const VoucherCheckout());
     default:
       return MaterialPageRoute(
         settings: routeSettings,

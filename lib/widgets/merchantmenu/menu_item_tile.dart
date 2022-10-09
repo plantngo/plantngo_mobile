@@ -51,11 +51,10 @@ class _MenuItemTileState extends State<MenuItemTile> {
         ),
       ));
     }
-    String categoryName = widget.categoryName;
     return ExpansionTile(
         title: Row(
           children: [
-            Text(categoryName),
+            Text(widget.categoryName),
             const Spacer(),
             Text(
               "${productLists.length - 1} items",

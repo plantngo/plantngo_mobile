@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
+import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ void main() {
     ChangeNotifierProvider(create: (context) => CustomerProvider()),
     ChangeNotifierProvider(create: (context) => MerchantProvider()),
     ChangeNotifierProvider(create: (context) => MerchantCategoryProvider()),
+    ChangeNotifierProvider(create: (context) => LocationProvider()),
   ], child: const MyApp()));
 }
 
@@ -24,6 +26,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AuthService authService = AuthService();
+  final _messengerKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
   void initState() {
@@ -44,13 +47,16 @@ class _MyAppState extends State<MyApp> {
       app = const MerchantApp();
     }
     return MaterialApp(
-        title: 'Plant&Go',
-        theme: ThemeData(
-          colorSchemeSeed: Colors.green,
-          brightness: Brightness.light,
-          useMaterial3: true,
-        ),
-        onGenerateRoute: ((settings) => generateRoute(settings)),
-        home: app);
+      title: 'Plant&Go',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorSchemeSeed: Colors.green,
+        indicatorColor: Colors.green,
+        brightness: Brightness.light,
+        useMaterial3: true,
+      ),
+      onGenerateRoute: ((settings) => generateRoute(settings)),
+      home: app,
+    );
   }
 }

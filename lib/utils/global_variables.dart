@@ -1,1 +1,4 @@
-String uri = 'http://localhost:8080';
+const String uri = String.fromEnvironment(
+  'SPRINGBOOT_HOST',
+  defaultValue: 'http://localhost:8080',
+);

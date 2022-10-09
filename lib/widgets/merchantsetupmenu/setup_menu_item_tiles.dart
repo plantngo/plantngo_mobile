@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/screens/merchant/edit_category_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/edit_item_screen.dart';
 

@@ -49,7 +49,7 @@ class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
                         const Padding(
                           padding: EdgeInsets.fromLTRB(20, 0.0, 20, 0.0),
                           child: Icon(
-                            Icons.menu_book_outlined,
+                            Icons.menu_book_rounded,
                             color: Colors.green,
                             size: 50,
                           ),

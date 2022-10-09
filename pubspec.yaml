@@ -42,6 +42,8 @@ dependencies:
   jwt_decode: ^0.3.1
   dotted_border: ^2.0.0+2
   file_picker: ^5.2.0+1
+  geocoding: ^2.0.5
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/screens/merchant/add_category_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/add_item_screen.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
+import 'package:plantngo_frontend/utils/error_handling.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/merchantsetupmenu/setup_menu_item_tiles.dart';
 
@@ -93,8 +94,18 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, AddItemScreen.routeName);
+                                if (Provider.of<MerchantProvider>(context,
+                                        listen: false)
+                                    .merchant
+                                    .categories
+                                    .isEmpty) {
+                                  showSnackBar(context, "Add categories first");
+                                  Navigator.pushNamed(
+                                      context, AddCategoryScreen.routeName);
+                                } else {
+                                  Navigator.pushNamed(
+                                      context, AddItemScreen.routeName);
+                                }
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,

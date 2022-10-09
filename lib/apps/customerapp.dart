@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/customer/home_screen.dart';
+import 'package:plantngo_frontend/screens/customer/home/home_screen.dart';
 import 'package:plantngo_frontend/screens/customer/profile_screen.dart';
 import 'package:plantngo_frontend/screens/customer/reward_shop_screen.dart';
 import 'package:plantngo_frontend/widgets/navigation/bottom_navbar.dart';
@@ -11,7 +11,6 @@ class CustomerApp extends StatefulWidget {
 
   @override
   State<CustomerApp> createState() => _CustomerAppState();
-
 }
 
 class _CustomerAppState extends State<CustomerApp> {
@@ -39,7 +38,7 @@ class _CustomerAppState extends State<CustomerApp> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(),
         body: PageView(

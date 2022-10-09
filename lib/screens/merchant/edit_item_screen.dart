@@ -42,7 +42,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _itemNameController.text = widget.name;
     _itemDescriptionController.text = widget.description;
@@ -61,15 +60,14 @@ class _EditItemScreenState extends State<EditItemScreen> {
         .toList();
   }
 
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   super.dispose();
-  //   _itemDescriptionController.dispose();
-  //   _itemEmissionController.dispose();
-  //   _itemNameController.dispose();
-  //   _itemPriceController.dispose();
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+    _itemDescriptionController.dispose();
+    _itemEmissionController.dispose();
+    _itemNameController.dispose();
+    _itemPriceController.dispose();
+  }
 
   Future saveChanges() async {
     await MerchantService.editProduct(
@@ -187,7 +185,12 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   ),
                   TextFormField(
                     controller: _itemPriceController,
-                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,2}'))
+                    ],
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     decoration: const InputDecoration(
                         filled: true,
                         labelText: "Price",
@@ -198,14 +201,18 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       }
                       return null;
                     }),
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
                     controller: _itemEmissionController,
-                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,2}'))
+                    ],
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     decoration: const InputDecoration(
                         filled: true,
                         labelText: "Carbon Emission Score",
@@ -216,7 +223,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       }
                       return null;
                     }),
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   const SizedBox(
                     height: 20,

@@ -47,9 +47,7 @@ class _MerchantVoucherScreenState extends State<MerchantVoucherScreen> {
               child: Column(
                 children: <Widget>[
                   for (var item in merchantProvider.merchant.vouchers!)
-                    MerchantVoucherTile(
-                        voucherValue: item.value!.toDouble(),
-                        voucherDescription: item.description.toString())
+                    MerchantVoucherTile(voucher: item)
                 ],
               ),
             ),

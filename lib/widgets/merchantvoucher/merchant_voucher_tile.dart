@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/models/voucher.dart';
+import 'package:plantngo_frontend/screens/merchant/edit_voucher_screen.dart';
 
 class MerchantVoucherTile extends StatefulWidget {
-  const MerchantVoucherTile(
-      {Key? key, required this.voucherValue, required this.voucherDescription})
+  const MerchantVoucherTile({Key? key, required this.voucher})
       : super(key: key);
 
-  final double voucherValue;
-  final String voucherDescription;
+  final Voucher voucher;
 
   @override
   _MerchantVoucherTileState createState() => _MerchantVoucherTileState();
@@ -18,7 +18,12 @@ class _MerchantVoucherTileState extends State<MerchantVoucherTile> {
     return GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
-          print("hi");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditVoucherScreen(voucher: widget.voucher),
+            ),
+          );
         },
         child: ListTile(
           leading: const Icon(
@@ -27,10 +32,10 @@ class _MerchantVoucherTileState extends State<MerchantVoucherTile> {
             size: 30,
           ),
           title: Text(
-            widget.voucherDescription,
+            widget.voucher.description.toString(),
             style: const TextStyle(fontSize: 20),
           ),
-          subtitle: Text("Value: ${widget.voucherValue} green points"),
+          subtitle: Text("Value: ${widget.voucher.value} green points"),
           trailing: const Icon(
             Icons.arrow_forward_ios,
             color: Colors.grey,

@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:plantngo_frontend/models/voucher.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 
-class CreateVoucherScreen extends StatefulWidget {
-  const CreateVoucherScreen({Key? key}) : super(key: key);
-  static const routeName = "/createvoucher";
+class EditVoucherScreen extends StatefulWidget {
+  const EditVoucherScreen({Key? key, required this.voucher}) : super(key: key);
+
+  final Voucher voucher;
+  static const routeName = "/editvoucher";
 
   @override
-  _CreateVoucherScreenState createState() => _CreateVoucherScreenState();
+  _EditVoucherScreenState createState() => _EditVoucherScreenState();
 }
 
-class _CreateVoucherScreenState extends State<CreateVoucherScreen> {
-  bool _isFlatDiscount = true;
-  final TextEditingController _voucherTypeController =
-      TextEditingController(text: "F");
+class _EditVoucherScreenState extends State<EditVoucherScreen> {
+  final TextEditingController _voucherTypeController = TextEditingController();
   final TextEditingController _voucherValueController = TextEditingController();
   final TextEditingController _voucherDiscountController =
       TextEditingController();
   final TextEditingController _voucherDescriptionController =
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _isFlatDiscount = true;
 
   double dropdownValue = 0.05;
   List<double> discountValues = [
@@ -37,6 +39,19 @@ class _CreateVoucherScreenState extends State<CreateVoucherScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _isFlatDiscount = widget.voucher.type == 'F';
+    _voucherDescriptionController.text = widget.voucher.description.toString();
+    _voucherValueController.text = widget.voucher.value.toString();
+    if (_isFlatDiscount) {
+      _voucherDiscountController.text = widget.voucher.discount.toString();
+    } else {
+      dropdownValue = widget.voucher.discount!.toDouble();
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _voucherDescriptionController.dispose();
@@ -45,85 +60,33 @@ class _CreateVoucherScreenState extends State<CreateVoucherScreen> {
     _voucherValueController.dispose();
   }
 
-  Future createVoucher() async {
-    await MerchantService.createVoucher(
+  Future editVoucher() async {
+    await MerchantService.editVoucher(
         context: context,
+        id: widget.voucher.id!,
         value: double.parse(_voucherValueController.text),
         discount: _isFlatDiscount
             ? double.parse(_voucherDiscountController.text)
             : dropdownValue,
         description: _voucherDescriptionController.text,
-        type: _voucherTypeController.text);
+        type: widget.voucher.type!);
+  }
+
+  Future deleteVoucher() async {
+    await MerchantService.deleteVoucher(
+        context: context, id: widget.voucher.id!);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Create Voucher"),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-            key: _formKey,
+      appBar: AppBar(title: const Text("Edit voucher")),
+      body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                const Text("Choose type",
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 10),
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Expanded(
-                    flex: 3,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                                foregroundColor: _isFlatDiscount
-                                    ? Colors.white
-                                    : Colors.grey[400],
-                                backgroundColor: _isFlatDiscount
-                                    ? Colors.green
-                                    : Colors.grey[200])
-                            .copyWith(
-                          elevation: ButtonStyleButton.allOrNull(0.0),
-                        ),
-                        child: const Text('Flat Discount'),
-                        onPressed: () {
-                          _voucherTypeController.text = "F";
-                          setState(() {
-                            _isFlatDiscount = true;
-                          });
-                        }),
-                  ),
-                  const Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      height: 0,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                                foregroundColor: !_isFlatDiscount
-                                    ? Colors.white
-                                    : Colors.grey[400],
-                                backgroundColor: !_isFlatDiscount
-                                    ? Colors.green
-                                    : Colors.grey[200])
-                            .copyWith(
-                          elevation: ButtonStyleButton.allOrNull(0.0),
-                        ),
-                        child: const Text('% Discount'),
-                        onPressed: () {
-                          setState(() {
-                            _voucherTypeController.text = "P";
-                            _isFlatDiscount = false;
-                          });
-                        }),
-                  ),
-                ]),
-                const SizedBox(height: 20),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
@@ -156,12 +119,6 @@ class _CreateVoucherScreenState extends State<CreateVoucherScreen> {
                         height: 100,
                         child: TextFormField(
                           controller: _voucherDiscountController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^\d+\.?\d{0,2}'))
-                          ],
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
                           decoration: const InputDecoration(
                               filled: true, labelText: "Voucher Discount \$"),
                           validator: ((value) {
@@ -170,6 +127,12 @@ class _CreateVoucherScreenState extends State<CreateVoucherScreen> {
                             }
                             return null;
                           }),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d+\.?\d{0,2}'))
+                          ],
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
                         ),
                       )
                     : Container(
@@ -214,30 +177,58 @@ class _CreateVoucherScreenState extends State<CreateVoucherScreen> {
                   }),
                 ),
               ],
-            )),
-      ),
+            ),
+          )),
       bottomNavigationBar: SizedBox(
-        height: 115,
+        height: 175,
         child: Container(
           padding: const EdgeInsets.all(35),
           color: const Color.fromARGB(33, 158, 158, 158),
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-              ).copyWith(
-                elevation: ButtonStyleButton.allOrNull(0.0),
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      backgroundColor: Colors.white30,
+                    ).copyWith(
+                      elevation: ButtonStyleButton.allOrNull(0.0),
+                    ),
+                    child: const Text(
+                      'Remove Voucher',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    onPressed: () async {
+                      await deleteVoucher();
+                      AuthService.getUserData(context);
+                      Navigator.pop(context);
+                    }),
               ),
-              child: const Text('Create Voucher'),
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  await createVoucher();
-                  AuthService.getUserData(context);
-                  Navigator.pop(context);
-                }
-              }),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                    ).copyWith(
+                      elevation: ButtonStyleButton.allOrNull(0.0),
+                    ),
+                    child: const Text('Save Changes'),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        await editVoucher();
+                        AuthService.getUserData(context);
+                        Navigator.pop(context);
+                      }
+                    }),
+              ),
+            ],
+          ),
         ),
       ),
     );

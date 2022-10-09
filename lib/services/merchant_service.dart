@@ -293,4 +293,74 @@ class MerchantService {
       //catch exception
     }
   }
+
+  static Future editVoucher(
+      {required BuildContext context,
+      required int id,
+      required double value,
+      required double discount,
+      required String description,
+      required String type}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+
+    try {
+      http.Response res = await http.put(
+          Uri.parse(
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/vouchers/$id'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "value": value,
+            "discount": discount,
+            "description": description,
+            "type": type
+          }));
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            res.body,
+          );
+        },
+      );
+    } catch (e) {
+      //catch exception
+    }
+  }
+
+  static Future deleteVoucher(
+      {required BuildContext context, required int id}) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+
+    try {
+      http.Response res = await http.delete(
+        Uri.parse(
+            '$uri/api/v1/merchant/${merchantProvider.merchant.username}/vouchers/$id'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+      );
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            res.body,
+          );
+        },
+      );
+    } catch (e) {
+      //catch exception
+    }
+  }
 }

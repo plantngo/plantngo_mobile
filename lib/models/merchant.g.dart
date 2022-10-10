@@ -12,8 +12,8 @@ Merchant _$MerchantFromJson(Map<String, dynamic> json) => Merchant(
       email: json['email'] as String?,
       company: json['company'] as String?,
       token: json['token'] as String,
-      categories: (json['categories'] as List<dynamic>)
-          .map((e) => Category.fromJSON(e as Map<String, dynamic>))
+      categories: (json['categories'] as List<dynamic>?)
+          ?.map((e) => Category.fromJSON(e as Map<String, dynamic>))
           .toList(),
       vouchers: (json['vouchers'] as List<dynamic>?)
           ?.map((e) => Voucher.fromJSON(e as Map<String, dynamic>))

@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:plantngo_frontend/models/voucher.dart';
+
 import '../models/merchant.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +25,11 @@ class MerchantProvider extends ChangeNotifier {
 
   void setMerchantFromModel(Merchant merchant) {
     _merchant = merchant;
+    notifyListeners();
+  }
+
+  void setVouchers(List<Voucher> vouchers) {
+    _merchant.vouchers = vouchers;
     notifyListeners();
   }
 

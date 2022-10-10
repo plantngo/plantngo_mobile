@@ -3,6 +3,7 @@ import 'package:plantngo_frontend/screens/merchant/merchant_profile_section.dart
 import 'package:plantngo_frontend/screens/merchant/merchant_promotion_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_voucher_screen.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
+import 'package:plantngo_frontend/services/merchant_service.dart';
 
 class MerchantAccountScreen extends StatefulWidget {
   const MerchantAccountScreen({super.key});

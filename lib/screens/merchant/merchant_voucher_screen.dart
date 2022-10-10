@@ -34,7 +34,7 @@ class _MerchantVoucherScreenState extends State<MerchantVoucherScreen> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                   child: Text(
-                    "${merchantProvider.merchant.vouchers!.length} Active Vouchers",
+                    "${merchantProvider.merchant.vouchers?.length} Active Vouchers",
                     style: const TextStyle(
                         color: Color.fromARGB(171, 0, 0, 0),
                         fontSize: 20,
@@ -46,8 +46,9 @@ class _MerchantVoucherScreenState extends State<MerchantVoucherScreen> {
             SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  for (var item in merchantProvider.merchant.vouchers!)
-                    MerchantVoucherTile(voucher: item)
+                  if (merchantProvider.merchant.vouchers != null)
+                    for (var item in merchantProvider.merchant.vouchers!)
+                      MerchantVoucherTile(voucher: item)
                 ],
               ),
             ),

@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/models/merchant_search.dart';
+import 'package:plantngo_frontend/widgets/tag/tag.dart';
 
 class MerchantSearchResultCard extends StatelessWidget {
   void Function() onTap;
-  String merchantName;
-  String merchantImage;
-  double? merchantDistance;
+  MerchantSearch merchant;
 
   MerchantSearchResultCard({
     super.key,
     required this.onTap,
-    required this.merchantName,
-    required this.merchantImage,
-    this.merchantDistance,
+    required this.merchant,
   });
+
+  renderDistanceTag() {
+    if (merchant.distanceFrom != null) {
+      return Tag(
+        text: "${merchant.distanceFrom!.toStringAsFixed(2)} km",
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +30,15 @@ class MerchantSearchResultCard extends StatelessWidget {
             FractionallySizedBox(
               widthFactor: 0.3,
               child: Image.network(
-                merchantImage,
+                merchant.logoUrl,
                 fit: BoxFit.cover,
               ),
             ),
             // horizontalTitleGap: 5,
             Text(
-              merchantName,
+              merchant.company,
             ),
-            Text(
-                // "${merchantDistance!.toStringAsFixed(2)} km",
-                "km"),
+            renderDistanceTag(),
           ],
         ),
       ),

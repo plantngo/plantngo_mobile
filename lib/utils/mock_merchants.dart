@@ -1,18 +1,5 @@
 import 'package:plantngo_frontend/models/merchant_search.dart';
 
-//  required this.id,
-//   required this.company,
-//   required this.logoUrl,
-//   required this.bannerUrl,
-//   required this.address,
-//   required this.lat,
-//   required this.long,
-//   required this.cusineType,
-//   required this.priceRating,
-//   required this.operatingHours,
-//   required this.description,
-//   this.distanceFrom,
-
 List<MerchantSearch> mockMerchantSearchList = [
   MerchantSearch(
     id: 1,
@@ -23,9 +10,9 @@ List<MerchantSearch> mockMerchantSearchList = [
         "https://imageio.forbes.com/specials-images/imageserve/6111c4616209edda9f419c4e/0x0.jpg?format=jpg&width=1200",
     address:
         "Pizza Hut Plaza Singapura, 68 Orchard Road B2-01 Plaza, Singapore 238839",
-    lat: 1.3007165,
-    long: 103.84271,
-    cusineType: "Italian",
+    latitude: 1.3007165,
+    longtitude: 103.84271,
+    cuisineType: "Italian",
     priceRating: 2,
     operatingHours: "10:00AM - 20:00PM",
     description:
@@ -40,9 +27,9 @@ List<MerchantSearch> mockMerchantSearchList = [
         "https://www.fairprice.com.sg/wp-content/uploads/2019/01/fairprice-express-970x585.jpg",
     address:
         "FairPrice Xpress, 1 Sophia Rd, #01-18, Peace Centre, Singapore 228149",
-    lat: 1.3012709,
-    long: 103.8472445,
-    cusineType: "Groceries",
+    latitude: 1.3012709,
+    longtitude: 103.8472445,
+    cuisineType: "Groceries",
     priceRating: 1,
     operatingHours: "7:00AM - 21:00PM",
     description:
@@ -57,9 +44,9 @@ List<MerchantSearch> mockMerchantSearchList = [
         "https://static.wixstatic.com/media/591a97_128872d8ff7a4f579355ac6bd342e83d~mv2.jpg/v1/fill/w_640,h_408,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/591a97_128872d8ff7a4f579355ac6bd342e83d~mv2.jpg",
     address:
         "Joie - Vegetarian Fine Dining, 181 Orchard Rd, #12 - 01, Singapore 238896",
-    lat: 1.3007905,
-    long: 103.8372088,
-    cusineType: "Fine Dining",
+    latitude: 1.3007905,
+    longtitude: 103.8372088,
+    cuisineType: "Fine Dining",
     priceRating: 4,
     operatingHours: "10:00AM - 20:00PM",
     description:

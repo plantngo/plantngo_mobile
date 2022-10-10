@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
+import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_result_card.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_suggestion_tile.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_details_screen.dart';
@@ -20,7 +21,7 @@ class MerchantSearchDelegate extends SearchDelegate {
 
   List<MerchantSearch> cachedSearchResults = [];
 
-  List<MerchantSearch> fetchSearchResults(String query) {
+  List<MerchantSearch> fetchSearchResults(String query, BuildContext context) {
     // fetch data and filter data TODO: Should be done with API call
     List<MerchantSearch> _data = mockMerchantSearchList;
     List<MerchantSearch> _searchResults = _data.where(
@@ -30,12 +31,21 @@ class MerchantSearchDelegate extends SearchDelegate {
         return result.contains(input);
       },
     ).toList();
+    for (MerchantSearch e in _searchResults) {
+      e.distanceFrom = Provider.of<LocationProvider>(context).calculateDistance(
+        e.lat,
+        e.long,
+      );
+    }
+    _searchResults.sort(((a, b) {
+      return a.distanceFrom!.compareTo(b.distanceFrom!);
+    }));
     return _searchResults;
   }
 
   void resetSearchField(BuildContext context) {
     query = '';
-    cachedSearchResults = fetchSearchResults(query);
+    cachedSearchResults = fetchSearchResults(query, context);
     showSuggestions(context);
   }
 
@@ -67,7 +77,7 @@ class MerchantSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    cachedSearchResults = fetchSearchResults(query);
+    cachedSearchResults = fetchSearchResults(query, context);
 
     return WillPopScope(
       onWillPop: () async {
@@ -85,12 +95,7 @@ class MerchantSearchDelegate extends SearchDelegate {
           return MerchantSearchResultCard(
             merchantImage: result.image,
             merchantName: result.company,
-            merchantDistance: calculateDistance(
-              result.lat,
-              result.long,
-              0,
-              0,
-            ),
+            merchantDistance: result.distanceFrom,
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -108,7 +113,7 @@ class MerchantSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    cachedSearchResults = fetchSearchResults(query);
+    cachedSearchResults = fetchSearchResults(query, context);
 
     return WillPopScope(
       onWillPop: () async {
@@ -126,12 +131,7 @@ class MerchantSearchDelegate extends SearchDelegate {
           return MerchantSearchSuggestionTile(
             merchantImage: suggestion.image,
             merchantName: suggestion.company,
-            merchantDistance: calculateDistance(
-              suggestion.lat,
-              suggestion.long,
-              0,
-              0,
-            ),
+            merchantDistance: suggestion.distanceFrom,
             onTap: () {
               // -- Does another search
               // query = suggestion.company;

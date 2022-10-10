@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_promotion/merchant_promotion_details_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_delegate.dart';
 import 'package:plantngo_frontend/services/location_service.dart';
 import 'package:plantngo_frontend/utils/mock_promotions.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,14 +15,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  fetchLocation() async {
-    Future<dynamic> position = determinePosition();
-  }
-
   @override
   void initState() {
     super.initState();
-    fetchLocation();
+    Provider.of<LocationProvider>(context, listen: false)
+        .determinePosition()
+        .then(
+          (value) => {
+            Provider.of<LocationProvider>(context, listen: false)
+                .setPosition(value),
+          },
+        );
   }
 
   void onBannerPressed(String merchantName, String merchantPromotionImage) {
@@ -48,7 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
         shrinkWrap: true,
         slivers: [
           SliverAppBar(
-            // backgroundColor: Theme.of(context).primaryColor,
             floating: true,
             expandedHeight: 100,
             flexibleSpace: FlexibleSpaceBar(

@@ -5,6 +5,15 @@ class MerchantSearch {
   String address;
   double lat;
   double long;
+  double? distanceFrom;
+  // String bannerImage;
+  // String description;
+  // opening hours
+  // food item tags
+  // price rating 1 - 5
+  // cusine type
+  //
+  // reviews? optional
 
   MerchantSearch({
     required this.id,
@@ -13,5 +22,8 @@ class MerchantSearch {
     required this.lat,
     required this.long,
     required this.address,
+    this.distanceFrom,
+    // required this.bannerImage,
+    // required this.description,
   });
 }

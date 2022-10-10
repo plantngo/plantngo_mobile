@@ -92,19 +92,13 @@ class MerchantSearchDelegate extends SearchDelegate {
               0,
             ),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => MerchantShopDetailsScreen(
-                  merchantId: result.id,
-                  merchantName: result.company,
-                  merchantDistance: calculateDistance(
-                    result.lat,
-                    result.long,
-                    0,
-                    0,
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => MerchantShopDetailsScreen(
+                    merchantId: result.id,
                   ),
-                  merchantImage: result.image,
                 ),
-              ));
+              );
             },
           );
         },
@@ -139,10 +133,19 @@ class MerchantSearchDelegate extends SearchDelegate {
               0,
             ),
             onTap: () {
-              query = suggestion.company;
+              // -- Does another search
+              // query = suggestion.company;
+              // // shows the results of the search
+              // showResults(context);
 
-              // shows the results of the search
-              showResults(context);
+              // -- Show result page immediately
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => MerchantShopDetailsScreen(
+                    merchantId: suggestion.id,
+                  ),
+                ),
+              );
             },
           );
         },

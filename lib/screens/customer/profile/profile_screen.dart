@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/screens/customer/profile/user_profile_section.dart';
+import 'package:plantngo_frontend/screens/customer/profile/user_settings_section.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
-import 'package:plantngo_frontend/screens/customer/user_profile_section.dart';
-import 'package:plantngo_frontend/screens/customer/user_settings_section.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -11,7 +11,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   void logOut() {
     AuthService.logOut(context);
   }
@@ -19,6 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Column(

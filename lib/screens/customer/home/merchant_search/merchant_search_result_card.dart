@@ -19,7 +19,6 @@ class MerchantSearchResultCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: Colors.white,
         child: Column(
           children: [
             FractionallySizedBox(

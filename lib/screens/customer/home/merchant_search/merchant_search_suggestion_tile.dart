@@ -43,7 +43,7 @@ class MerchantSearchSuggestionTile extends StatelessWidget {
           children: [
             PriceTag(symbolCount: merchant.priceRating),
             renderDistanceTag(),
-            Tag(text: merchant.cusineType),
+            Tag(text: merchant.cuisineType),
           ],
         ),
       ),

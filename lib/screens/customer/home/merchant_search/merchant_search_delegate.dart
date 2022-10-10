@@ -5,6 +5,7 @@ import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_suggestion_tile.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_details_screen.dart';
 import 'package:plantngo_frontend/services/location_service.dart';
+import 'package:plantngo_frontend/services/merchant_search_service.dart';
 import 'package:plantngo_frontend/utils/mock_merchants.dart';
 import 'package:provider/provider.dart';
 
@@ -19,33 +20,18 @@ class MerchantSearchDelegate extends SearchDelegate {
           // searchFieldDecorationTheme: const InputDecorationTheme(),
         );
 
-  List<MerchantSearch> cachedSearchResults = [];
+  final MerchantSearchService merchantSearchService = MerchantSearchService();
 
-  List<MerchantSearch> fetchSearchResults(String query, BuildContext context) {
-    // fetch data and filter data TODO: Should be done with API call
-    List<MerchantSearch> _data = mockMerchantSearchList;
-    List<MerchantSearch> _searchResults = _data.where(
-      (searchResult) {
-        final result = searchResult.company.toLowerCase();
-        final input = query.toLowerCase();
-        return result.contains(input);
-      },
-    ).toList();
-    for (MerchantSearch e in _searchResults) {
-      e.distanceFrom = Provider.of<LocationProvider>(context).calculateDistance(
-        e.lat,
-        e.long,
-      );
-    }
-    _searchResults.sort(((a, b) {
-      return a.distanceFrom!.compareTo(b.distanceFrom!);
-    }));
-    return _searchResults;
+  late Future<List<MerchantSearch>> futureMerchantSearchList;
+
+  Future<List<MerchantSearch>> searchMerchants(
+      BuildContext context, String query) {
+    return merchantSearchService.searchAllMerchants(context, query);
   }
 
-  void resetSearchField(BuildContext context) {
+  resetSearchField(BuildContext context) async {
     query = '';
-    cachedSearchResults = fetchSearchResults(query, context);
+    futureMerchantSearchList = searchMerchants(context, query);
     showSuggestions(context);
   }
 
@@ -77,7 +63,7 @@ class MerchantSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    cachedSearchResults = fetchSearchResults(query, context);
+    futureMerchantSearchList = searchMerchants(context, query);
 
     return WillPopScope(
       onWillPop: () async {
@@ -88,24 +74,39 @@ class MerchantSearchDelegate extends SearchDelegate {
         }
         return shouldPop;
       },
-      child: ListView.builder(
-        itemCount: cachedSearchResults.length,
-        itemBuilder: (context, index) {
-          final result = cachedSearchResults[index];
-          return MerchantSearchResultCard(
-            merchantImage: result.logoUrl,
-            merchantName: result.company,
-            merchantDistance: result.distanceFrom,
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => MerchantShopDetailsScreen(
-                    merchantId: result.id,
-                  ),
-                ),
-              );
-            },
-          );
+      child: FutureBuilder<List<MerchantSearch>>(
+        future: futureMerchantSearchList,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text("Failed to load page"),
+            );
+          } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final result = snapshot.data![index];
+                return MerchantSearchResultCard(
+                  merchant: result,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => MerchantShopDetailsScreen(
+                          merchant: result,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+            return const Center(
+              child: Text("No Results"),
+            );
+          }
+
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );
@@ -113,7 +114,7 @@ class MerchantSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    cachedSearchResults = fetchSearchResults(query, context);
+    futureMerchantSearchList = searchMerchants(context, query);
 
     return WillPopScope(
       onWillPop: () async {
@@ -124,28 +125,45 @@ class MerchantSearchDelegate extends SearchDelegate {
         }
         return shouldPop;
       },
-      child: ListView.builder(
-        itemCount: cachedSearchResults.length,
-        itemBuilder: (context, index) {
-          final suggestion = cachedSearchResults[index];
-          return MerchantSearchSuggestionTile(
-            merchant: suggestion,
-            onTap: () {
-              // -- Does another search
-              // query = suggestion.company;
-              // // shows the results of the search
-              // showResults(context);
+      child: FutureBuilder<List<MerchantSearch>>(
+        future: futureMerchantSearchList,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text("Failed to load page"),
+            );
+          } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final suggestion = snapshot.data![index];
+                return MerchantSearchSuggestionTile(
+                  merchant: suggestion,
+                  onTap: () {
+                    // -- Does another search
+                    // query = suggestion.company;
+                    // // shows the results of the search
+                    // showResults(context);
 
-              // -- Show result page immediately
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => MerchantShopDetailsScreen(
-                    merchantId: suggestion.id,
-                  ),
-                ),
-              );
-            },
-          );
+                    // -- Show result page immediately
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => MerchantShopDetailsScreen(
+                          merchant: suggestion,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+            return const Center(
+              child: Text("No Results"),
+            );
+          }
+
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

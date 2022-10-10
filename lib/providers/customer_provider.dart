@@ -16,7 +16,7 @@ class CustomerProvider extends ChangeNotifier {
   Customer get customer => _customer;
 
   void setCustomer(String customer, String token) {
-    Map<String, dynamic> customerMap = jsonDecode(customer)[0];
+    Map<String, dynamic> customerMap = jsonDecode(customer);
     customerMap['token'] = token;
     _customer = Customer.fromJSON(customerMap);
     notifyListeners();

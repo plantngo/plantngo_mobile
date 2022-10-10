@@ -44,7 +44,7 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                     child: Text(
-                      "Main Menu (${merchantProvider.merchant.categories.length} categories)",
+                      "Main Menu (${merchantProvider.merchant.categories!.length} categories)",
                       style: const TextStyle(
                           color: Color.fromARGB(171, 0, 0, 0),
                           fontSize: 20,
@@ -56,7 +56,7 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
               Expanded(
                 child: SingleChildScrollView(
                     child: Column(children: <Widget>[
-                  for (var value in merchantProvider.merchant.categories)
+                  for (var value in merchantProvider.merchant.categories!)
                     SetupMenuItemTile(
                         categoryName: value.name, value: value.products)
                 ])),
@@ -97,7 +97,7 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
                                 if (Provider.of<MerchantProvider>(context,
                                         listen: false)
                                     .merchant
-                                    .categories
+                                    .categories!
                                     .isEmpty) {
                                   showSnackBar(context, "Add categories first");
                                   Navigator.pushNamed(

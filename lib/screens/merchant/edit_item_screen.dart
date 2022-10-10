@@ -55,7 +55,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     super.didChangeDependencies();
     Provider.of<MerchantProvider>(context, listen: false)
         .merchant
-        .categories
+        .categories!
         .map((e) => categories.add(e.name))
         .toList();
   }

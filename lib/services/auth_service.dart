@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:plantngo_frontend/utils/all.dart';
 import 'package:provider/provider.dart';
 import '../utils/global_variables.dart';
@@ -165,6 +166,7 @@ class AuthService {
 
         if (userType == "merchant") {
           merchantProvider.setMerchant(userRes.body, token);
+          await MerchantService.fetchAllVouchers(context);
         }
       }
     } catch (e) {

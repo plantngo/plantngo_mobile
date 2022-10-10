@@ -11,7 +11,7 @@ class Merchant {
   String? email;
   String? company;
   String token;
-  List<Category> categories;
+  List<Category>? categories;
   List<Voucher>? vouchers;
 
   Merchant(

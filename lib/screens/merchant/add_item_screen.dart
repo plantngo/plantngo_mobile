@@ -31,7 +31,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     super.didChangeDependencies();
     Provider.of<MerchantProvider>(context, listen: false)
         .merchant
-        .categories
+        .categories!
         .map((e) => categories.add(e.name))
         .toList();
     dropdownValue = categories.first;

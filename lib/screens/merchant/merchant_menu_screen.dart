@@ -87,7 +87,7 @@ class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                     child: Text(
-                      "Main Menu (${merchantProvider.merchant.categories.length} categories)",
+                      "Main Menu (${merchantProvider.merchant.categories!.length} categories)",
                       style: const TextStyle(
                           color: Color.fromARGB(171, 0, 0, 0),
                           fontSize: 20,
@@ -100,7 +100,7 @@ class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
                 child: SingleChildScrollView(
                     child: Column(
                   children: <Widget>[
-                    for (var value in merchantProvider.merchant.categories)
+                    for (var value in merchantProvider.merchant.categories!)
                       MenuItemTile(
                           categoryName: value.name, value: value.products)
                   ],

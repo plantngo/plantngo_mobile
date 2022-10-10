@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:plantngo_frontend/models/category.dart';
+import 'package:plantngo_frontend/models/voucher.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:provider/provider.dart';
 import '../utils/global_variables.dart';
@@ -362,5 +363,41 @@ class MerchantService {
     } catch (e) {
       //catch exception
     }
+  }
+
+  static Future<List<Voucher>> fetchAllVouchers(BuildContext context) async {
+    final merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+
+    List<Voucher> vouchers = [];
+
+    try {
+      http.Response res = await http.get(
+        Uri.parse(
+            '$uri/api/v1/merchant/${merchantProvider.merchant.username}/vouchers'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          json
+              .decode(res.body)
+              .map((e) => {vouchers.add(Voucher.fromJSON(e))})
+              .toList();
+          Provider.of<MerchantProvider>(context, listen: false)
+              .setVouchers(vouchers);
+        },
+      );
+    } catch (e) {
+      //to do catch exception
+    }
+
+    return [];
   }
 }

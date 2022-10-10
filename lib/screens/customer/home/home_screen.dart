@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:plantngo_frontend/screens/customer/home/merchant_promotion/merchant_promotion_details_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_delegate.dart';
 import 'package:plantngo_frontend/services/location_service.dart';
+import 'package:plantngo_frontend/utils/mock_promotions.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,26 +23,25 @@ class _HomeScreenState extends State<HomeScreen> {
     fetchLocation();
   }
 
+  void onBannerPressed(String merchantName, String merchantPromotionImage) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => MerchantPromotionDetailsScreen(
+          merchantName: merchantName,
+          merchantPromotionImage: merchantPromotionImage,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     const String searchFieldPlaceholder = "Search for food and shops";
     const double bannerHeight = 200.0;
-
-    List<String> nearbyBanners = [
-      'https://placeimg.com/640/480/any',
-      'https://placeimg.com/640/480/any',
-      'https://placeimg.com/640/480/any',
-    ];
-    List<String> promotionBanners = [
-      'https://placeimg.com/640/480/any',
-      'https://placeimg.com/640/480/any',
-      'https://placeimg.com/640/480/any',
-    ];
-    List<String> trendingBanners = [
-      'https://placeimg.com/640/480/any',
-      'https://placeimg.com/640/480/any',
-      'https://placeimg.com/640/480/any',
-    ];
+    // replace with actual data
+    List<String> nearbyBanners = mockNearbyBanners;
+    List<String> promotionBanners = mockPromotionBanners;
+    List<String> trendingBanners = mockTrendingBanners;
 
     return Scaffold(
       body: CustomScrollView(
@@ -130,18 +131,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           scrollDirection: Axis.horizontal,
                           itemCount: nearbyBanners.length,
                           itemBuilder: (_, i) {
-                            return Card(
-                              semanticContainer: true,
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              child: Image.network(
-                                nearbyBanners[i],
-                                fit: BoxFit.fill,
+                            return GestureDetector(
+                              onTap: () {
+                                onBannerPressed("Promotion", nearbyBanners[i]);
+                              },
+                              child: Card(
+                                semanticContainer: true,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: Image.network(
+                                  nearbyBanners[i],
+                                  fit: BoxFit.fill,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                elevation: 5,
+                                margin: EdgeInsets.all(10),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              elevation: 5,
-                              margin: EdgeInsets.all(10),
                             );
                           },
                         ),
@@ -158,19 +164,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: promotionBanners.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              semanticContainer: true,
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              child: Image.network(
-                                promotionBanners[index],
-                                fit: BoxFit.fill,
+                          itemBuilder: (_, i) {
+                            return GestureDetector(
+                              onTap: () {
+                                onBannerPressed(
+                                    "Promotion", promotionBanners[i]);
+                              },
+                              child: Card(
+                                semanticContainer: true,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: Image.network(
+                                  promotionBanners[i],
+                                  fit: BoxFit.fill,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                elevation: 5,
+                                margin: EdgeInsets.all(10),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              elevation: 5,
-                              margin: EdgeInsets.all(10),
                             );
                           },
                         ),
@@ -187,19 +199,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: trendingBanners.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              semanticContainer: true,
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              child: Image.network(
-                                trendingBanners[index],
-                                fit: BoxFit.fill,
+                          itemBuilder: (_, i) {
+                            return GestureDetector(
+                              onTap: () {
+                                onBannerPressed(
+                                    "Promotion", trendingBanners[i]);
+                              },
+                              child: Card(
+                                semanticContainer: true,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: Image.network(
+                                  trendingBanners[i],
+                                  fit: BoxFit.fill,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                elevation: 5,
+                                margin: EdgeInsets.all(10),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              elevation: 5,
-                              margin: EdgeInsets.all(10),
                             );
                           },
                         ),

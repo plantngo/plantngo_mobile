@@ -1,44 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/utils/functions.dart';
+import 'package:provider/provider.dart';
 
 class UserProfileSection extends StatelessWidget {
   const UserProfileSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final String fullName = "John Tan";
-    final String mobileNumber = "+65 9123 4567";
+    String fullName =
+        Provider.of<CustomerProvider>(context).customer.username ?? "";
+    String? mobileNumber =
+        Provider.of<CustomerProvider>(context).customer.email ?? "";
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Column(
-          children: [
-            SizedBox(
-              height: 50,
-              child: CircleAvatar(
-                backgroundColor: generateColor(fullName),
-                child: Text(
-                  getInitials(fullName, ""),
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            )
-          ],
+        const SizedBox(
+          width: 10,
         ),
         Column(
           children: [
-            SizedBox(
-              width: 10,
-            )
-          ],
-        ),
-        Column(
-          children: [
+            Row(
+              children: [
+                SizedBox(
+                  height: 50,
+                  child: CircleAvatar(
+                    backgroundColor: generateColor(fullName),
+                    child: Text(
+                      getInitials(fullName, ""),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                )
+              ],
+            ),
             Row(children: [
-              Text(fullName),
+              Text(
+                fullName,
+                style: Theme.of(context).textTheme.caption,
+              ),
             ]),
             Row(children: [
-              Text(mobileNumber),
+              Text(
+                mobileNumber,
+                style: Theme.of(context).textTheme.caption,
+              ),
             ]),
           ],
         )

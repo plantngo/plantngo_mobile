@@ -39,7 +39,7 @@ class MerchantShopMenuSection extends StatelessWidget {
                 height: 100,
                 width: 100,
                 child: Image.network(
-                  "https://static.phdvasia.com/sg1/menu/single/desktop_thumbnail_0bd9658b-d8eb-438d-bc2c-fef8afa1b71e.jpg",
+                  merchantProductList[i].imageUrl!,
                   fit: BoxFit.cover,
                 ),
               ),

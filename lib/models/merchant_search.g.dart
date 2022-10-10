@@ -19,6 +19,9 @@ MerchantSearch _$MerchantSearchFromJson(Map<String, dynamic> json) =>
       priceRating: json['priceRating'] as int,
       operatingHours: json['operatingHours'] as String,
       description: json['description'] as String,
+      categories: (json['categories'] as List<dynamic>?)
+          ?.map((e) => Category.fromJSON(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$MerchantSearchToJson(MerchantSearch instance) =>
@@ -34,4 +37,5 @@ Map<String, dynamic> _$MerchantSearchToJson(MerchantSearch instance) =>
       'priceRating': instance.priceRating,
       'operatingHours': instance.operatingHours,
       'description': instance.description,
+      'categories': instance.categories,
     };

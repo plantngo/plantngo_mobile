@@ -92,7 +92,7 @@ class MerchantSearchDelegate extends SearchDelegate {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => MerchantShopDetailsScreen(
-                          merchantId: result.id,
+                          merchant: result,
                         ),
                       ),
                     );
@@ -149,7 +149,7 @@ class MerchantSearchDelegate extends SearchDelegate {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => MerchantShopDetailsScreen(
-                          merchantId: suggestion.id,
+                          merchant: suggestion,
                         ),
                       ),
                     );

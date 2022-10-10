@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:plantngo_frontend/models/category.dart';
 
 part 'merchant_search.g.dart';
 
@@ -15,6 +16,7 @@ class MerchantSearch {
   int priceRating;
   String operatingHours;
   String description;
+  List<Category>? categories;
 
   @JsonKey(ignore: true)
   double? distanceFrom;
@@ -33,6 +35,7 @@ class MerchantSearch {
     required this.priceRating,
     required this.operatingHours,
     required this.description,
+    required this.categories,
     this.distanceFrom,
   });
 

@@ -9,10 +9,6 @@ Color generateColor(String username) {
 
 String getInitials(String lastName, String firstName) {
   String result = "";
-  if (lastName.contains(' ')) {
-    result = lastName[0] + lastName[lastName.indexOf(' ') + 1];
-  } else {
-    result = lastName[0] + firstName[0];
-  }
+  result = lastName[0].toUpperCase();
   return result;
 }

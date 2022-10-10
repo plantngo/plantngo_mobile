@@ -9,6 +9,8 @@ class Product {
   String? description;
   double? price;
   double? carbonEmission;
+  // is enabled
+  // image url
 
   Product(
       {required this.id,

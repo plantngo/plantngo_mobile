@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 class MerchantSearchResultCard extends StatelessWidget {
   void Function() onTap;
   String merchantName;
-  double merchantDistance;
   String merchantImage;
+  double? merchantDistance;
 
   MerchantSearchResultCard({
     super.key,
     required this.onTap,
     required this.merchantName,
-    required this.merchantDistance,
     required this.merchantImage,
+    this.merchantDistance,
   });
 
   @override
@@ -19,7 +19,6 @@ class MerchantSearchResultCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: Colors.white,
         child: Column(
           children: [
             FractionallySizedBox(
@@ -34,8 +33,8 @@ class MerchantSearchResultCard extends StatelessWidget {
               merchantName,
             ),
             Text(
-              "${merchantDistance.toStringAsFixed(2)} km",
-            ),
+                // "${merchantDistance!.toStringAsFixed(2)} km",
+                "km"),
           ],
         ),
       ),

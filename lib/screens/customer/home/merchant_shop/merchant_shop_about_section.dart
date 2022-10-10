@@ -11,9 +11,8 @@ class MerchantShopAboutSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String merchantOpeningHours = "10:00AM - 08:00PM";
-
     return ListView(
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
@@ -22,9 +21,13 @@ class MerchantShopAboutSection extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ListView(
+              padding: EdgeInsets.zero,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
+                const SizedBox(
+                  height: 15,
+                ),
                 Text(
                   "About",
                   style: Theme.of(context).textTheme.titleMedium,
@@ -48,23 +51,15 @@ class MerchantShopAboutSection extends StatelessWidget {
                     ),
                   ),
                 ),
-                ExpansionTile(
+                ListTile(
                   title: Text(
                     "Opening Hours",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   subtitle: Text(
-                    merchantOpeningHours,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    merchant.operatingHours,
+                    style: Theme.of(context).textTheme.caption,
                   ),
-                  children: [
-                    ListTile(
-                      title: Text(
-                        "",
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ),
-                  ],
                 ),
                 ExpansionTile(
                   title: Text(

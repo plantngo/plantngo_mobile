@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/models/merchant_search.dart';
 import 'package:plantngo_frontend/widgets/tag/price_tag.dart';
 import 'package:plantngo_frontend/widgets/tag/tag.dart';
 
 class MerchantSearchSuggestionTile extends StatelessWidget {
   void Function() onTap;
-  String merchantName;
-  String merchantImage;
-  double? merchantDistance;
+  MerchantSearch merchant;
 
   MerchantSearchSuggestionTile({
     super.key,
     required this.onTap,
-    required this.merchantName,
-    required this.merchantImage,
-    this.merchantDistance,
+    required this.merchant,
   });
 
   renderDistanceTag() {
-    if (merchantDistance != null) {
+    if (merchant.distanceFrom != null) {
       return Tag(
-        text: "${merchantDistance!.toStringAsFixed(2)} km",
+        text: "${merchant.distanceFrom!.toStringAsFixed(2)} km",
       );
     }
   }
@@ -30,11 +27,11 @@ class MerchantSearchSuggestionTile extends StatelessWidget {
       leading: SizedBox(
         height: 50,
         width: 50,
-        child: Image.network(merchantImage),
+        child: Image.network(merchant.logoUrl),
       ),
       // horizontalTitleGap: 5,
       title: Text(
-        merchantName,
+        merchant.company,
       ),
       subtitle: ConstrainedBox(
         constraints: BoxConstraints(
@@ -44,8 +41,9 @@ class MerchantSearchSuggestionTile extends StatelessWidget {
           spacing: 5,
           runSpacing: 5,
           children: [
-            PriceTag(symbolCount: 2),
+            PriceTag(symbolCount: merchant.priceRating),
             renderDistanceTag(),
+            Tag(text: merchant.cusineType),
           ],
         ),
       ),

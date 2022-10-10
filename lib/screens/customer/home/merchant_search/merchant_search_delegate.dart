@@ -93,7 +93,7 @@ class MerchantSearchDelegate extends SearchDelegate {
         itemBuilder: (context, index) {
           final result = cachedSearchResults[index];
           return MerchantSearchResultCard(
-            merchantImage: result.image,
+            merchantImage: result.logoUrl,
             merchantName: result.company,
             merchantDistance: result.distanceFrom,
             onTap: () {
@@ -129,9 +129,7 @@ class MerchantSearchDelegate extends SearchDelegate {
         itemBuilder: (context, index) {
           final suggestion = cachedSearchResults[index];
           return MerchantSearchSuggestionTile(
-            merchantImage: suggestion.image,
-            merchantName: suggestion.company,
-            merchantDistance: suggestion.distanceFrom,
+            merchant: suggestion,
             onTap: () {
               // -- Does another search
               // query = suggestion.company;

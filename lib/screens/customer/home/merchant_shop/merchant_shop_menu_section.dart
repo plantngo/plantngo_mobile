@@ -13,9 +13,9 @@ class MerchantShopMenuSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const SizedBox(
           height: 10,
@@ -31,6 +31,7 @@ class MerchantShopMenuSection extends StatelessWidget {
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
+          padding: EdgeInsets.zero,
           itemCount: merchantProductList.length,
           itemBuilder: (_, i) {
             return ListTile(
@@ -42,9 +43,14 @@ class MerchantShopMenuSection extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              title: Text(merchantProductList[i].name!),
-              subtitle:
-                  Text("\$${merchantProductList[i].price!.toStringAsFixed(2)}"),
+              title: Text(
+                merchantProductList[i].name!,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              subtitle: Text(
+                "\$${merchantProductList[i].price!.toStringAsFixed(2)}",
+                style: Theme.of(context).textTheme.caption,
+              ),
               onTap: () {
                 // onTap();
               },

@@ -72,56 +72,58 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
                   ),
                 ];
               },
-              body: ListView(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  MerchantShopAboutSection(
-                    merchant: snapshot.data!,
-                  ),
-                  const Divider(
-                    thickness: 5,
-                  ),
-                  FutureBuilder<List<Product>>(
-                    future: futurePopularProduct,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return const Center(
-                          child: Text("Failed to load page"),
-                        );
-                      } else if (snapshot.hasData) {
-                        return MerchantShopMenuSection(
-                            title: "Popular",
-                            merchantProductList: snapshot.data!);
-                      }
+              body: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.network(snapshot.data!.bannerUrl),
+                    MerchantShopAboutSection(
+                      merchant: snapshot.data!,
+                    ),
+                    const Divider(
+                      thickness: 5,
+                    ),
+                    FutureBuilder<List<Product>>(
+                      future: futurePopularProduct,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return const Center(
+                            child: Text("Failed to load page"),
+                          );
+                        } else if (snapshot.hasData) {
+                          return MerchantShopMenuSection(
+                              title: "Popular",
+                              merchantProductList: snapshot.data!);
+                        }
 
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                  const Divider(
-                    thickness: 5,
-                  ),
-                  FutureBuilder<List<Product>>(
-                    future: futureMenuProduct,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return const Center(
-                          child: Text("Failed to load page"),
-                        );
-                      } else if (snapshot.hasData) {
-                        return MerchantShopMenuSection(
-                          title: "Menu",
-                          merchantProductList: snapshot.data!,
-                        );
-                      }
+                        return const CircularProgressIndicator();
+                      },
+                    ),
+                    const Divider(
+                      thickness: 5,
+                    ),
+                    FutureBuilder<List<Product>>(
+                      future: futureMenuProduct,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return const Center(
+                            child: Text("Failed to load page"),
+                          );
+                        } else if (snapshot.hasData) {
+                          return MerchantShopMenuSection(
+                            title: "Menu",
+                            merchantProductList: snapshot.data!,
+                          );
+                        }
 
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  )
-                ],
+                        return const CircularProgressIndicator();
+                      },
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    )
+                  ],
+                ),
               ),
             ),
           );

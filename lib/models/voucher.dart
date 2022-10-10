@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'merchant.dart';
+
 part 'voucher.g.dart';
 
 @JsonSerializable()
@@ -10,6 +12,7 @@ class Voucher {
   double? value;
   String? type;
   double? discount;
+  int? merchantId;
 
   Voucher({
     required this.id,
@@ -17,6 +20,7 @@ class Voucher {
     required this.value,
     required this.discount,
     required this.type,
+    required this.merchantId
   });
   factory Voucher.fromJSON(Map<String, dynamic> json) =>
       _$VoucherFromJson(json);

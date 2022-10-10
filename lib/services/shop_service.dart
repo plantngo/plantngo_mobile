@@ -7,12 +7,12 @@ import '../utils/global_variables.dart';
 
 import '../utils/user_secure_storage.dart';
 
-class ShopService{
+class ShopService {
   static Future<List<Voucher>> fetchAllVouchers(BuildContext context) async {
     String? token = await UserSecureStorage.getToken();
 
     List<Voucher> vouchers = [];
-    
+
     try {
       http.Response res = await http.get(
         Uri.parse('$uri/api/v1/store'),
@@ -22,10 +22,8 @@ class ShopService{
         },
       );
       if (res.statusCode == 200) {
-        print("Vouchers:" + res.body);
         for (var i = 0; i < res.body.length; i++) {
-          vouchers
-              .add(Voucher.fromJSON(jsonDecode(res.body)[i]));
+          vouchers.add(Voucher.fromJSON(jsonDecode(res.body)[i]));
         }
       }
     } catch (e) {
@@ -33,4 +31,5 @@ class ShopService{
     }
     return vouchers;
   }
+
 }

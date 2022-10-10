@@ -10,6 +10,8 @@ List<MerchantSearch> mockMerchantSearchList = [
     long: 103.84271,
     address:
         "Pizza Hut Plaza Singapura, 68 Orchard Road B2-01 Plaza, Singapore 238839",
+    description:
+        "Pizza Hut is an American multinational restaurant chain and international franchise founded in 1958 in Wichita, Kansas by Dan and Frank Carney. They serve their signature pan pizza and other dishes including pasta, breadsticks and dessert at dine-in, take-out and delivery chain locations.",
   ),
   MerchantSearch(
     id: 2,
@@ -20,6 +22,8 @@ List<MerchantSearch> mockMerchantSearchList = [
     long: 103.8472445,
     address:
         "FairPrice Xpress, 1 Sophia Rd, #01-18, Peace Centre, Singapore 228149",
+    description:
+        "NTUC FairPrice is the largest supermarket chain in Singapore. The company is a co-operative of the National Trades Union Congress. The group has 100 supermarkets across the island, with over 160 outlets of Cheers convenience stores island-wide.",
   ),
   MerchantSearch(
     id: 3,
@@ -30,5 +34,7 @@ List<MerchantSearch> mockMerchantSearchList = [
     long: 103.8372088,
     address:
         "Joie - Vegetarian Fine Dining, 181 Orchard Rd, #12 - 01, Singapore 238896",
+    description:
+        "Contemporary indoor-outdoor rooftop eatery serving a set menu of adventurous vegetarian cuisine.",
   ),
 ];

@@ -7,7 +7,7 @@ class MerchantSearch {
   double long;
   double? distanceFrom;
   // String bannerImage;
-  // String description;
+  String description;
   // opening hours
   // food item tags
   // price rating 1 - 5
@@ -24,6 +24,6 @@ class MerchantSearch {
     required this.address,
     this.distanceFrom,
     // required this.bannerImage,
-    // required this.description,
+    required this.description,
   });
 }

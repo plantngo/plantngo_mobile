@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_promotion/merchant_promotion_details_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_delegate.dart';
-import 'package:plantngo_frontend/services/location_service.dart';
 import 'package:plantngo_frontend/utils/mock_promotions.dart';
 import 'package:provider/provider.dart';
 
@@ -82,15 +80,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     fillColor: Colors.white,
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
+                      borderSide: const BorderSide(color: Colors.transparent),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
+                      borderSide: const BorderSide(color: Colors.transparent),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
+                      borderSide: const BorderSide(color: Colors.transparent),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     filled: true,
@@ -142,21 +140,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Card(
                                 semanticContainer: true,
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                                child: Image.network(
-                                  nearbyBanners[i],
-                                  fit: BoxFit.fill,
-                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 elevation: 5,
-                                margin: EdgeInsets.all(10),
+                                margin: const EdgeInsets.all(10),
+                                child: Image.network(
+                                  nearbyBanners[i],
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                             );
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Text(
@@ -177,21 +175,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Card(
                                 semanticContainer: true,
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                                child: Image.network(
-                                  promotionBanners[i],
-                                  fit: BoxFit.fill,
-                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 elevation: 5,
-                                margin: EdgeInsets.all(10),
+                                margin: const EdgeInsets.all(10),
+                                child: Image.network(
+                                  promotionBanners[i],
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                             );
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Text(
@@ -212,15 +210,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Card(
                                 semanticContainer: true,
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                                child: Image.network(
-                                  trendingBanners[i],
-                                  fit: BoxFit.fill,
-                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 elevation: 5,
-                                margin: EdgeInsets.all(10),
+                                margin: const EdgeInsets.all(10),
+                                child: Image.network(
+                                  trendingBanners[i],
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                             );
                           },

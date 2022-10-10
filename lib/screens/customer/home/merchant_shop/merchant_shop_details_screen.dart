@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/models/merchant.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
+import 'package:plantngo_frontend/models/product.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_about_section.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_menu_section.dart';
-import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_popular_section.dart';
 import 'package:plantngo_frontend/utils/mock_merchants.dart';
+import 'package:plantngo_frontend/utils/mock_products.dart';
 
 class MerchantShopDetailsScreen extends StatefulWidget {
   int merchantId;
@@ -21,16 +21,28 @@ class MerchantShopDetailsScreen extends StatefulWidget {
 
 class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
   late Future<MerchantSearch> futureMerchant;
+  late Future<List<Product>> futurePopularProduct;
+  late Future<List<Product>> futureMenuProduct;
 
   Future<MerchantSearch> fetchMerchantData() {
     return Future<MerchantSearch>.value(
         mockMerchantSearchList.firstWhere((e) => e.id == widget.merchantId));
   }
 
+  Future<List<Product>> fetchMerchantPopularProductData() {
+    return Future<List<Product>>.value(mockProductList);
+  }
+
+  Future<List<Product>> fetchMerchantMenuProductData() {
+    return Future<List<Product>>.value(mockProductList);
+  }
+
   @override
   void initState() {
     super.initState();
     futureMerchant = fetchMerchantData();
+    futurePopularProduct = fetchMerchantPopularProductData();
+    futureMenuProduct = fetchMerchantMenuProductData();
   }
 
   @override
@@ -65,16 +77,50 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   MerchantShopAboutSection(
-                    merchantAddress: snapshot.data!.address,
+                    merchant: snapshot.data!,
                   ),
                   const Divider(
                     thickness: 5,
                   ),
-                  MerchantShopPopularSection(),
+                  FutureBuilder<List<Product>>(
+                    future: futurePopularProduct,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Text("Failed to load page"),
+                        );
+                      } else if (snapshot.hasData) {
+                        return MerchantShopMenuSection(
+                            title: "Popular",
+                            merchantProductList: snapshot.data!);
+                      }
+
+                      return const CircularProgressIndicator();
+                    },
+                  ),
                   const Divider(
                     thickness: 5,
                   ),
-                  MerchantShopMenuSection(),
+                  FutureBuilder<List<Product>>(
+                    future: futureMenuProduct,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Text("Failed to load page"),
+                        );
+                      } else if (snapshot.hasData) {
+                        return MerchantShopMenuSection(
+                          title: "Menu",
+                          merchantProductList: snapshot.data!,
+                        );
+                      }
+
+                      return const CircularProgressIndicator();
+                    },
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  )
                 ],
               ),
             ),

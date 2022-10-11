@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/models/voucher.dart';
 import 'package:plantngo_frontend/providers/voucher_shop_provider.dart';
 import 'package:plantngo_frontend/screens/customer/voucherShop/voucher_checkout_screen.dart';
 import 'package:plantngo_frontend/widgets/card/voucher_card.dart';
@@ -13,6 +14,8 @@ class VoucherShop extends StatefulWidget {
 }
 
 class _VoucherShopState extends State<VoucherShop> {
+  List<bool> voucherActivate = [];
+
   @override
   void initState() {
     super.initState();
@@ -26,7 +29,7 @@ class _VoucherShopState extends State<VoucherShop> {
     var voucherShopProvider =
         Provider.of<VoucherShopProvider>(context, listen: true);
 
-    var allVouchers = voucherShopProvider.vouchers;
+    List<Voucher> allVouchers = voucherShopProvider.vouchers;
 
     var greenPoints = (customerProvider.customer.greenPoints == null)
         ? 0
@@ -65,9 +68,7 @@ class _VoucherShopState extends State<VoucherShop> {
                 child: Column(
                   children: [
                     Column(
-                      children: allVouchers
-                          .map((e) => VoucherCard(voucher: e))
-                          .toList(),
+                      children: renderVouchers(allVouchers),
                     ),
                   ],
                 ),
@@ -91,5 +92,27 @@ class _VoucherShopState extends State<VoucherShop> {
         ),
       ),
     );
+  }
+
+  renderVouchers(allVouchers) {
+    List<Widget> listVouchers = [];
+
+    for (int i = 0; i < allVouchers.length; i++) {
+      setState(() {
+        voucherActivate.add(false);
+      });
+      listVouchers.add(VoucherCard(
+        voucher: allVouchers[i],
+        isAdded: voucherActivate[i],
+        onAddToCartTapped: () {
+          setState(
+            () {
+              voucherActivate[i] = true;
+            },
+          );
+        },
+      ));
+    }
+    return listVouchers;
   }
 }

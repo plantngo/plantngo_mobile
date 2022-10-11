@@ -6,7 +6,10 @@ import '../../providers/customer_provider.dart';
 
 class VoucherCard extends StatefulWidget {
   final Voucher voucher;
-  const VoucherCard({super.key, required this.voucher});
+  final  bool isAdded;
+  void Function() onAddToCartTapped;
+
+ VoucherCard({super.key, required this.voucher, required this.isAdded, required this.onAddToCartTapped, });
 
   @override
   State<VoucherCard> createState() => _VoucherCardState();
@@ -20,7 +23,7 @@ class _VoucherCardState extends State<VoucherCard> {
     var rewardName = widget.voucher.description ?? "";
     rewardName = rewardName.toUpperCase();
     var price = widget.voucher.value;
-    bool isPressed = false;
+  
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -64,12 +67,14 @@ class _VoucherCardState extends State<VoucherCard> {
                         Padding(
                           padding: const EdgeInsets.only(
                               right: 16, bottom: 4, top: 26),
-                          child: IconButton(
-                            icon: Icon(Icons.add_shopping_cart, size: 30),
+                          child: widget.isAdded ? Icon(Icons.done,size: 30, color: Colors.black) : IconButton(
+                            icon: Icon(Icons.add_shopping_cart,
+                                size: 30, color: Colors.black),
                             // Adds voucher to customer's cart
                             onPressed: () {
                               customerProvider.addVouchersToCart(
                                   context, widget.voucher);
+                              widget.onAddToCartTapped();
                             },
                             style: IconButton.styleFrom(
                               foregroundColor: colors.onSecondaryContainer,

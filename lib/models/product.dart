@@ -9,13 +9,19 @@ class Product {
   String? description;
   double? price;
   double? carbonEmission;
+  String? imageUrl;
 
-  Product(
-      {required this.id,
-      required this.name,
-      required this.description,
-      required this.price,
-      required this.carbonEmission});
+  // is enabled
+  // image url
+
+  Product({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.carbonEmission,
+    this.imageUrl,
+  });
 
   factory Product.fromJSON(Map<String, dynamic> json) =>
       _$ProductFromJson(json);

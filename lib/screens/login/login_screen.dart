@@ -20,7 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usertypeController =
       TextEditingController(text: "C");
 
-
   @override
   dispose() {
     super.dispose();
@@ -48,10 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
           child: Column(
             children: [
               ...[

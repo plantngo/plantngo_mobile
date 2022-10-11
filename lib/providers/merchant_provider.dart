@@ -17,7 +17,7 @@ class MerchantProvider extends ChangeNotifier {
   Merchant get merchant => _merchant;
 
   void setMerchant(String merchant, String token) {
-    Map<String, dynamic> merchantMap = jsonDecode(merchant)[0];
+    Map<String, dynamic> merchantMap = jsonDecode(merchant);
     merchantMap['token'] = token;
     _merchant = Merchant.fromJSON(merchantMap);
     notifyListeners();

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/screens/customer/home/home_screen.dart';
-import 'package:plantngo_frontend/screens/customer/profile_screen.dart';
-import 'package:plantngo_frontend/screens/customer/voucherShop/voucher_shop_screen.dart';
-import 'package:plantngo_frontend/widgets/navigation/bottom_navbar.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/voucher_shop_provider.dart';
+import '../screens/customer/profile/profile_screen.dart';
+import '../screens/customer/voucherShop/voucher_shop_screen.dart';
+import '../widgets/navigation/bottom_navbar.dart';
 
 
 class CustomerApp extends StatefulWidget {
@@ -44,7 +42,6 @@ class _CustomerAppState extends State<CustomerApp> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(),
         body: PageView(
           controller: pageController,
           onPageChanged: onPageChanged,

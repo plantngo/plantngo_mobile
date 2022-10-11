@@ -52,10 +52,20 @@ class _MyAppState extends State<MyApp> {
       title: 'Plant&Go',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorSchemeSeed: Colors.green,
-        indicatorColor: Colors.green,
+        // colorSchemeSeed: Colors.green,
+        primarySwatch: Colors.green,
         brightness: Brightness.light,
         useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white,
+        cardTheme: const CardTheme(
+          color: Colors.white,
+        ),
+        // textTheme: const TextTheme(),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          selectedItemColor: Colors.green,
+          unselectedItemColor: Colors.grey,
+          backgroundColor: Colors.white,
+        ),
       ),
       onGenerateRoute: ((settings) => generateRoute(settings)),
       home: app,

@@ -11,4 +11,9 @@ class VoucherShopProvider extends ChangeNotifier {
     _vouchers = await ShopService.fetchAllVouchers(context);
     notifyListeners();
   }
+
+  purchaseVouchers(BuildContext context) async {
+    ShopService.purchaseVouchers(context);
+    notifyListeners();
+  }
 }

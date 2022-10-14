@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:plantngo_frontend/models/voucher.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
+import 'package:plantngo_frontend/providers/voucher_shop_provider.dart';
 import 'package:plantngo_frontend/widgets/card/voucher_checkout_card.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,8 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
   @override
   Widget build(BuildContext context) {
     var customerProvider = Provider.of<CustomerProvider>(context, listen: true);
+    var voucherShopProvider =
+        Provider.of<VoucherShopProvider>(context, listen: true);
     var greenPoints = (customerProvider.customer.greenPoints == null)
         ? 0
         : customerProvider.customer.greenPoints;
@@ -92,7 +95,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                 ),
                 child: const Text('Checkout'),
                 onPressed: () {
-                  
+                  voucherShopProvider.purchaseVouchers(context);
                 },
               ),
             ),

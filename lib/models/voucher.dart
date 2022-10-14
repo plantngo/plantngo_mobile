@@ -9,7 +9,7 @@ class Voucher {
   int? id;
   String? name;
   String? description;
-  double? value;
+  int value;
   String? type;
   double? discount;
   int? merchantId;

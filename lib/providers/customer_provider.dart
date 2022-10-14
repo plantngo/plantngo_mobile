@@ -53,11 +53,14 @@ class CustomerProvider extends ChangeNotifier {
 
   void addVouchersToCart(BuildContext context, Voucher v) {
     CustomerService.addVoucherToCart(context, v);
+    customer.vouchersCart.add(v);
     notifyListeners();
   }
 
   void removeVouchersFromCart(BuildContext context, Voucher v) {
     CustomerService.removeVoucherFromCart(context, v);
+    customer.vouchersCart.remove(v);
+    
     notifyListeners();
   }
 }

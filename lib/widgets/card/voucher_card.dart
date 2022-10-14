@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/voucher.dart';
+import 'package:plantngo_frontend/providers/voucher_shop_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/customer_provider.dart';
 
 class VoucherCard extends StatefulWidget {
   final Voucher voucher;
-  final  bool isAdded;
-  void Function() onAddToCartTapped;
 
- VoucherCard({super.key, required this.voucher, required this.isAdded, required this.onAddToCartTapped, });
+  VoucherCard({
+    super.key,
+    required this.voucher,
+  });
 
   @override
   State<VoucherCard> createState() => _VoucherCardState();
@@ -20,10 +22,11 @@ class _VoucherCardState extends State<VoucherCard> {
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     var customerProvider = Provider.of<CustomerProvider>(context, listen: true);
+    var voucherShopProvider =
+        Provider.of<VoucherShopProvider>(context, listen: true);
     var rewardName = widget.voucher.description ?? "";
     rewardName = rewardName.toUpperCase();
     var price = widget.voucher.value;
-  
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -67,14 +70,21 @@ class _VoucherCardState extends State<VoucherCard> {
                         Padding(
                           padding: const EdgeInsets.only(
                               right: 16, bottom: 4, top: 26),
-                          child: widget.isAdded ? Icon(Icons.done,size: 30, color: Colors.black) : IconButton(
+                          child: IconButton(
                             icon: Icon(Icons.add_shopping_cart,
                                 size: 30, color: Colors.black),
                             // Adds voucher to customer's cart
                             onPressed: () {
                               customerProvider.addVouchersToCart(
                                   context, widget.voucher);
-                              widget.onAddToCartTapped();
+                              voucherShopProvider.vouchers
+                                  .remove(widget.voucher);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text('Voucher Added to Cart!'),
+                                ),
+                              );
                             },
                             style: IconButton.styleFrom(
                               foregroundColor: colors.onSecondaryContainer,

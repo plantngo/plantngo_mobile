@@ -14,8 +14,6 @@ class VoucherShop extends StatefulWidget {
 }
 
 class _VoucherShopState extends State<VoucherShop> {
-  List<bool> voucherActivate = [];
-
   @override
   void initState() {
     super.initState();
@@ -29,7 +27,11 @@ class _VoucherShopState extends State<VoucherShop> {
     var voucherShopProvider =
         Provider.of<VoucherShopProvider>(context, listen: true);
 
-    List<Voucher> allVouchers = voucherShopProvider.vouchers;
+    for (Voucher voucher in customerProvider.customer.vouchersCart) {
+      if (voucherShopProvider.vouchers.contains(voucher)) {
+        voucherShopProvider.vouchers.remove(voucher);
+      }
+    }
 
     var greenPoints = (customerProvider.customer.greenPoints == null)
         ? 0
@@ -68,7 +70,7 @@ class _VoucherShopState extends State<VoucherShop> {
                 child: Column(
                   children: [
                     Column(
-                      children: renderVouchers(allVouchers),
+                      children: renderVouchers(),
                     ),
                   ],
                 ),
@@ -94,25 +96,20 @@ class _VoucherShopState extends State<VoucherShop> {
     );
   }
 
-  renderVouchers(allVouchers) {
+  renderVouchers() {
+    var voucherShopProvider =
+        Provider.of<VoucherShopProvider>(context, listen: true);
     List<Widget> listVouchers = [];
+    List<Voucher> allVouchers = voucherShopProvider.vouchers;
 
     for (int i = 0; i < allVouchers.length; i++) {
-      setState(() {
-        voucherActivate.add(false);
-      });
       listVouchers.add(VoucherCard(
         voucher: allVouchers[i],
-        isAdded: voucherActivate[i],
-        onAddToCartTapped: () {
-          setState(
-            () {
-              voucherActivate[i] = true;
-            },
-          );
-        },
       ));
     }
-    return listVouchers;
+
+    return listVouchers.isEmpty
+        ? [const Text("No Vouchers Available")]
+        : listVouchers;
   }
 }

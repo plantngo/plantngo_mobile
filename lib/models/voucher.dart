@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-
+import 'package:quiver/core.dart';
 import 'merchant.dart';
 
 part 'voucher.g.dart';
@@ -31,6 +31,9 @@ class Voucher {
   String toString(){
     return toJSON().toString();
   }
+
+  bool operator ==(o) => o is Voucher && id == o.id && merchantId == o.merchantId;
+  int get hashCode => hash2(id.hashCode, merchantId.hashCode);
 
   static fromJson(Map<String, dynamic> e) {}
 }

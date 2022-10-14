@@ -55,6 +55,7 @@ class _VoucherCheckoutCardState extends State<VoucherCheckoutCard> {
                   customerProvider.removeVouchersFromCart(
                       context, widget.voucher);
                   voucherShopProvider.vouchers.add(widget.voucher);
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       backgroundColor: Colors.red,

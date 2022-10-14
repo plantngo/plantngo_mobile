@@ -109,6 +109,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
     var customerProvider = Provider.of<CustomerProvider>(context, listen: true);
     List<Widget> listVouchers = [];
     List<Voucher> cartVouchers = customerProvider.customer.vouchersCart;
+    print(cartVouchers);
 
     for (int i = 0; i < cartVouchers.length; i++) {
       listVouchers.add(VoucherCheckoutCard(

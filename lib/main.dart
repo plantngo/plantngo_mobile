@@ -43,6 +43,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     Widget app = const LoginSignUpScreen();
 
+    /// Check if the logged in user is a customer or a merchant ///
     if (Provider.of<CustomerProvider>(context).customer.token.isNotEmpty) {
       app = const CustomerApp();
     } else if (Provider.of<MerchantProvider>(context)
@@ -55,7 +56,6 @@ class _MyAppState extends State<MyApp> {
       title: 'Plant&Go',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // colorSchemeSeed: Colors.green,
         primarySwatch: Colors.green,
         brightness: Brightness.light,
         useMaterial3: true,
@@ -63,7 +63,6 @@ class _MyAppState extends State<MyApp> {
         cardTheme: const CardTheme(
           color: Colors.white,
         ),
-        // textTheme: const TextTheme(),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: Colors.green,
           unselectedItemColor: Colors.grey,

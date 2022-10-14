@@ -152,9 +152,6 @@ class AuthService {
         String username = payload['sub'];
         String userType = payload['Authority'].toLowerCase();
 
-        // print(username);
-        // print(userType);
-
         http.Response userRes = await http.get(
           Uri.parse('$uri/api/v1/$userType/$username'),
           headers: <String, String>{
@@ -168,8 +165,6 @@ class AuthService {
         }
 
         if (userType == "merchant") {
-          print(userRes.body);
-
           merchantProvider.setMerchant(userRes.body, token);
           await MerchantService.fetchAllVouchers(context);
         }
@@ -188,7 +183,6 @@ class AuthService {
       UserSecureStorage.deleteAll();
       customerProvider.resetCustomer();
       merchantProvider.resetMerchant();
-      print(merchantProvider.merchant.username);
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute<void>(

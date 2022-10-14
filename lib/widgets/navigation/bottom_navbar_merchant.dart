@@ -43,9 +43,6 @@ class BottomNavbarMerchant extends StatelessWidget {
       child: ClipRRect(
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Theme.of(context).backgroundColor,
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Theme.of(context).primaryColor,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           currentIndex: selectedIndex,

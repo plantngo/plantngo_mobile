@@ -91,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               .copyWith(
                             elevation: ButtonStyleButton.allOrNull(0.0),
                           ),
-                          child: const Text('User'),
+                          child: const Text('Customer'),
                           onPressed: () {
                             _usertypeController.text = "C";
                             setState(() {

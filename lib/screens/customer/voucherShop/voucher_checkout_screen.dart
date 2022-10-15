@@ -66,7 +66,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 30, right: 30),
+            padding: const EdgeInsets.only(bottom: 50, right: 30),
             child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               Text(
                 "Total: $total GP",
@@ -80,7 +80,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 50, left: 50, right: 50),
+            padding: const EdgeInsets.only(bottom: 50, left: 50, right: 50, top: 10),
             child: SizedBox(
               width: 300,
               height: 40,
@@ -96,6 +96,21 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                 child: const Text('Checkout'),
                 onPressed: () {
                   voucherShopProvider.purchaseVouchers(context);
+                  if (total > greenPoints!) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text('Insufficient Balance!'),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text('Purchase Successful!'),
+                      ),
+                    );
+                  }
                 },
               ),
             ),

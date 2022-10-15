@@ -61,7 +61,7 @@ class ShopService {
           response: res,
           context: context,
           onSuccess: () {
-            showSnackBar(context, res.body);
+            // showSnackBar(context, res.body);
           });
     } catch (e) {
       //to do catch exception

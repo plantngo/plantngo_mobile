@@ -26,13 +26,20 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
-          children: [
-            const Text(
-              "Merchant Home Page",
-            ),
-            Text(merchantProvider.merchant.username.toString()),
-            Text(merchantProvider.merchant.email.toString()),
-            Text(merchantProvider.merchant.company.toString()),
+          children: const [
+            // const Text(
+            //   "Merchant Home Page",
+            // ),
+            // Text(merchantProvider.merchant.username.toString()),
+            // Text(merchantProvider.merchant.email.toString()),
+            // Text(merchantProvider.merchant.company.toString()),
+            Center(
+              heightFactor: 15,
+              child: Text(
+                "Home/Orders Page",
+                style: TextStyle(fontSize: 30),
+              ),
+            )
           ],
         ),
       ),

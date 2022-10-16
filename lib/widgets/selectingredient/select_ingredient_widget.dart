@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:search_choices/search_choices.dart';
 
 class SelectIngredientWidget extends StatefulWidget {
-  SelectIngredientWidget({Key? key, required this.ingredients})
+  SelectIngredientWidget(
+      {Key? key, required this.ingredients, required this.weight, required this.selectedValueSingleDialog})
       : super(key: key);
 
   final List<DropdownMenuItem> ingredients;
-  String? selectedValueSingleDialog = '';
+  String? selectedValueSingleDialog;
+  double? weight;
   TextEditingController ingredientWeightController = TextEditingController();
 
   @override
@@ -19,6 +21,14 @@ class _SelectIngredientWidgetState extends State<SelectIngredientWidget> {
   void dispose() {
     super.dispose();
     widget.ingredientWeightController.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.ingredientWeightController.text =
+        widget.weight != null ? widget.weight.toString() : '';
   }
 
   @override

@@ -11,10 +11,7 @@ class Product {
   double? price;
   double? carbonEmission;
   String? imageUrl;
-  List<Ingredient> ingredients;
-
-  // is enabled
-  // image url
+  List<Ingredient>? ingredients;
 
   Product(
       {required this.id,

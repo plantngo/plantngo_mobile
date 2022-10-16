@@ -131,6 +131,7 @@ class MerchantService {
             "description": description,
             "carbonEmission": emission
           }));
+      print(res.body);
       httpErrorHandle(
         response: res,
         context: context,

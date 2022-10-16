@@ -47,7 +47,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
   void initState() {
     super.initState();
     listSelectIngredientWidgets = [
-      SelectIngredientWidget(ingredients: ingredients)
+      SelectIngredientWidget(
+        ingredients: ingredients,
+        selectedValueSingleDialog: null,
+        weight: 0,
+      )
     ];
     fetchAllIngredients();
   }
@@ -89,8 +93,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   void addSelectIngredientWidget() {
-    listSelectIngredientWidgets
-        .add(SelectIngredientWidget(ingredients: ingredients));
+    listSelectIngredientWidgets.add(SelectIngredientWidget(
+      ingredients: ingredients,
+      selectedValueSingleDialog: null,
+      weight: 0,
+    ));
     setState(() {});
   }
 

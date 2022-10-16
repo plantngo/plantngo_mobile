@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/providers/location_provider.dart';
+import 'package:plantngo_frontend/providers/merchant_ingredients_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => CustomerProvider()),
         ChangeNotifierProvider(create: (context) => MerchantProvider()),
+        ChangeNotifierProvider(
+            create: (context) => MerchantIngredientsProvider()),
         ChangeNotifierProvider(create: (context) => MerchantCategoryProvider()),
         ChangeNotifierProvider(create: (context) => LocationProvider()),
       ],

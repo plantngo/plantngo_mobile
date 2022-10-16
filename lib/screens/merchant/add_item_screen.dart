@@ -1,10 +1,14 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:plantngo_frontend/models/ingredient.dart';
+import 'package:plantngo_frontend/providers/merchant_ingredients_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
+import 'package:plantngo_frontend/widgets/selectingredient/select_ingredient_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:search_choices/search_choices.dart';
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({Key? key}) : super(key: key);
@@ -22,6 +26,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final TextEditingController _itemEmissionController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   List<String> categories = [];
+  List<DropdownMenuItem> ingredients = [];
+  List<SelectIngredientWidget> listSelectIngredientWidgets = [];
   var image = null;
 
   String dropdownValue = "";
@@ -38,12 +44,31 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    listSelectIngredientWidgets = [
+      SelectIngredientWidget(ingredients: ingredients)
+    ];
+    fetchAllIngredients();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _itemDescriptionController.dispose();
     _itemEmissionController.dispose();
     _itemNameController.dispose();
     _itemPriceController.dispose();
+  }
+
+  fetchAllIngredients() {
+    List<Ingredient> ingredients =
+        Provider.of<MerchantIngredientsProvider>(context, listen: false)
+            .ingredient;
+    for (var item in ingredients) {
+      this.ingredients.add(DropdownMenuItem(
+          value: item.name, child: Text(item.name.toString())));
+    }
   }
 
   Future addItem() async {
@@ -61,6 +86,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
     setState(() {
       image = res;
     });
+  }
+
+  void addSelectIngredientWidget() {
+    listSelectIngredientWidgets
+        .add(SelectIngredientWidget(ingredients: ingredients));
+    setState(() {});
   }
 
   @override
@@ -198,6 +229,22 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     }),
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    "Select Ingredients",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: listSelectIngredientWidgets.length,
+                      itemBuilder: (_, index) =>
+                          listSelectIngredientWidgets[index]),
+                  ElevatedButton(
+                      onPressed: () => {addSelectIngredientWidget()},
+                      child: const Text("+ Add Ingredient")),
                   const SizedBox(
                     height: 20,
                   ),

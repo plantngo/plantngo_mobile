@@ -13,6 +13,9 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       price: (json['price'] as num?)?.toDouble(),
       carbonEmission: (json['carbonEmission'] as num?)?.toDouble(),
       imageUrl: json['imageUrl'] as String?,
+      ingredients: (json['ingredients'] as List<dynamic>)
+          .map((e) => Ingredient.fromJSON(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
@@ -22,4 +25,5 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'price': instance.price,
       'carbonEmission': instance.carbonEmission,
       'imageUrl': instance.imageUrl,
+      'ingredients': instance.ingredients,
     };

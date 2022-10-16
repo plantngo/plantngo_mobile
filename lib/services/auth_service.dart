@@ -167,6 +167,7 @@ class AuthService {
         if (userType == "merchant") {
           merchantProvider.setMerchant(userRes.body, token);
           await MerchantService.fetchAllVouchers(context);
+          await MerchantService.fetchAllIngredients(context);
         }
       }
     } catch (e) {

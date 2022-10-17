@@ -13,13 +13,13 @@ import 'package:plantngo_frontend/utils/error_handling.dart';
 
 class AuthService {
   //signup customer and redirect to login page
-  static void signUpUser({
-    required BuildContext context,
-    required String email,
-    required String password,
-    required String username,
-    required String userType,
-  }) async {
+  static void signUpUser(
+      {required BuildContext context,
+      required String email,
+      required String password,
+      required String username,
+      required String userType,
+      required}) async {
     try {
       http.Response res = await http.post(
         Uri.parse('$uri/api/v1/register'),
@@ -56,7 +56,10 @@ class AuthService {
       required String password,
       required String username,
       required String userType,
-      required String company}) async {
+      required String company,
+      required String address,
+      required double latitude,
+      required double longitude}) async {
     try {
       http.Response res = await http.post(
         Uri.parse('$uri/api/v1/register'),
@@ -65,7 +68,10 @@ class AuthService {
           "email": email,
           "password": password,
           "userType": userType,
-          "company": company
+          "company": company,
+          "address": address,
+          "latitude": latitude,
+          "longitude": longitude
         }),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

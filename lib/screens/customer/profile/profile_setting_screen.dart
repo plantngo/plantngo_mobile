@@ -229,7 +229,10 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                                     _oldPasswordController.text,
                                     _usernameController.text,
                                     _usertypeController.text);
+                                _newPasswordController.text = "";
+                                _oldPasswordController.text = "";
                               },
+
                               child: const Text("Save Password"),
                             ),
                           ),

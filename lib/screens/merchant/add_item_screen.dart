@@ -8,7 +8,6 @@ import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:plantngo_frontend/widgets/selectingredient/select_ingredient_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:search_choices/search_choices.dart';
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({Key? key}) : super(key: key);
@@ -75,6 +74,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
   }
 
+  List<Ingredient> selectedListOfIngredients() {
+    List<Ingredient> ingredients = [];
+    for (var item in listSelectIngredientWidgets) {
+      ingredients.add(Ingredient(
+          id: null,
+          ingredientId: null,
+          category: null,
+          name: item.selectedValueSingleDialog,
+          emissionPerGram: null,
+          servingWeight: item.weight));
+    }
+    return ingredients;
+  }
+
   Future addItem() async {
     await MerchantService.addProduct(
         context: context,
@@ -82,7 +95,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
         description: _itemDescriptionController.text,
         price: double.parse(_itemPriceController.text),
         emission: double.parse(_itemEmissionController.text),
-        category: dropdownValue);
+        category: dropdownValue,
+        ingredients: selectedListOfIngredients());
   }
 
   void selectImage() async {

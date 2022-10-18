@@ -12,6 +12,7 @@ Ingredient _$IngredientFromJson(Map<String, dynamic> json) => Ingredient(
       category: json['category'] as String?,
       name: json['name'] as String?,
       emissionPerGram: (json['emissionPerGram'] as num?)?.toDouble(),
+      servingWeight: (json['servingWeight'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$IngredientToJson(Ingredient instance) =>
@@ -21,4 +22,5 @@ Map<String, dynamic> _$IngredientToJson(Ingredient instance) =>
       'name': instance.name,
       'category': instance.category,
       'emissionPerGram': instance.emissionPerGram,
+      'servingWeight': instance.servingWeight,
     };

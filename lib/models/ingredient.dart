@@ -9,14 +9,15 @@ class Ingredient {
   String? name;
   String? category;
   double? emissionPerGram;
+  double? servingWeight;
 
-  Ingredient({
-    required this.id,
-    required this.ingredientId,
-    required this.category,
-    required this.name,
-    required this.emissionPerGram,
-  });
+  Ingredient(
+      {required this.id,
+      required this.ingredientId,
+      required this.category,
+      required this.name,
+      required this.emissionPerGram,
+      required this.servingWeight});
 
   factory Ingredient.fromJSON(Map<String, dynamic> json) =>
       _$IngredientFromJson(json);

@@ -113,11 +113,20 @@ class MerchantService {
       required String description,
       required double price,
       required double emission,
-      required String category}) async {
+      required String category,
+      required List<Ingredient> ingredients}) async {
     final merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);
     String? token = await UserSecureStorage.getToken();
     try {
+      print('hi');
+      print(jsonEncode({
+        "name": name,
+        "price": price,
+        "description": description,
+        "carbonEmission": emission,
+        "ingredients": ingredients.map((e) => e.toJSON()).toList()
+      }));
       http.Response res = await http.post(
           Uri.parse(
               '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category'),
@@ -129,9 +138,10 @@ class MerchantService {
             "name": name,
             "price": price,
             "description": description,
-            "carbonEmission": emission
+            "carbonEmission": emission,
+            "ingredients": ingredients.map((e) => e.toJSON()).toList()
           }));
-      print(res.body);
+
       httpErrorHandle(
         response: res,
         context: context,
@@ -144,6 +154,7 @@ class MerchantService {
       );
     } catch (e) {
       //catch exception
+      print(e);
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:plantngo_frontend/models/ingredient.dart';
 
 part 'product.g.dart';
 
@@ -10,18 +11,16 @@ class Product {
   double? price;
   double? carbonEmission;
   String? imageUrl;
+  List<Ingredient>? ingredients;
 
-  // is enabled
-  // image url
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.carbonEmission,
-    this.imageUrl,
-  });
+  Product(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.price,
+      required this.carbonEmission,
+      this.imageUrl,
+      required this.ingredients});
 
   factory Product.fromJSON(Map<String, dynamic> json) =>
       _$ProductFromJson(json);

@@ -12,6 +12,9 @@ class LoginSignUpScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
+            SizedBox(
+              height: 100,
+            ),
             Image(image: AssetImage('assets/icon/Plant&Go.png')),
             LoginSignUpButtons(),
           ],

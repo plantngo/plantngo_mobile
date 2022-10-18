@@ -8,6 +8,7 @@ List<Product> mockProductList = [
         "Cheesy 7 meets Beyond Meat™! Made with Beyond Meat's plant based Italian Sausage Crumbles which leaves a hint of herbs and spice aroma, with capsicums, onions and mushrooms, on a bed of our signature sweet sauce and seven wondrous cheeses!",
     price: 34.90,
     carbonEmission: 30,
+    ingredients: []
     // image: "https://static.phdvasia.com/sg1/menu/single/desktop_thumbnail_0bd9658b-d8eb-438d-bc2c-fef8afa1b71e.jpg",
   ),
   Product(
@@ -17,6 +18,7 @@ List<Product> mockProductList = [
         "Cheesy 7 meets Beyond Meat™! Made with Beyond Meat's plant based Italian Sausage Crumbles which leaves a hint of herbs and spice aroma, with capsicums, onions and mushrooms, on a bed of our signature sweet sauce and seven wondrous cheeses!",
     price: 43.40,
     carbonEmission: 45,
+    ingredients: []
     // image: "https://static.phdvasia.com/sg1/menu/single/desktop_thumbnail_0bd9658b-d8eb-438d-bc2c-fef8afa1b71e.jpg",
   ),
   Product(
@@ -26,6 +28,7 @@ List<Product> mockProductList = [
         "Cheesy 7 meets Beyond Meat™! Made with Beyond Meat's plant based Italian Sausage Crumbles which leaves a hint of herbs and spice aroma, with capsicums, onions and mushrooms, on a bed of our signature sweet sauce and seven wondrous cheeses!",
     price: 40.90,
     carbonEmission: 40,
+    ingredients: []
     // image: "https://static.phdvasia.com/sg1/menu/single/desktop_thumbnail_0bd9658b-d8eb-438d-bc2c-fef8afa1b71e.jpg",
   )
 ];

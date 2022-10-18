@@ -4,6 +4,7 @@ class UserSecureStorage {
   static const _storage = FlutterSecureStorage();
 
   static const _token = 'token';
+  static String? authority;
 
   static void setToken(String token) async {
     await _storage.write(key: _token, value: token);

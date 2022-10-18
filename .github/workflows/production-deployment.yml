@@ -2,7 +2,7 @@ name: Production Deployment
 on: [push]
 
 jobs:
- build:
+  android_build:
    runs-on: ubuntu-latest
    steps:
     - uses: actions/checkout@v3
@@ -16,3 +16,14 @@ jobs:
     - run: flutter pub get
     - run: flutter build apk
     - run: flutter build appbundle
+  ios_build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+        architecture: x64
+    - run: flutter pub get
+    - run: flutter test
+    - run: flutter build ios --release --no-codesign

@@ -4,7 +4,10 @@ import 'package:search_choices/search_choices.dart';
 
 class SelectIngredientWidget extends StatefulWidget {
   SelectIngredientWidget(
-      {Key? key, required this.ingredients, required this.weight, required this.selectedValueSingleDialog})
+      {Key? key,
+      required this.ingredients,
+      required this.weight,
+      required this.selectedValueSingleDialog})
       : super(key: key);
 
   final List<DropdownMenuItem> ingredients;
@@ -36,41 +39,44 @@ class _SelectIngredientWidgetState extends State<SelectIngredientWidget> {
     int number = 0;
     return Row(
       children: [
-        SizedBox(
-          width: 250,
-          child: SearchChoices.single(
-            items: widget.ingredients,
-            value: widget.selectedValueSingleDialog,
-            hint: "Select one",
-            searchHint: "Select one",
-            onChanged: (value) {
-              setState(() {
-                widget.selectedValueSingleDialog = value;
-              });
-            },
-            isExpanded: true,
+        Expanded(
+          flex: 5,
+          child: SizedBox(
+            child: SearchChoices.single(
+              items: widget.ingredients,
+              value: widget.selectedValueSingleDialog,
+              hint: "Select one",
+              searchHint: "Select one",
+              onChanged: (value) {
+                setState(() {
+                  widget.selectedValueSingleDialog = value;
+                });
+              },
+              isExpanded: true,
+            ),
           ),
         ),
         const Spacer(),
-        SizedBox(
-          width: 110,
-          height: 50,
-          child: TextFormField(
-            controller: widget.ingredientWeightController,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              filled: true,
-              labelText: "Weight(g)",
-            ),
-            validator: ((value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a weight';
-              }
-              return null;
-            }),
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          ),
-        )
+        Expanded(
+            flex: 2,
+            child: SizedBox(
+              height: 50,
+              child: TextFormField(
+                controller: widget.ingredientWeightController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  filled: true,
+                  labelText: "Weight(g)",
+                ),
+                validator: ((value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a weight';
+                  }
+                  return null;
+                }),
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              ),
+            ))
       ],
     );
   }

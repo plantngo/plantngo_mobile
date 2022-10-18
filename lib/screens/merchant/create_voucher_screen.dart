@@ -62,159 +62,168 @@ class _CreateVoucherScreenState extends State<CreateVoucherScreen> {
       appBar: AppBar(
         title: const Text("Create Voucher"),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                const Text("Choose type",
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 10),
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Expanded(
-                    flex: 3,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                                foregroundColor: _isFlatDiscount
-                                    ? Colors.white
-                                    : Colors.grey[400],
-                                backgroundColor: _isFlatDiscount
-                                    ? Colors.green
-                                    : Colors.grey[200])
-                            .copyWith(
-                          elevation: ButtonStyleButton.allOrNull(0.0),
-                        ),
-                        child: const Text('Flat Discount'),
-                        onPressed: () {
-                          _voucherTypeController.text = "F";
-                          setState(() {
-                            _isFlatDiscount = true;
-                          });
-                        }),
-                  ),
-                  const Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      height: 0,
+      body: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const Text("Choose type",
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Expanded(
+                      flex: 3,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                                  foregroundColor: _isFlatDiscount
+                                      ? Colors.white
+                                      : Colors.grey[400],
+                                  backgroundColor: _isFlatDiscount
+                                      ? Colors.green
+                                      : Colors.grey[200])
+                              .copyWith(
+                            elevation: ButtonStyleButton.allOrNull(0.0),
+                          ),
+                          child: const Text('Flat Discount'),
+                          onPressed: () {
+                            _voucherTypeController.text = "F";
+                            setState(() {
+                              _isFlatDiscount = true;
+                            });
+                          }),
+                    ),
+                    const Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        height: 0,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                                  foregroundColor: !_isFlatDiscount
+                                      ? Colors.white
+                                      : Colors.grey[400],
+                                  backgroundColor: !_isFlatDiscount
+                                      ? Colors.green
+                                      : Colors.grey[200])
+                              .copyWith(
+                            elevation: ButtonStyleButton.allOrNull(0.0),
+                          ),
+                          child: const Text('% Discount'),
+                          onPressed: () {
+                            setState(() {
+                              _voucherTypeController.text = "P";
+                              _isFlatDiscount = false;
+                            });
+                          }),
+                    ),
+                  ]),
+                  const SizedBox(height: 20),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    height: 100,
+                    child: TextFormField(
+                      controller: _voucherValueController,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}'))
+                      ],
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      decoration: const InputDecoration(
+                          filled: true,
+                          labelText: "Voucher Value in Green Points"),
+                      validator: ((value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a voucher value';
+                        }
+                        return null;
+                      }),
                     ),
                   ),
-                  Expanded(
-                    flex: 3,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                                foregroundColor: !_isFlatDiscount
-                                    ? Colors.white
-                                    : Colors.grey[400],
-                                backgroundColor: !_isFlatDiscount
-                                    ? Colors.green
-                                    : Colors.grey[200])
-                            .copyWith(
-                          elevation: ButtonStyleButton.allOrNull(0.0),
+                  _isFlatDiscount
+                      ? Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          height: 100,
+                          child: TextFormField(
+                            controller: _voucherDiscountController,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d+\.?\d{0,2}'))
+                            ],
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true),
+                            decoration: const InputDecoration(
+                                filled: true, labelText: "Voucher Discount \$"),
+                            validator: ((value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter a voucher discount value';
+                              }
+                              return null;
+                            }),
+                          ),
+                        )
+                      : Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          height: 100,
+                          child: Column(
+                            children: [
+                              const Text("Select Discount %"),
+                              DropdownButton<double>(
+                                value: dropdownValue,
+                                items: discountValues
+                                    .map<DropdownMenuItem<double>>(
+                                        (double value) {
+                                  return DropdownMenuItem<double>(
+                                    value: value,
+                                    child: Text('${(value * 100).toInt()}%'),
+                                  );
+                                }).toList(),
+                                onChanged: ((double? value) => setState(() {
+                                      dropdownValue = value!;
+                                    })),
+                                isExpanded: true,
+                              ),
+                            ],
+                          ),
                         ),
-                        child: const Text('% Discount'),
-                        onPressed: () {
-                          setState(() {
-                            _voucherTypeController.text = "P";
-                            _isFlatDiscount = false;
-                          });
-                        }),
-                  ),
-                ]),
-                const SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  height: 100,
-                  child: TextFormField(
-                    controller: _voucherValueController,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,2}'))
-                    ],
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
+                  TextFormField(
+                    controller: _voucherDescriptionController,
+                    keyboardType: TextInputType.text,
+                    maxLines: 4,
                     decoration: const InputDecoration(
                         filled: true,
-                        labelText: "Voucher Value in Green Points"),
+                        labelText: "Voucher Description",
+                        hintText: "Enter a description"),
                     validator: ((value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a voucher value';
+                        return 'Please enter a description';
                       }
                       return null;
                     }),
                   ),
-                ),
-                _isFlatDiscount
-                    ? Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        height: 100,
-                        child: TextFormField(
-                          controller: _voucherDiscountController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^\d+\.?\d{0,2}'))
-                          ],
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          decoration: const InputDecoration(
-                              filled: true, labelText: "Voucher Discount \$"),
-                          validator: ((value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a voucher discount value';
-                            }
-                            return null;
-                          }),
-                        ),
-                      )
-                    : Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        height: 100,
-                        child: Column(
-                          children: [
-                            const Text("Select Discount %"),
-                            DropdownButton<double>(
-                              value: dropdownValue,
-                              items: discountValues
-                                  .map<DropdownMenuItem<double>>(
-                                      (double value) {
-                                return DropdownMenuItem<double>(
-                                  value: value,
-                                  child: Text('${(value * 100).toInt()}%'),
-                                );
-                              }).toList(),
-                              onChanged: ((double? value) => setState(() {
-                                    dropdownValue = value!;
-                                  })),
-                              isExpanded: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                TextFormField(
-                  controller: _voucherDescriptionController,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 4,
-                  decoration: const InputDecoration(
-                      filled: true,
-                      labelText: "Voucher Description",
-                      hintText: "Enter a description"),
-                  validator: ((value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a description';
-                    }
-                    return null;
-                  }),
-                ),
-              ],
-            )),
+                ],
+              )),
+        ),
       ),
       bottomNavigationBar: SizedBox(
         height: 115,

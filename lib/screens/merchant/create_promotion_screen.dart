@@ -112,7 +112,7 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
                 ),
                 TextFormField(
                   controller: _promotionDescriptionController,
-                  keyboardType: TextInputType.multiline,
+                  keyboardType: TextInputType.text,
                   maxLines: 4,
                   decoration: const InputDecoration(
                       filled: true,
@@ -170,9 +170,9 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
                         return Theme(
                           data: Theme.of(context).copyWith(
                             colorScheme: const ColorScheme.light(
-                              primary: Colors.green, // <-- SEE HERE
-                              onPrimary: Colors.black, // <-- SEE HERE
-                              onSurface: Colors.green, // <-- SEE HERE
+                              primary: Colors.green,
+                              onPrimary: Colors.black,
+                              onSurface: Colors.green,
                             ),
                           ),
                           child: child!,

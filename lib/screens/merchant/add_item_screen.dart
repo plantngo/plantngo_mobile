@@ -187,7 +187,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ),
                   TextFormField(
                     controller: _itemDescriptionController,
-                    keyboardType: TextInputType.multiline,
+                    keyboardType: TextInputType.text,
                     maxLines: 4,
                     decoration: const InputDecoration(
                         filled: true,

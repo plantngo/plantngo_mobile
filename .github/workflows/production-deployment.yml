@@ -1,10 +1,15 @@
 name: Production Deployment
-on: [push]
+
+on:
+  push:
+    branches:
+      - "main"
+
 
 jobs:
-  android_build:
-   runs-on: ubuntu-latest
-   steps:
+  android_ios_build:
+    runs-on: macos-latest
+    steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-java@v2
       with:
@@ -14,15 +19,10 @@ jobs:
       with:
         flutter-version: '3.3.4'
     - run: flutter pub get
+      # build android
     - run: flutter build apk
     - run: flutter build appbundle
-  ios_build:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: subosito/flutter-action@v2
-      with:
-        channel: 'stable'
-        architecture: x64
-    - run: flutter pub get
-    - run: flutter build ios --release --no-codesign
+      # build ios
+    - run: flutter build ipa --release --no-codesign
+
+    

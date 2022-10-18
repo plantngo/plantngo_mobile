@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../models/voucher.dart';
+import '../providers/customer_provider.dart';
 import '../utils/error_handling.dart';
 import '../utils/global_variables.dart';
 import '../utils/user_secure_storage.dart';
@@ -36,7 +38,8 @@ class CustomerService {
     }
   }
 
-  static void removeVoucherFromCart(BuildContext context, Voucher voucher) async {
+  static void removeVoucherFromCart(
+      BuildContext context, Voucher voucher) async {
     String? token = await UserSecureStorage.getToken();
     Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
     String username = payload['sub'];
@@ -62,7 +65,8 @@ class CustomerService {
     }
   }
 
-  static Future<List<Voucher>> fetchAllVouchersInCart(BuildContext context) async {
+  static Future<List<Voucher>> fetchAllVouchersInCart(
+      BuildContext context) async {
     String? token = await UserSecureStorage.getToken();
     Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
     String username = payload['sub'];
@@ -85,5 +89,41 @@ class CustomerService {
       //to do catch exception
     }
     return vouchers;
+  }
+
+  static void changePassword(
+    BuildContext context,
+    String newPassword,
+    String password,
+    String username,
+    String userType,
+  ) async {
+    try {
+      http.Response res = await http.put(
+        Uri.parse('$uri/api/v1/edit-profile/password'),
+        body: jsonEncode({
+          "newUserName": null,
+          "newPassword": newPassword,
+          "username": username,
+          "password": password,
+          "userType": userType,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            'Change Unsuccessful!',
+          );
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
   }
 }

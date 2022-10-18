@@ -1,34 +1,60 @@
 name: Production Release
 
+# on create of tags
 on: 
   push:
     tags:
     - '*'
 
 jobs:
-  android_ios_build:
+  ios_build:
     runs-on: macos-latest
+    #permissions for release 
     permissions:
       contents: write
+    
+    # use checkout action
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'zulu'
-        java-version: '17'
+
+    # use flutter action
     - uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.3.4'
     - run: flutter pub get
-      # build android
-    - run: flutter build apk
-    - run: flutter build appbundle
-    #   # build ios
-    # - run: flutter build ipa 
-    - uses: ncipollo/release-action@v1
+    - run: flutter build ipa 
+  
+
+jobs:
+  android_build: 
+    runs-on: ubuntu-latest
+      # permissions for release 
+      permissions:
+        contents: write
+
+      steps:
+      # use checkout action
+      - uses: actions/checkout@v3
+      
+      # use java action
+      - uses: actions/setup-java@v2
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+      
+      # user flutter action
+      - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.3.4'
+      - run: flutter pub get
+      - run: flutter build apk
+      - run: flutter build appbundle
+
+      # use release action to create release
+      - uses: ncipollo/release-action@v1
       with:
         body: "Release from Github Actions"
         artifacts: "build/app/outputs/flutter-apk/app-release.apk"
-        token: ${{ secrets.YOUR_GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     

@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>custom message</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>custom message</string>
 	<key>CFBundleDisplayName</key>
 	<string>Plantngo Frontend</string>
 	<key>CFBundleExecutable</key>

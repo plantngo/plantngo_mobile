@@ -128,11 +128,13 @@ class MerchantSearchDelegate extends SearchDelegate {
       child: FutureBuilder<List<MerchantSearch>>(
         future: futureMerchantSearchList,
         builder: (context, snapshot) {
+          print(snapshot!);
           if (snapshot.hasError) {
             return const Center(
               child: Text("Failed to load page"),
             );
           } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {

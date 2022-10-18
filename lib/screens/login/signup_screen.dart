@@ -152,7 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: TextFormField(
                       controller: _usernameController,
                       decoration: const InputDecoration(
-                          filled: true, labelText: "username"),
+                          filled: true, labelText: "Username"),
                       validator: ((value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your username';

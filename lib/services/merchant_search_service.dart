@@ -27,8 +27,14 @@ class MerchantSearchService {
         },
       );
       if (res.statusCode == 200) {
+        
         for (int i = 0; i < jsonDecode(res.body).length; i++) {
+          print(jsonDecode(res.body)[i]);
+          if (jsonDecode(res.body)[i]["operatingHours"] != null){
+
+          
           MerchantSearch e = MerchantSearch.fromJSON(jsonDecode(res.body)[i]);
+          print(e.toString());
           if (e.company.toLowerCase().trim().contains(query.toLowerCase()) ||
               e.cuisineType
                   .toLowerCase()
@@ -39,6 +45,7 @@ class MerchantSearchService {
               e.longtitude,
             );
             merchant.add(e);
+          }
           }
         }
         merchant.sort(((a, b) {

@@ -45,4 +45,9 @@ class Merchant {
       _$MerchantFromJson(json);
 
   Map<String, dynamic> toJSON() => _$MerchantToJson(this);
+
+  @override
+  String toString() {
+    return toJSON().toString();
+  }
 }

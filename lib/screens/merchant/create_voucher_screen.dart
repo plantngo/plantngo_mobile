@@ -204,7 +204,7 @@ class _CreateVoucherScreenState extends State<CreateVoucherScreen> {
                   maxLines: 4,
                   decoration: const InputDecoration(
                       filled: true,
-                      labelText: "Voucher Discription",
+                      labelText: "Voucher Description",
                       hintText: "Enter a description"),
                   validator: ((value) {
                     if (value == null || value.isEmpty) {

@@ -1,14 +1,24 @@
 name: Production Deployment
 
-on:
+on: 
   push:
-    branches:
-      - "main"
+    tags:
+    - '*'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
 
 
 jobs:
   android_ios_build:
     runs-on: macos-latest
+    permissions:
+      contents: write
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-java@v2
@@ -23,6 +33,11 @@ jobs:
     - run: flutter build apk
     - run: flutter build appbundle
       # build ios
-    - run: flutter build ipa --release --no-codesign
+    - run: flutter build ipa
+    - uses: ncipollo/release-action@v1
+      with:
+        body: "Release from Github Actions"
+        artifacts: "build/app/outputs/flutter-apk/app-release.apk"
+        token: ${{ secrets.YOUR_GITHUB_TOKEN }}
 
     

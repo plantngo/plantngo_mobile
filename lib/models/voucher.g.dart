@@ -12,7 +12,7 @@ Voucher _$VoucherFromJson(Map<String, dynamic> json) => Voucher(
       value: json['value'] as int,
       discount: (json['discount'] as num?)?.toDouble(),
       type: json['type'] as String?,
-      merchantId: json['merchantId'] as int,
+      merchantId: json['merchantId'] as int?,
     )..name = json['name'] as String?;
 
 Map<String, dynamic> _$VoucherToJson(Voucher instance) => <String, dynamic>{

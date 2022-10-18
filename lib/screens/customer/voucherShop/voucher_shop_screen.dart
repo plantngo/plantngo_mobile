@@ -27,11 +27,7 @@ class _VoucherShopState extends State<VoucherShop> {
     var voucherShopProvider =
         Provider.of<VoucherShopProvider>(context, listen: true);
 
-    for (Voucher voucher in customerProvider.customer.vouchersCart) {
-      if (voucherShopProvider.vouchers.contains(voucher)) {
-        voucherShopProvider.vouchers.remove(voucher);
-      }
-    }
+    removeVouchers(customerProvider, voucherShopProvider);
 
     var greenPoints = (customerProvider.customer.greenPoints == null)
         ? 0
@@ -94,6 +90,20 @@ class _VoucherShopState extends State<VoucherShop> {
         ),
       ),
     );
+  }
+
+  removeVouchers(var customerProvider, var voucherShopProvider) {
+    for (Voucher voucher in customerProvider.customer.vouchersCart) {
+      if (voucherShopProvider.vouchers.contains(voucher)) {
+        voucherShopProvider.vouchers.remove(voucher);
+      }
+    }
+
+    for (Voucher voucher in customerProvider.customer.ownedVouchers) {
+      if (voucherShopProvider.vouchers.contains(voucher)) {
+        voucherShopProvider.vouchers.remove(voucher);
+      }
+    }
   }
 
   renderVouchers() {

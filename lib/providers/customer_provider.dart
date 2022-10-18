@@ -62,4 +62,9 @@ class CustomerProvider extends ChangeNotifier {
     customer.vouchersCart.remove(v);
     notifyListeners();
   }
+
+  void emptyCart(){
+    customer.vouchersCart = [];
+    notifyListeners();
+  }
 }

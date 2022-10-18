@@ -56,6 +56,7 @@ class ShopService {
         for (Voucher v in cart) {
           customerProvider.customer.ownedVouchers.add(v);
         }
+        customerProvider.emptyCart();
       }
       httpErrorHandle(
           response: res,

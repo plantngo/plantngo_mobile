@@ -104,6 +104,8 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                       ),
                     );
                   } else {
+                    customerProvider.emptyCart();
+                    customerProvider.customer.greenPoints = greenPoints - total;
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         backgroundColor: Colors.green,

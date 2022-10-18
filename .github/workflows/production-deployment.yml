@@ -1,18 +1,9 @@
-name: Production Deployment
+name: Production Release
 
 on: 
   push:
     tags:
     - '*'
-
-jobs:
-
-  build:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v2
-
 
 jobs:
   android_ios_build:
@@ -32,8 +23,8 @@ jobs:
       # build android
     - run: flutter build apk
     - run: flutter build appbundle
-      # build ios
-    - run: flutter build ipa
+    #   # build ios
+    # - run: flutter build ipa 
     - uses: ncipollo/release-action@v1
       with:
         body: "Release from Github Actions"

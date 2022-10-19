@@ -68,9 +68,4 @@ class CustomerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changePassword(BuildContext context, String newPassword, String password,
-      String username, String userType) {
-    CustomerService.changePassword(
-        context, newPassword, password, username, userType);
-  }
 }

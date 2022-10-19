@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:plantngo_frontend/models/category.dart';
+import 'package:plantngo_frontend/models/promotion.dart';
 import 'package:plantngo_frontend/models/voucher.dart';
 
 part "merchant.g.dart";
@@ -13,6 +14,7 @@ class Merchant {
   String token;
   List<Category>? categories;
   List<Voucher>? vouchers;
+  List<Promotion>? promotions;
   String? logoUrl;
   String? bannerUrl;
   String? address;
@@ -39,7 +41,8 @@ class Merchant {
       required this.longtitude,
       required this.cuisineType,
       required this.priceRating,
-      required this.operatingHours});
+      required this.operatingHours,
+      required this.promotions});
 
   factory Merchant.fromJSON(Map<String, dynamic> json) =>
       _$MerchantFromJson(json);

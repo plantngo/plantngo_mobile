@@ -13,7 +13,6 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
   @override
   Widget build(BuildContext context) {
     var merchantProvider = Provider.of<MerchantProvider>(context, listen: true);
-    print(merchantProvider.merchant.username.toString());
 
     return Scaffold(
       appBar: AppBar(

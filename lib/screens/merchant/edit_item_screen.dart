@@ -6,6 +6,7 @@ import 'package:plantngo_frontend/providers/merchant_ingredients_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
+import 'package:plantngo_frontend/services/product_service.dart';
 import 'package:plantngo_frontend/widgets/selectingredient/select_ingredient_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -16,13 +17,15 @@ class EditItemScreen extends StatefulWidget {
       required this.description,
       required this.price,
       required this.carbonEmission,
-      required this.category});
+      required this.category,
+      required this.ingredients});
 
   String name;
   String description;
   double price;
   double carbonEmission;
   String category;
+  List<Ingredient> ingredients;
 
   static const routeName = "/edititem";
 
@@ -54,14 +57,21 @@ class _EditItemScreenState extends State<EditItemScreen> {
     _itemEmissionController.text = widget.carbonEmission.toString();
     dropdownValue = widget.category;
     //todo:need to change this to item clicked
-    listSelectIngredientWidgets = [
-      SelectIngredientWidget(
-        ingredients: ingredients,
-        selectedValueSingleDialog: 'beef',
-        weight: 30,
-      ),
-    ];
+    //todo
     fetchAllIngredients();
+
+    widget.ingredients
+        .map((e) => listSelectIngredientWidgets.add(SelectIngredientWidget(
+            ingredients: ingredients,
+            weight: e.servingQty,
+            selectedValueSingleDialog: e.name,
+            deleteIngredient: deleteIngredient)))
+        .toList();
+  }
+
+  void deleteIngredient(SelectIngredientWidget ingredient) {
+    listSelectIngredientWidgets.remove(ingredient);
+    setState(() {});
   }
 
   @override
@@ -92,6 +102,17 @@ class _EditItemScreenState extends State<EditItemScreen> {
         price: double.parse(_itemPriceController.text),
         emission: double.parse(_itemEmissionController.text),
         category: dropdownValue);
+
+    await ProductService.deleteAllIngredients(
+        productName: _itemNameController.text, context: context);
+
+    for (var item in listSelectIngredientWidgets) {
+      await ProductService.addIngredient(
+          productName: _itemNameController.text,
+          ingredientName: item.selectedValueSingleDialog!,
+          servingWeight: double.parse(item.ingredientWeightController.text),
+          context: context);
+    }
   }
 
   Future deleteItem() async {
@@ -121,6 +142,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       ingredients: ingredients,
       selectedValueSingleDialog: null,
       weight: null,
+      deleteIngredient: deleteIngredient,
     ));
     setState(() {});
   }

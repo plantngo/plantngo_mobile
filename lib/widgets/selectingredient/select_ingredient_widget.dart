@@ -4,12 +4,17 @@ import 'package:search_choices/search_choices.dart';
 
 class SelectIngredientWidget extends StatefulWidget {
   SelectIngredientWidget(
-      {Key? key, required this.ingredients, required this.weight, required this.selectedValueSingleDialog})
+      {Key? key,
+      required this.ingredients,
+      required this.weight,
+      required this.selectedValueSingleDialog,
+      required this.deleteIngredient})
       : super(key: key);
 
   final List<DropdownMenuItem> ingredients;
   String? selectedValueSingleDialog;
   double? weight;
+  final Function(SelectIngredientWidget) deleteIngredient;
   TextEditingController ingredientWeightController = TextEditingController();
 
   @override
@@ -17,12 +22,6 @@ class SelectIngredientWidget extends StatefulWidget {
 }
 
 class _SelectIngredientWidgetState extends State<SelectIngredientWidget> {
-  @override
-  void dispose() {
-    super.dispose();
-    widget.ingredientWeightController.dispose();
-  }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -36,41 +35,50 @@ class _SelectIngredientWidgetState extends State<SelectIngredientWidget> {
     int number = 0;
     return Row(
       children: [
-        SizedBox(
-          width: 250,
-          child: SearchChoices.single(
-            items: widget.ingredients,
-            value: widget.selectedValueSingleDialog,
-            hint: "Select one",
-            searchHint: "Select one",
-            onChanged: (value) {
-              setState(() {
-                widget.selectedValueSingleDialog = value;
-              });
-            },
-            isExpanded: true,
+        Expanded(
+          flex: 4,
+          child: SizedBox(
+            child: SearchChoices.single(
+              items: widget.ingredients,
+              value: widget.selectedValueSingleDialog,
+              hint: "Select one",
+              searchHint: "Select one",
+              onChanged: (value) {
+                setState(() {
+                  widget.selectedValueSingleDialog = value;
+                });
+              },
+              isExpanded: true,
+            ),
           ),
         ),
-        const Spacer(),
-        SizedBox(
-          width: 110,
-          height: 50,
-          child: TextFormField(
-            controller: widget.ingredientWeightController,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              filled: true,
-              labelText: "Weight(g)",
-            ),
-            validator: ((value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a weight';
-              }
-              return null;
-            }),
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          ),
-        )
+        Expanded(
+            flex: 2,
+            child: SizedBox(
+              height: 50,
+              child: TextFormField(
+                controller: widget.ingredientWeightController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  filled: true,
+                  labelText: "Weight(g)",
+                ),
+                validator: ((value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a weight';
+                  }
+                  return null;
+                }),
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              ),
+            )),
+        Expanded(
+            flex: 1,
+            child: IconButton(
+                onPressed: () {
+                  widget.deleteIngredient(widget);
+                },
+                icon: const Icon(Icons.delete))),
       ],
     );
   }

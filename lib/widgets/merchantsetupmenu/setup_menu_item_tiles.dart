@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/models/ingredient.dart';
 import 'package:plantngo_frontend/screens/merchant/edit_category_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/edit_item_screen.dart';
+import 'package:plantngo_frontend/services/product_service.dart';
 
 class SetupMenuItemTile extends StatefulWidget {
   const SetupMenuItemTile({
@@ -33,7 +35,10 @@ class _SetupMenuItemTileState extends State<SetupMenuItemTile> {
             ],
           ),
           trailing: TextButton(
-              onPressed: () {
+              onPressed: () async {
+                List<Ingredient> ingredients =
+                    await ProductService.getAllIngredientsByMerchantAndProduct(
+                        context: context, productName: item.name);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -43,6 +48,7 @@ class _SetupMenuItemTileState extends State<SetupMenuItemTile> {
                         description: item.description,
                         carbonEmission: item.carbonEmission,
                         category: widget.categoryName,
+                        ingredients: ingredients,
                       ),
                     ));
               },

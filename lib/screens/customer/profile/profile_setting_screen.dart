@@ -1,12 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
-import 'package:jwt_decode/jwt_decode.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/services/user_service.dart';
 import 'package:provider/provider.dart';
-
-import '../../../utils/user_secure_storage.dart';
 
 class CustomerSettingScreen extends StatefulWidget {
   const CustomerSettingScreen({super.key});
@@ -47,13 +45,14 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
     var customerProvider = Provider.of<CustomerProvider>(context, listen: true);
     var merchantProvider = Provider.of<MerchantProvider>(context, listen: true);
     _emailController.text = customerProvider.customer.email!;
-    _usernameController.text = customerProvider.customer.username!;
+    String username = customerProvider.customer.username!;
+    _usernameController.text = username;
 
     if (customerProvider.customer.id == null) {
       _usertypeController.text = "M";
       _usernameController.text = merchantProvider.merchant.username!;
     }
-    
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -139,7 +138,23 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                               style: TextButton.styleFrom(
                                   backgroundColor: Colors.greenAccent,
                                   foregroundColor: Colors.grey[900]),
-                              onPressed: () {},
+                              onPressed: () {
+                                if (_usertypeController.text == "C") {
+                                  UserService.updateCustomerDetails(
+                                    context,
+                                    username,
+                                    _usernameController.text,
+                                    _emailController.text,
+                                  );
+                                } else if (_usertypeController.text == "M") {
+                                  UserService.updateMerchantDetails(
+                                      context,
+                                      username,
+                                      _usernameController.text,
+                                      _emailController.text,
+                                      _companyController.text);
+                                }
+                              },
                               child: const Text("Save Details"),
                             ),
                           ),
@@ -223,12 +238,14 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                                   backgroundColor: Colors.greenAccent,
                                   foregroundColor: Colors.black),
                               onPressed: () {
-                                customerProvider.changePassword(
+                                UserService.changePassword(
                                     context,
                                     _newPasswordController.text,
                                     _oldPasswordController.text,
                                     _usernameController.text,
                                     _usertypeController.text);
+                                _newPasswordController.text = "";
+                                _oldPasswordController.text = "";
                               },
                               child: const Text("Save Password"),
                             ),

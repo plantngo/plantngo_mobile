@@ -43,32 +43,38 @@ class _VoucherShopState extends State<VoucherShop> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Green Points: $greenPoints",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          Expanded(
+            flex:1,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Green Points: $greenPoints",
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Expanded(
+            flex:20,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    Column(
-                      children: renderVouchers(),
-                    ),
-                  ],
+                child: Expanded(
+                  child: Column(
+                    children: [
+                      Column(
+                        children: renderVouchers(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

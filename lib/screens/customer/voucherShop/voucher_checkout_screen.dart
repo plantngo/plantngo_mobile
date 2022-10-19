@@ -65,55 +65,60 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 50, right: 30),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Text(
-                "Total: $total GP",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-            ]),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(30),
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Text(
+                  "Total: $total GP",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+              ]),
+            ),
           ),
         ],
       ),
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 50, left: 50, right: 50, top: 10),
-            child: SizedBox(
-              width: 300,
-              height: 40,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                ).copyWith(
-                  elevation: ButtonStyleButton.allOrNull(0.0),
+          Expanded(
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(bottom: 50, left: 50, right: 50, top: 10),
+              child: SizedBox(
+                width: 300,
+                height: 40,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                  ).copyWith(
+                    elevation: ButtonStyleButton.allOrNull(0.0),
+                  ),
+                  child: const Text('Checkout'),
+                  onPressed: () {
+                    voucherShopProvider.purchaseVouchers(context);
+                    if (total > greenPoints!) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text('Insufficient Balance!'),
+                        ),
+                      );
+                    } else {
+                      customerProvider.emptyCart();
+                      customerProvider.customer.greenPoints = greenPoints - total;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: Colors.green,
+                          content: Text('Purchase Successful!'),
+                        ),
+                      );
+                    }
+                  },
                 ),
-                child: const Text('Checkout'),
-                onPressed: () {
-                  voucherShopProvider.purchaseVouchers(context);
-                  if (total > greenPoints!) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        backgroundColor: Colors.red,
-                        content: Text('Insufficient Balance!'),
-                      ),
-                    );
-                  } else {
-                    customerProvider.emptyCart();
-                    customerProvider.customer.greenPoints = greenPoints - total;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text('Purchase Successful!'),
-                      ),
-                    );
-                  }
-                },
               ),
             ),
           ),

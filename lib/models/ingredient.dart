@@ -5,19 +5,13 @@ part "ingredient.g.dart";
 @JsonSerializable()
 class Ingredient {
   int? id;
-  String? ingredientId;
   String? name;
-  String? category;
-  double? emissionPerGram;
-  double? servingWeight;
+  double? servingQty;
 
   Ingredient(
       {required this.id,
-      required this.ingredientId,
-      required this.category,
       required this.name,
-      required this.emissionPerGram,
-      required this.servingWeight});
+      required this.servingQty});
 
   factory Ingredient.fromJSON(Map<String, dynamic> json) =>
       _$IngredientFromJson(json);

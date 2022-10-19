@@ -7,12 +7,14 @@ class SelectIngredientWidget extends StatefulWidget {
       {Key? key,
       required this.ingredients,
       required this.weight,
-      required this.selectedValueSingleDialog})
+      required this.selectedValueSingleDialog,
+      required this.deleteIngredient})
       : super(key: key);
 
   final List<DropdownMenuItem> ingredients;
   String? selectedValueSingleDialog;
   double? weight;
+  final Function(SelectIngredientWidget) deleteIngredient;
   TextEditingController ingredientWeightController = TextEditingController();
 
   @override
@@ -20,12 +22,6 @@ class SelectIngredientWidget extends StatefulWidget {
 }
 
 class _SelectIngredientWidgetState extends State<SelectIngredientWidget> {
-  @override
-  void dispose() {
-    super.dispose();
-    widget.ingredientWeightController.dispose();
-  }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -40,7 +36,7 @@ class _SelectIngredientWidgetState extends State<SelectIngredientWidget> {
     return Row(
       children: [
         Expanded(
-          flex: 5,
+          flex: 4,
           child: SizedBox(
             child: SearchChoices.single(
               items: widget.ingredients,
@@ -56,7 +52,6 @@ class _SelectIngredientWidgetState extends State<SelectIngredientWidget> {
             ),
           ),
         ),
-        const Spacer(),
         Expanded(
             flex: 2,
             child: SizedBox(
@@ -76,7 +71,14 @@ class _SelectIngredientWidgetState extends State<SelectIngredientWidget> {
                 }),
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
-            ))
+            )),
+        Expanded(
+            flex: 1,
+            child: IconButton(
+                onPressed: () {
+                  widget.deleteIngredient(widget);
+                },
+                icon: const Icon(Icons.delete))),
       ],
     );
   }

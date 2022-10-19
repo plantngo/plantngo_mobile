@@ -19,6 +19,7 @@ void main() {
     ChangeNotifierProvider(create: (context) => LocationProvider()),
     ChangeNotifierProvider(create: (context) => VoucherShopProvider()),
     ChangeNotifierProvider(create: (context) => PromotionProvider()),
+    ChangeNotifierProvider(create: (context) => MerchantIngredientsProvider()),
   ], child: const MyApp()));
 }
 

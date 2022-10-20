@@ -152,7 +152,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: TextFormField(
                       controller: _usernameController,
                       decoration: const InputDecoration(
-                          filled: true, labelText: "Username"),
+                        fillColor: Colors.white,
+                        filled: true,
+                        labelText: "Username",
+                      ),
                       validator: ((value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your username';
@@ -170,7 +173,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: TextFormField(
                       controller: _emailController,
                       decoration: const InputDecoration(
-                          filled: true, labelText: "Email"),
+                        fillColor: Colors.white,
+                        filled: true,
+                        labelText: "Email",
+                      ),
                       validator: ((value) {
                         if (value == null ||
                             value.isEmpty ||
@@ -191,13 +197,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextFormField(
                             controller: _companyController,
                             decoration: const InputDecoration(
-                                filled: true, labelText: "Company"),
+                                fillColor: Colors.white,
+                                filled: true,
+                                labelText: "Company"),
                           ),
                           const SizedBox(height: 40),
                           TextFormField(
                             controller: _addressController,
                             decoration: const InputDecoration(
-                                filled: true, labelText: "Address"),
+                              fillColor: Colors.white,
+                              filled: true,
+                              labelText: "Address",
+                            ),
                           ),
                         ],
                       ),
@@ -211,6 +222,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: TextFormField(
                       controller: _passwordController,
                       decoration: InputDecoration(
+                        fillColor: Colors.white,
                         filled: true,
                         labelText: 'Password',
                         suffixIcon: IconButton(
@@ -233,6 +245,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       obscureText: _isObscure,
                     ),
                   ),
+                  const SizedBox(height: 10),
                   FlutterPwValidator(
                     controller: _passwordController,
                     minLength: 8,
@@ -252,7 +265,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       });
                     },
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   SizedBox(
                     width: 350,
                     height: 50,
@@ -274,6 +287,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           }
                         }),
                   ),
+                  const SizedBox(height:20),
                 ],
               ),
             ),

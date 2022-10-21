@@ -9,7 +9,7 @@ import 'package:plantngo_frontend/screens/merchant/menu/merchant_menu_screen.dar
 import 'package:plantngo_frontend/screens/merchant/profile/promotion/merchant_promotion_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/menu/merchant_setup_menu_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/profile/voucher/merchant_voucher_screen.dart';
-import 'screens/customer/profile/profile_setting_screen.dart';
+import 'screens/user_setting_screen.dart';
 import 'utils/all.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -63,10 +63,10 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case VoucherCheckout.routeName:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => const VoucherCheckout());
-    case CustomerSettingScreen.routeName:
+    case UserSettingScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings,
-          builder: (_) => const CustomerSettingScreen());
+          builder: (_) => const UserSettingScreen());
     case CreatePromotionScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings,

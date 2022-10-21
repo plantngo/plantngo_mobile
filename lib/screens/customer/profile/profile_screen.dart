@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/customer/profile/user_profile_section.dart';
-import 'package:plantngo_frontend/screens/customer/profile/user_settings_section.dart';
+import 'package:plantngo_frontend/screens/user_profile_section.dart';
+import 'package:plantngo_frontend/screens/user_settings_section.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 
 class ProfileScreen extends StatefulWidget {

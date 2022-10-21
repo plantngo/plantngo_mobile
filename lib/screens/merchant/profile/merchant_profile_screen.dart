@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/merchant/profile/merchant_profile_section.dart';
 import 'package:plantngo_frontend/screens/merchant/profile/promotion/merchant_promotion_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/profile/voucher/merchant_voucher_screen.dart';
+import 'package:plantngo_frontend/screens/user_profile_section.dart';
+import 'package:plantngo_frontend/screens/user_settings_section.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 
@@ -45,8 +48,11 @@ class _MerchantProfileScreenState extends State<MerchantProfileScreen> {
         child: Column(
           children: [
             const SizedBox(height: 10),
-            const MerchantProfileSection(),
+            const UserProfileSection(),
             const SizedBox(height: 10),
+            const UserSettingSection(),
+            const SizedBox(height: 10),
+            const Divider(),
             SizedBox(
               height: 80,
               child: GestureDetector(

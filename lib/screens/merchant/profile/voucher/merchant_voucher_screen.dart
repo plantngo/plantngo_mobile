@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
-import 'package:plantngo_frontend/screens/merchant/create_voucher_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/voucher/create_voucher_screen.dart';
 import 'package:plantngo_frontend/widgets/merchantvoucher/merchant_voucher_tile.dart';
 import 'package:provider/provider.dart';
 

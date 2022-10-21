@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_home_screen.dart';
-import 'package:plantngo_frontend/screens/merchant/merchant_menu_screen.dart';
-import 'package:plantngo_frontend/screens/merchant/merchant_account_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/menu/merchant_menu_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/merchant_profile_screen.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/widgets/navigation/bottom_navbar_merchant.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +24,7 @@ class _MerchantAppState extends State<MerchantApp> {
   final List<Widget> screens = const [
     MerchantHomeScreen(),
     MerchantMenuScreen(),
-    MerchantAccountScreen(),
+    MerchantProfileScreen(),
   ];
 
   void onBottomNavbarTap(int selectedIndex) {

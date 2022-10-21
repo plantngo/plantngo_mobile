@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:provider/provider.dart';
-import '../merchant/merchant_setup_menu_screen.dart';
-import '../../widgets/merchantmenu/menu_item_tile.dart';
+import 'merchant_setup_menu_screen.dart';
+import '../../../widgets/merchantmenu/menu_item_tile.dart';
 
 class MerchantMenuScreen extends StatefulWidget {
   const MerchantMenuScreen({Key? key}) : super(key: key);

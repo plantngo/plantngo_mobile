@@ -3,18 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/user_service.dart';
 import 'package:provider/provider.dart';
 
-class CustomerSettingScreen extends StatefulWidget {
-  const CustomerSettingScreen({super.key});
+class UserSettingScreen extends StatefulWidget {
+  const UserSettingScreen({super.key});
   static const routeName = '/user/profile/setting';
 
   @override
-  State<CustomerSettingScreen> createState() => _CustomerSettingScreenState();
+  State<UserSettingScreen> createState() => _UserSettingScreenState();
 }
 
-class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
+class _UserSettingScreenState extends State<UserSettingScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _usertypeController =
@@ -28,6 +29,27 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
   bool _isObscure = true;
   bool _isValidPassword = true;
   bool _isChangingPassword = false;
+  String username = '';
+
+  @override
+  void initState() {
+    super.initState();
+    var customerProvider =
+        Provider.of<CustomerProvider>(context, listen: false);
+    var merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    username = customerProvider.customer.username!;
+    _emailController.text = customerProvider.customer.email!;
+    _usernameController.text = username;
+
+    if (customerProvider.customer.id == null) {
+      username = merchantProvider.merchant.username!;
+      _usertypeController.text = "M";
+      _usernameController.text = username;
+      _emailController.text = merchantProvider.merchant.email!;
+      _companyController.text = merchantProvider.merchant.company!;
+    }
+  }
 
   @override
   dispose() {
@@ -42,17 +64,6 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var customerProvider = Provider.of<CustomerProvider>(context, listen: true);
-    var merchantProvider = Provider.of<MerchantProvider>(context, listen: true);
-    _emailController.text = customerProvider.customer.email!;
-    String username = customerProvider.customer.username!;
-    _usernameController.text = username;
-
-    if (customerProvider.customer.id == null) {
-      _usertypeController.text = "M";
-      _usernameController.text = merchantProvider.merchant.username!;
-    }
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -129,15 +140,16 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                                   !EmailValidator.validate(value)) {
                                 return 'Please enter a valid email';
                               }
+                              return null;
                             }),
                           ),
                           const SizedBox(height: 20),
-                          if (_companyController.text == "M")
+                          if (_usertypeController.text == "M")
                             TextFormField(
                               controller: _companyController,
                               decoration: const InputDecoration(
                                 filled: true,
-                                labelText: "Comapany",
+                                labelText: "Company",
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide:
@@ -174,6 +186,7 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                                       _emailController.text,
                                       _companyController.text);
                                 }
+                                Navigator.pop(context);
                               },
                               child: const Text("Save Details"),
                             ),

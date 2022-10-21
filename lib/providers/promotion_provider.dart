@@ -12,6 +12,5 @@ class PromotionProvider extends ChangeNotifier {
     _promotions = await PromotionService.fetchAllPromotions(context);
     notifyListeners();
   }
-
   
 }

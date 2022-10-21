@@ -47,7 +47,6 @@ class _MyAppState extends State<MyApp> {
     /// Check if the logged in user is a customer or a merchant ///
 
     if (Provider.of<CustomerProvider>(context).customer.token.isNotEmpty) {
-      AuthService.getUserData(context);
       app = const CustomerApp();
     } else if (Provider.of<MerchantProvider>(context)
         .merchant

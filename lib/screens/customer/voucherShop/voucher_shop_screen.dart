@@ -89,7 +89,7 @@ class _VoucherShopState extends State<VoucherShop> {
             ),
           ),
           Expanded(
-            flex: 20,
+            flex: 18,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SingleChildScrollView(
@@ -144,8 +144,12 @@ class _VoucherShopState extends State<VoucherShop> {
     List<Voucher> allVouchers = voucherShopProvider.vouchers;
 
     for (int i = 0; i < allVouchers.length; i++) {
-      listVouchers.add(VoucherCard(
-        voucher: allVouchers[i],
+      listVouchers.add(Expanded(
+        child: Expanded(
+          child: VoucherCard(
+            voucher: allVouchers[i],
+          ),
+        ),
       ));
     }
 

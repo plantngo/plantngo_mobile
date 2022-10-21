@@ -22,8 +22,9 @@ class PromotionService {
           'Authorization': 'Bearer $token'
         },
       );
-      if (res.statusCode == 200) {
-        for (var i = 0; i < res.body.length; i++) {
+      if (res.statusCode == 200) { 
+        for (var i = 0; i < jsonDecode(res.body).length; i++) {
+          // print(Promotion.fromJSON(jsonDecode(res.body)[i]));
           promotions.add(Promotion.fromJSON(jsonDecode(res.body)[i]));
         }
       }

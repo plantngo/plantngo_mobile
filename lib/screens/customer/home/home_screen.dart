@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/models/promotion.dart';
 import 'package:plantngo_frontend/providers/location_provider.dart';
+import 'package:plantngo_frontend/providers/promotion_provider.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_promotion/merchant_promotion_details_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_delegate.dart';
 import 'package:plantngo_frontend/utils/mock_promotions.dart';
@@ -24,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 .setPosition(value),
           },
         );
+    Provider.of<PromotionProvider>(context, listen: false)
+        .setPromotions(context);
   }
 
   void onBannerPressed(String merchantName, String merchantPromotionImage) {
@@ -39,8 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var promotionProvider =
+        Provider.of<PromotionProvider>(context, listen: true);
     const String searchFieldPlaceholder = "Search for food and shops";
     const double bannerHeight = 200.0;
+    List<Promotion> promotion = promotionProvider.promotions;
+    print(promotion);
     // replace with actual data
     List<String> nearbyBanners = mockNearbyBanners;
     List<String> promotionBanners = mockPromotionBanners;
@@ -131,11 +139,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: bannerHeight,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: nearbyBanners.length,
+                          itemCount: promotion.length,
                           itemBuilder: (_, i) {
                             return GestureDetector(
                               onTap: () {
-                                onBannerPressed("Promotion", nearbyBanners[i]);
+                                onBannerPressed("Promotion", promotion[i].bannerUrl!);
                               },
                               child: Card(
                                 semanticContainer: true,
@@ -146,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 elevation: 5,
                                 margin: const EdgeInsets.all(10),
                                 child: Image.network(
-                                  nearbyBanners[i],
+                                  promotion[i].bannerUrl,
                                   fit: BoxFit.fill,
                                 ),
                               ),

@@ -8,17 +8,15 @@ part 'promotion.g.dart';
 class Promotion {
   int id;
   String? description;
-  Merchant merchant;
   List<Product> promoProducts;
-  DateTime startDate;
-  DateTime endDate;
+  String startDate;
+  String endDate;
   double percentageDiscount;
   String bannerUrl;
 
   Promotion({
     required this.id,
     required this.description,
-    required this.merchant,
     required this.promoProducts,
     required this.startDate,
     required this.endDate,

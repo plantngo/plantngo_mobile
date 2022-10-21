@@ -7,6 +7,8 @@ import 'package:plantngo_frontend/providers/voucher_shop_provider.dart';
 import 'package:plantngo_frontend/widgets/card/voucher_checkout_card.dart';
 import 'package:provider/provider.dart';
 
+import '../../../widgets/custom_icons_icons.dart';
+
 class VoucherCheckout extends StatefulWidget {
   const VoucherCheckout({super.key});
   static const routeName = '/vouchercheckout';
@@ -34,46 +36,92 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Checkout"),
+        centerTitle: true,
+        title: const Text(
+          "Checkout",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              const BoxShadow(
+                color: Colors.grey,
+                offset: Offset(0, 2.0),
+                blurRadius: 4.0,
+              )
+            ],
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.green.shade200,
+                Colors.green.shade300,
+                Colors.green,
+              ],
+            ),
+          ),
+        ),
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
+          Expanded(
+            flex:2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Green Points: $greenPoints",
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
+                Row(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(right: 8, top: 12, bottom: 10),
+                      child: Text(
+                        "Green Points: $greenPoints",
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: Icon(
+                        CustomIcons.leaf,
+                        color: Colors.green[400],
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: renderVouchers(),
-                ),
+            flex: 20,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: renderVouchers(),
               ),
             ),
           ),
           Expanded(
+            flex: 3,
             child: Padding(
-              padding: const EdgeInsets.all(30),
-              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                Text(
-                  "Total: $total GP",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-              ]),
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "Total: $total",
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      CustomIcons.leaf,
+                      color: Colors.green[400],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -83,8 +131,8 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
         children: [
           Expanded(
             child: Padding(
-              padding:
-                  const EdgeInsets.only(bottom: 50, left: 50, right: 50, top: 10),
+              padding: const EdgeInsets.only(
+                  bottom: 50, left: 50, right: 50, top: 10),
               child: SizedBox(
                 width: 300,
                 height: 40,
@@ -98,26 +146,29 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                     elevation: ButtonStyleButton.allOrNull(0.0),
                   ),
                   child: const Text('Checkout'),
-                  onPressed: () {
-                    voucherShopProvider.purchaseVouchers(context);
-                    if (total > greenPoints!) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text('Insufficient Balance!'),
-                        ),
-                      );
-                    } else {
-                      customerProvider.emptyCart();
-                      customerProvider.customer.greenPoints = greenPoints - total;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          backgroundColor: Colors.green,
-                          content: Text('Purchase Successful!'),
-                        ),
-                      );
-                    }
-                  },
+                  onPressed: vouchersInCart.isEmpty
+                      ? null
+                      : () {
+                          voucherShopProvider.purchaseVouchers(context);
+                          if (total > greenPoints!) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Text('Insufficient Balance!'),
+                              ),
+                            );
+                          } else {
+                            customerProvider.emptyCart();
+                            customerProvider.customer.greenPoints =
+                                greenPoints - total;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text('Purchase Successful!'),
+                              ),
+                            );
+                          }
+                        },
                 ),
               ),
             ),
@@ -131,7 +182,6 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
     var customerProvider = Provider.of<CustomerProvider>(context, listen: true);
     List<Widget> listVouchers = [];
     List<Voucher> cartVouchers = customerProvider.customer.vouchersCart;
-    print(cartVouchers);
 
     for (int i = 0; i < cartVouchers.length; i++) {
       listVouchers.add(VoucherCheckoutCard(
@@ -140,7 +190,12 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
     }
 
     return listVouchers.isEmpty
-        ? [const Text("No Items in Cart")]
+        ? [
+            const Padding(
+              padding: EdgeInsets.only(top: 30),
+              child: Text("No Items in Cart"),
+            )
+          ]
         : listVouchers;
   }
 }

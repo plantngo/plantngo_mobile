@@ -41,10 +41,23 @@ class _MerchantPromotionDetailsScreenState
                 ),
               ],
               floating: true,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text(
-                  widget.merchantName,
-                  style: Theme.of(context).textTheme.headline6,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.green.shade200,
+                      Colors.green.shade300,
+                      Colors.green,
+                    ],
+                  ),
+                ),
+                child: FlexibleSpaceBar(
+                  title: Text(
+                    widget.merchantName,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
                 ),
               ),
             ),
@@ -55,7 +68,7 @@ class _MerchantPromotionDetailsScreenState
           children: [
             Image.network(widget.merchantPromotionImage),
             SizedBox(
-              height: 30,
+              height: 50,
             ),
             FractionallySizedBox(
               widthFactor: 0.5,

@@ -163,7 +163,7 @@ class _EditVoucherScreenState extends State<EditVoucherScreen> {
                       ),
                 TextFormField(
                   controller: _voucherDescriptionController,
-                  keyboardType: TextInputType.multiline,
+                  keyboardType: TextInputType.text,
                   maxLines: 4,
                   decoration: const InputDecoration(
                       filled: true,

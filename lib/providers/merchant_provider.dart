@@ -9,10 +9,20 @@ class MerchantProvider extends ChangeNotifier {
       id: null,
       username: '',
       email: '',
-      token: '',
       company: '',
+      token: '',
       categories: [],
-      vouchers: []);
+      vouchers: [],
+      promotions: [],
+      logoUrl: '',
+      bannerUrl: '',
+      address: '',
+      description: '',
+      latitude: null,
+      longtitude: null,
+      cuisineType: '',
+      priceRating: null,
+      operatingHours: '');
 
   Merchant get merchant => _merchant;
 
@@ -35,13 +45,22 @@ class MerchantProvider extends ChangeNotifier {
 
   void resetMerchant() {
     _merchant = Merchant(
-      id: null,
-      username: '',
-      email: '',
-      token: '',
-      company: '',
-      categories: [],
-      vouchers: [],
-    );
+        id: null,
+        username: '',
+        email: '',
+        company: '',
+        token: '',
+        categories: [],
+        vouchers: [],
+        promotions: [],
+        logoUrl: '',
+        bannerUrl: '',
+        address: '',
+        description: '',
+        latitude: null,
+        longtitude: null,
+        cuisineType: '',
+        priceRating: null,
+        operatingHours: '');
   }
 }

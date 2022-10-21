@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:plantngo_frontend/utils/error_handling.dart';
 import '../../services/auth_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = '/signup';
@@ -26,6 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _usertypeController =
       TextEditingController(text: "C");
   final TextEditingController _companyController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
 
   @override
   dispose() {
@@ -46,14 +50,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
         userType: _usertypeController.text);
   }
 
-  void signUpMerchant() {
-    AuthService.signUpMerchant(
+  void signUpMerchant() async {
+    try {
+      List<Location> locations =
+          await locationFromAddress(_addressController.text);
+
+      AuthService.signUpMerchant(
         context: context,
         email: _emailController.text,
         username: _usernameController.text,
         password: _passwordController.text,
         userType: _usertypeController.text,
-        company: _companyController.text);
+        company: _companyController.text,
+        address: _addressController.text,
+        latitude: locations[0].latitude,
+        longitude: locations[0].longitude,
+      );
+    } catch (e) {
+      showSnackBar(
+          context, "Could not find address, please enter a proper address");
+    }
   }
 
   @override
@@ -136,7 +152,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: TextFormField(
                       controller: _usernameController,
                       decoration: const InputDecoration(
-                          filled: true, labelText: "Username"),
+                        fillColor: Colors.white,
+                        filled: true,
+                        labelText: "Username",
+                      ),
                       validator: ((value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your username';
@@ -154,7 +173,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: TextFormField(
                       controller: _emailController,
                       decoration: const InputDecoration(
-                          filled: true, labelText: "Email"),
+                        fillColor: Colors.white,
+                        filled: true,
+                        labelText: "Email",
+                      ),
                       validator: ((value) {
                         if (value == null ||
                             value.isEmpty ||
@@ -169,11 +191,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      height: 100,
-                      child: TextFormField(
-                        controller: _companyController,
-                        decoration: const InputDecoration(
-                            filled: true, labelText: "Company"),
+                      height: 200,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: _companyController,
+                            decoration: const InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                labelText: "Company"),
+                          ),
+                          const SizedBox(height: 40),
+                          TextFormField(
+                            controller: _addressController,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              labelText: "Address",
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   const SizedBox(height: 5),
@@ -185,6 +222,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: TextFormField(
                       controller: _passwordController,
                       decoration: InputDecoration(
+                        fillColor: Colors.white,
                         filled: true,
                         labelText: 'Password',
                         suffixIcon: IconButton(
@@ -207,6 +245,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       obscureText: _isObscure,
                     ),
                   ),
+                  const SizedBox(height: 10),
                   FlutterPwValidator(
                     controller: _passwordController,
                     minLength: 8,
@@ -226,7 +265,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       });
                     },
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   SizedBox(
                     width: 350,
                     height: 50,
@@ -244,11 +283,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: const Text('Sign Up'),
                         onPressed: () {
                           if (_signUpFormKey.currentState!.validate()) {
-                            print(_usertypeController.text);
                             _isUser ? signUpUser() : signUpMerchant();
                           }
                         }),
                   ),
+                  const SizedBox(height:20),
                 ],
               ),
             ),

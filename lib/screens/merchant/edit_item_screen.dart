@@ -1,9 +1,13 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:plantngo_frontend/models/ingredient.dart';
+import 'package:plantngo_frontend/providers/merchant_ingredients_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
+import 'package:plantngo_frontend/services/product_service.dart';
+import 'package:plantngo_frontend/widgets/selectingredient/select_ingredient_widget.dart';
 import 'package:provider/provider.dart';
 
 class EditItemScreen extends StatefulWidget {
@@ -13,13 +17,15 @@ class EditItemScreen extends StatefulWidget {
       required this.description,
       required this.price,
       required this.carbonEmission,
-      required this.category});
+      required this.category,
+      required this.ingredients});
 
   String name;
   String description;
   double price;
   double carbonEmission;
   String category;
+  List<Ingredient> ingredients;
 
   static const routeName = "/edititem";
 
@@ -35,6 +41,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
   final TextEditingController _itemEmissionController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   List<String> categories = [];
+  List<DropdownMenuItem> ingredients = [];
+  List<SelectIngredientWidget> listSelectIngredientWidgets = [];
   //todo
   var image = null;
 
@@ -48,6 +56,22 @@ class _EditItemScreenState extends State<EditItemScreen> {
     _itemPriceController.text = widget.price.toString();
     _itemEmissionController.text = widget.carbonEmission.toString();
     dropdownValue = widget.category;
+    //todo:need to change this to item clicked
+    //todo
+    fetchAllIngredients();
+
+    widget.ingredients
+        .map((e) => listSelectIngredientWidgets.add(SelectIngredientWidget(
+            ingredients: ingredients,
+            weight: e.servingQty,
+            selectedValueSingleDialog: e.name,
+            deleteIngredient: deleteIngredient)))
+        .toList();
+  }
+
+  void deleteIngredient(SelectIngredientWidget ingredient) {
+    listSelectIngredientWidgets.remove(ingredient);
+    setState(() {});
   }
 
   @override
@@ -78,6 +102,17 @@ class _EditItemScreenState extends State<EditItemScreen> {
         price: double.parse(_itemPriceController.text),
         emission: double.parse(_itemEmissionController.text),
         category: dropdownValue);
+
+    await ProductService.deleteAllIngredients(
+        productName: _itemNameController.text, context: context);
+
+    for (var item in listSelectIngredientWidgets) {
+      await ProductService.addIngredient(
+          productName: _itemNameController.text,
+          ingredientName: item.selectedValueSingleDialog!,
+          servingWeight: double.parse(item.ingredientWeightController.text),
+          context: context);
+    }
   }
 
   Future deleteItem() async {
@@ -90,6 +125,26 @@ class _EditItemScreenState extends State<EditItemScreen> {
     setState(() {
       image = res;
     });
+  }
+
+  fetchAllIngredients() {
+    List<Ingredient> ingredients =
+        Provider.of<MerchantIngredientsProvider>(context, listen: false)
+            .ingredient;
+    for (var item in ingredients) {
+      this.ingredients.add(DropdownMenuItem(
+          value: item.name, child: Text(item.name.toString())));
+    }
+  }
+
+  void addSelectIngredientWidget() {
+    listSelectIngredientWidgets.add(SelectIngredientWidget(
+      ingredients: ingredients,
+      selectedValueSingleDialog: null,
+      weight: null,
+      deleteIngredient: deleteIngredient,
+    ));
+    setState(() {});
   }
 
   @override
@@ -224,6 +279,22 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       return null;
                     }),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    "Select Ingredients",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: listSelectIngredientWidgets.length,
+                      itemBuilder: (_, index) =>
+                          listSelectIngredientWidgets[index]),
+                  ElevatedButton(
+                      onPressed: () => {addSelectIngredientWidget()},
+                      child: const Text("+ Add Ingredient")),
                   const SizedBox(
                     height: 20,
                   ),

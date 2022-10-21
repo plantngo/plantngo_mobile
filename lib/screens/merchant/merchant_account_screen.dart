@@ -44,6 +44,7 @@ class _MerchantAccountScreenState extends State<MerchantAccountScreen> {
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
+            const SizedBox(height: 10),
             const MerchantProfileSection(),
             const SizedBox(height: 10),
             SizedBox(

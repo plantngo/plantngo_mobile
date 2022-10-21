@@ -93,7 +93,7 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
                           children: [
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
-                              onTap: () {
+                              onTap: () async {
                                 if (Provider.of<MerchantProvider>(context,
                                         listen: false)
                                     .merchant

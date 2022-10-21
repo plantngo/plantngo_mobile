@@ -1,9 +1,13 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:plantngo_frontend/models/ingredient.dart';
+import 'package:plantngo_frontend/providers/merchant_ingredients_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
+import 'package:plantngo_frontend/services/product_service.dart';
+import 'package:plantngo_frontend/widgets/selectingredient/select_ingredient_widget.dart';
 import 'package:provider/provider.dart';
 
 class AddItemScreen extends StatefulWidget {
@@ -19,9 +23,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final TextEditingController _itemDescriptionController =
       TextEditingController();
   final TextEditingController _itemPriceController = TextEditingController();
-  final TextEditingController _itemEmissionController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   List<String> categories = [];
+  List<DropdownMenuItem> ingredients = [];
+  List<SelectIngredientWidget> listSelectIngredientWidgets = [];
   var image = null;
 
   String dropdownValue = "";
@@ -38,12 +43,50 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    listSelectIngredientWidgets = [
+      SelectIngredientWidget(
+          ingredients: ingredients,
+          selectedValueSingleDialog: null,
+          weight: null,
+          deleteIngredient: deleteIngredient)
+    ];
+    fetchAllIngredients();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _itemDescriptionController.dispose();
-    _itemEmissionController.dispose();
     _itemNameController.dispose();
     _itemPriceController.dispose();
+  }
+
+  void deleteIngredient(SelectIngredientWidget ingredient) {
+    listSelectIngredientWidgets.remove(ingredient);
+    setState(() {});
+  }
+
+  fetchAllIngredients() {
+    List<Ingredient> ingredients =
+        Provider.of<MerchantIngredientsProvider>(context, listen: false)
+            .ingredient;
+    for (var item in ingredients) {
+      this.ingredients.add(DropdownMenuItem(
+          value: item.name, child: Text(item.name.toString())));
+    }
+  }
+
+  List<Ingredient> selectedListOfIngredients() {
+    List<Ingredient> ingredients = [];
+    for (var item in listSelectIngredientWidgets) {
+      ingredients.add(Ingredient(
+          id: null,
+          name: item.selectedValueSingleDialog,
+          servingQty: item.weight));
+    }
+    return ingredients;
   }
 
   Future addItem() async {
@@ -52,8 +95,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
         name: _itemNameController.text,
         description: _itemDescriptionController.text,
         price: double.parse(_itemPriceController.text),
-        emission: double.parse(_itemEmissionController.text),
         category: dropdownValue);
+    for (var item in listSelectIngredientWidgets) {
+      await ProductService.addIngredient(
+          productName: _itemNameController.text,
+          ingredientName: item.selectedValueSingleDialog!,
+          servingWeight: double.parse(item.ingredientWeightController.text),
+          context: context);
+    }
   }
 
   void selectImage() async {
@@ -61,6 +110,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
     setState(() {
       image = res;
     });
+  }
+
+  void addSelectIngredientWidget() {
+    listSelectIngredientWidgets.add(SelectIngredientWidget(
+      ingredients: ingredients,
+      selectedValueSingleDialog: null,
+      weight: null,
+      deleteIngredient: deleteIngredient,
+    ));
+    setState(() {});
   }
 
   @override
@@ -149,7 +208,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ),
                   TextFormField(
                     controller: _itemDescriptionController,
-                    keyboardType: TextInputType.multiline,
+                    keyboardType: TextInputType.text,
                     maxLines: 4,
                     decoration: const InputDecoration(
                         filled: true,
@@ -183,21 +242,22 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    controller: _itemEmissionController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                        filled: true,
-                        labelText: "Carbon Emission Score",
-                        hintText: "Enter a score"),
-                    validator: ((value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a score';
-                      }
-                      return null;
-                    }),
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  const SizedBox(
+                    height: 20,
                   ),
+                  const Text(
+                    "Select Ingredients",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: listSelectIngredientWidgets.length,
+                      itemBuilder: (_, index) =>
+                          listSelectIngredientWidgets[index]),
+                  ElevatedButton(
+                      onPressed: () => {addSelectIngredientWidget()},
+                      child: const Text("+ Add Ingredient")),
                   const SizedBox(
                     height: 20,
                   ),

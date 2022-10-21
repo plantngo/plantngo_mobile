@@ -7,23 +7,23 @@ part of 'promotion.dart';
 // **************************************************************************
 
 Promotion _$PromotionFromJson(Map<String, dynamic> json) => Promotion(
-      id: json['id'] as int,
+      id: json['id'] as int?,
       description: json['description'] as String?,
-      promoProducts: (json['promoProducts'] as List<dynamic>)
-          .map((e) => Product.fromJSON(e as Map<String, dynamic>))
+      banner: json['banner'] as String?,
+      percentageDiscount: (json['percentageDiscount'] as num?)?.toDouble(),
+      startDate: json['startDate'] as String?,
+      endDate: json['endDate'] as String?,
+      products: (json['products'] as List<dynamic>?)
+          ?.map((e) => Product.fromJSON(e as Map<String, dynamic>))
           .toList(),
-      startDate: json['startDate'] as String,
-      endDate: json['endDate'] as String,
-      percentageDiscount: (json['percentageDiscount'] as num).toDouble(),
-      bannerUrl: json['bannerUrl'] as String,
     );
 
 Map<String, dynamic> _$PromotionToJson(Promotion instance) => <String, dynamic>{
       'id': instance.id,
       'description': instance.description,
-      'promoProducts': instance.promoProducts,
+      'banner': instance.banner,
+      'percentageDiscount': instance.percentageDiscount,
       'startDate': instance.startDate,
       'endDate': instance.endDate,
-      'percentageDiscount': instance.percentageDiscount,
-      'bannerUrl': instance.bannerUrl,
+      'products': instance.products,
     };

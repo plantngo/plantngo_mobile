@@ -116,6 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   }),
                   decoration: const InputDecoration(
                     filled: true,
+                    fillColor: Colors.white,
                     hintText: 'Your username',
                     labelText: 'Username',
                   ),
@@ -124,6 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                       filled: true,
+                      fillColor: Colors.white,
                       labelText: 'Password',
                       suffixIcon: IconButton(
                         icon: Icon(_isObscure

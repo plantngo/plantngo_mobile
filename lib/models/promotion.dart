@@ -8,7 +8,7 @@ class Promotion {
   int? id;
   String? description;
   //url to link to the promotional banner image
-  String? banner; 
+  String? bannerUrl; 
   double? percentageDiscount;
   //derived from date of promo creation
   String? startDate;
@@ -19,7 +19,7 @@ class Promotion {
   Promotion({
     required this.id,
     required this.description,
-    required this.banner,
+    required this.bannerUrl,
     required this.percentageDiscount,
     required this.startDate,
     required this.endDate,

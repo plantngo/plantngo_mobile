@@ -131,9 +131,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Nearby",
-                        style: Theme.of(context).textTheme.titleMedium,
+                      const Padding(
+                        padding: EdgeInsets.only(left:8.0),
+                        child: Text(
+                          "Nearby",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w400),
+                        ),
                       ),
                       SizedBox(
                         height: bannerHeight,
@@ -143,7 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemBuilder: (_, i) {
                             return GestureDetector(
                               onTap: () {
-                                onBannerPressed("Promotion", promotion[i].bannerUrl!);
+                                onBannerPressed(
+                                    "Promotion", promotion[i].bannerUrl!);
                               },
                               child: Card(
                                 semanticContainer: true,
@@ -154,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 elevation: 5,
                                 margin: const EdgeInsets.all(10),
                                 child: Image.network(
-                                  promotion[i].bannerUrl,
+                                  promotion[i].bannerUrl!,
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -165,9 +170,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(
                         height: 30,
                       ),
-                      Text(
-                        "Promotions",
-                        style: Theme.of(context).textTheme.titleMedium,
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          "Promotions",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w400),
+                        ),
                       ),
                       SizedBox(
                         height: bannerHeight,
@@ -200,9 +209,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(
                         height: 30,
                       ),
-                      Text(
-                        "Trending",
-                        style: Theme.of(context).textTheme.titleMedium,
+                      const Padding(
+                        padding: EdgeInsets.only(left:8.0),
+                        child: Text(
+                          "Trending",
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+                        ),
                       ),
                       SizedBox(
                         height: bannerHeight,

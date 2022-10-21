@@ -4,6 +4,7 @@ import 'package:plantngo_frontend/providers/voucher_shop_provider.dart';
 import 'package:plantngo_frontend/screens/customer/voucherShop/voucher_checkout_screen.dart';
 import 'package:plantngo_frontend/widgets/card/voucher_card.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
+import 'package:plantngo_frontend/widgets/custom_icons_icons.dart';
 import 'package:provider/provider.dart';
 
 class VoucherShop extends StatefulWidget {
@@ -40,41 +41,65 @@ class _VoucherShopState extends State<VoucherShop> {
           "Rewards Shop",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                offset: Offset(0, 2.0),
+                blurRadius: 4.0,
+              )
+            ],
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.green.shade200,
+                Colors.green.shade300,
+                Colors.green,
+              ],
+            ),
+          ),
+        ),
       ),
       body: Column(
         children: [
           Expanded(
-            flex:1,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Green Points: $greenPoints",
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12, top: 16),
+                      child: Text(
+                        "Green Points: $greenPoints",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24, top: 14),
+                      child: Icon(CustomIcons.leaf, color: Colors.green[400]),
+                    )
+                  ],
+                ),
+              ],
             ),
           ),
           Expanded(
-            flex:20,
+            flex: 20,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Expanded(
-                  child: Column(
-                    children: [
-                      Column(
-                        children: renderVouchers(),
-                      ),
-                    ],
-                  ),
+                child: Column(
+                  children: [
+                    Column(
+                      children: renderVouchers(),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -86,7 +111,7 @@ class _VoucherShopState extends State<VoucherShop> {
           shape: BoxShape.circle,
         ),
         child: FloatingActionButton(
-          backgroundColor: Color.fromARGB(225, 33, 150, 246),
+          backgroundColor: Color.fromARGB(156, 26, 188, 23),
           shape: const CircleBorder(),
           // Lead to checkout page
           onPressed: () {
@@ -125,7 +150,10 @@ class _VoucherShopState extends State<VoucherShop> {
     }
 
     return listVouchers.isEmpty
-        ? [const Text("No Vouchers Available")]
+        ? [const Padding(
+          padding: EdgeInsets.only(top:20),
+          child: Text("No Vouchers Available"),
+        )]
         : listVouchers;
   }
 }

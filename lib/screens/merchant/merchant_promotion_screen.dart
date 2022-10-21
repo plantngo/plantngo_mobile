@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/screens/merchant/create_promotion_screen.dart';
+import 'package:plantngo_frontend/widgets/merchantpromotion/merchant_promotion_tile.dart';
 import 'package:provider/provider.dart';
 
 class MerchantPromotionScreen extends StatefulWidget {
@@ -43,7 +44,11 @@ class _MerchantPromotionScreenState extends State<MerchantPromotionScreen> {
             ),
             SingleChildScrollView(
               child: Column(
-                children: const <Widget>[],
+                children: <Widget>[
+                  if (merchantProvider.merchant.promotions != null)
+                    for (var item in merchantProvider.merchant.promotions!)
+                      MerchantPromotionTile(promotion: item)
+                ],
               ),
             ),
           ],

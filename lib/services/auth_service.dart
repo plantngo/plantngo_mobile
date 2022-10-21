@@ -166,6 +166,10 @@ class AuthService {
           },
         );
 
+        if (userRes.statusCode != 200) {
+          logOut(context);
+        }
+
         if (userType == "customer") {
           customerProvider.setCustomer(userRes.body, token);
         }

@@ -1,29 +1,33 @@
 //todo add image service
-import 'dart:ui';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:plantngo_frontend/models/promotion.dart';
+import 'package:plantngo_frontend/models/voucher.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:plantngo_frontend/services/promotion_service.dart';
 
-class CreatePromotionScreen extends StatefulWidget {
-  const CreatePromotionScreen({Key? key}) : super(key: key);
-  static const routeName = "/createpromotion";
+class EditPromotionScreen extends StatefulWidget {
+  const EditPromotionScreen({Key? key, required this.promotion})
+      : super(key: key);
+
+  final Promotion promotion;
+  static const routeName = "/editpromotion";
 
   @override
-  _CreatePromotionScreenState createState() => _CreatePromotionScreenState();
+  _EditPromotionScreenState createState() => _EditPromotionScreenState();
 }
 
-class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
+class _EditPromotionScreenState extends State<EditPromotionScreen> {
   final TextEditingController _dateController = TextEditingController();
-  DateTimeRange? _promotionalPeriod = DateTimeRange(
-      start: DateTime.now(), end: DateTime.now().add(const Duration(days: 5)));
+  DateTimeRange? _promotionalPeriod;
   final TextEditingController _promotionDescriptionController =
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+//for promotion image
   var image = null;
   void selectImage() async {
     var res = await MerchantService.pickImage();
@@ -33,15 +37,35 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _promotionDescriptionController.text =
+        widget.promotion.description.toString();
+
+    _promotionalPeriod = DateTimeRange(
+        start: DateTime.parse(widget.promotion.startDate!),
+        end: DateTime.parse(widget.promotion.endDate!));
+    _dateController.text =
+        '${widget.promotion.startDate!} - ${widget.promotion.endDate}';
+  }
+
+  @override
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     _dateController.dispose();
   }
 
-  Future createPromotion() async {
-    await PromotionService.createPromotion(
+  Future deletePromotion() async {
+    await PromotionService.deletePromotion(
+        context: context, promotionId: widget.promotion.id!);
+  }
+
+  Future editPromotion() async {
+    await PromotionService.editPromotion(
         context: context,
+        promotionId: widget.promotion.id!,
         bannerUrl:
             "http://sg.syioknya.com/custom/picture/2585/syioknya1_60e41d6928724.jpg",
         description: _promotionDescriptionController.text,
@@ -54,9 +78,7 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Create Promotion"),
-      ),
+      appBar: AppBar(title: const Text("Edit promotion")),
       body: Form(
           key: _formKey,
           child: SingleChildScrollView(
@@ -166,7 +188,6 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
                     if (pickedDate != null) {
                       String formattedDate =
                           '${pickedDate.start.year}-${pickedDate.start.month}-${pickedDate.start.day} - ${pickedDate.end.year}-${pickedDate.end.month}-${pickedDate.end.day}';
-
                       setState(() {
                         _dateController.text = formattedDate.toString();
                         _promotionalPeriod = pickedDate;
@@ -174,43 +195,59 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
                     }
                   },
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Center(
-                  child: Text(
-                    "Please create a category for promotional items in menu first before putting up a promotion!",
-                    style: TextStyle(
-                      color: Colors.redAccent,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                )
               ],
             ),
           )),
       bottomNavigationBar: SizedBox(
-        height: 115,
+        height: 175,
         child: Container(
           padding: const EdgeInsets.all(35),
           color: const Color.fromARGB(33, 158, 158, 158),
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-              ).copyWith(
-                elevation: ButtonStyleButton.allOrNull(0.0),
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      backgroundColor: Colors.white30,
+                    ).copyWith(
+                      elevation: ButtonStyleButton.allOrNull(0.0),
+                    ),
+                    child: const Text(
+                      'Delete Promotion',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    onPressed: () async {
+                      await deletePromotion();
+                      AuthService.getUserData(context);
+                      Navigator.pop(context);
+                    }),
               ),
-              child: const Text('Create Promotion'),
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  await createPromotion();
-                  AuthService.getUserData(context);
-                  Navigator.pop(context);
-                }
-              }),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                    ).copyWith(
+                      elevation: ButtonStyleButton.allOrNull(0.0),
+                    ),
+                    child: const Text('Save Changes'),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        await editPromotion();
+                        AuthService.getUserData(context);
+                        Navigator.pop(context);
+                      }
+                    }),
+              ),
+            ],
+          ),
         ),
       ),
     );

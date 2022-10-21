@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/screens/customer/voucherShop/voucher_checkout_screen.dart';
 import 'package:plantngo_frontend/screens/login/signup_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/add_category_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/add_item_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/create_promotion_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/create_voucher_screen.dart';
-import 'package:plantngo_frontend/screens/merchant/edit_category_screen.dart';
-import 'package:plantngo_frontend/screens/merchant/edit_item_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_menu_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_promotion_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_setup_menu_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/merchant_voucher_screen.dart';
+import 'screens/customer/profile/profile_setting_screen.dart';
 import 'utils/all.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -59,6 +60,17 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case CreateVoucherScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => const CreateVoucherScreen());
+    case VoucherCheckout.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => const VoucherCheckout());
+    case CustomerSettingScreen.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings,
+          builder: (_) => const CustomerSettingScreen());
+    case CreatePromotionScreen.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings,
+          builder: (_) => const CreatePromotionScreen());
     default:
       return MaterialPageRoute(
         settings: routeSettings,

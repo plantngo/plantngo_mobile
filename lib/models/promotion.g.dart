@@ -9,8 +9,7 @@ part of 'promotion.dart';
 Promotion _$PromotionFromJson(Map<String, dynamic> json) => Promotion(
       id: json['id'] as int?,
       description: json['description'] as String?,
-      banner: json['banner'] as String?,
-      percentageDiscount: (json['percentageDiscount'] as num?)?.toDouble(),
+      bannerUrl: json['bannerUrl'] as String?,
       startDate: json['startDate'] as String?,
       endDate: json['endDate'] as String?,
     );
@@ -18,8 +17,7 @@ Promotion _$PromotionFromJson(Map<String, dynamic> json) => Promotion(
 Map<String, dynamic> _$PromotionToJson(Promotion instance) => <String, dynamic>{
       'id': instance.id,
       'description': instance.description,
-      'banner': instance.banner,
-      'percentageDiscount': instance.percentageDiscount,
+      'banner': instance.bannerUrl,
       'startDate': instance.startDate,
       'endDate': instance.endDate,
     };

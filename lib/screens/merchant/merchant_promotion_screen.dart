@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/screens/merchant/create_promotion_screen.dart';
+import 'package:plantngo_frontend/widgets/merchantpromotion/merchant_promotion_tile.dart';
+import 'package:provider/provider.dart';
 
 class MerchantPromotionScreen extends StatefulWidget {
   const MerchantPromotionScreen({Key? key}) : super(key: key);
@@ -16,6 +20,40 @@ class _MerchantPromotionScreenState extends State<MerchantPromotionScreen> {
       appBar: AppBar(
         title: const Text("Promotion"),
       ),
+      body: Consumer<MerchantProvider>(builder:
+          (BuildContext context, MerchantProvider merchantProvider, child) {
+        return Column(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: Container(
+                alignment: Alignment.centerLeft,
+                color: const Color.fromARGB(31, 211, 211, 211),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  child: Text(
+                    "${merchantProvider.merchant.promotions?.length} Ongoing Promotion",
+                    style: const TextStyle(
+                        color: Color.fromARGB(171, 0, 0, 0),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ),
+            ),
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  if (merchantProvider.merchant.promotions != null)
+                    for (var item in merchantProvider.merchant.promotions!)
+                      MerchantPromotionTile(promotion: item)
+                ],
+              ),
+            ),
+          ],
+        );
+      }),
       bottomNavigationBar: SizedBox(
         height: 115,
         child: Container(
@@ -31,7 +69,9 @@ class _MerchantPromotionScreenState extends State<MerchantPromotionScreen> {
                 elevation: ButtonStyleButton.allOrNull(0.0),
               ),
               child: const Text('Create Promotion'),
-              onPressed: () async {}),
+              onPressed: () async {
+                Navigator.pushNamed(context, CreatePromotionScreen.routeName);
+              }),
         ),
       ),
     );

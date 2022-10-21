@@ -1,13 +1,11 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:plantngo_frontend/models/category.dart';
 import 'package:plantngo_frontend/models/ingredient.dart';
 import 'package:plantngo_frontend/models/voucher.dart';
-import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_ingredients_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:provider/provider.dart';
@@ -112,7 +110,6 @@ class MerchantService {
       required String name,
       required String description,
       required double price,
-      required double emission,
       required String category}) async {
     final merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);
@@ -129,9 +126,8 @@ class MerchantService {
             "name": name,
             "price": price,
             "description": description,
-            "carbonEmission": emission
           }));
-      print(res.body);
+
       httpErrorHandle(
         response: res,
         context: context,
@@ -144,6 +140,7 @@ class MerchantService {
       );
     } catch (e) {
       //catch exception
+      print(e);
     }
   }
 
@@ -406,8 +403,7 @@ class MerchantService {
     return [];
   }
 
-  static Future<List<Ingredient>> fetchAllIngredients(
-      BuildContext context) async {
+  static Future fetchAllIngredients(BuildContext context) async {
     try {
       List<Ingredient> ingredients = [];
       http.Response res = await http.get(
@@ -431,7 +427,5 @@ class MerchantService {
     } catch (e) {
       print(e);
     }
-
-    return [];
   }
 }

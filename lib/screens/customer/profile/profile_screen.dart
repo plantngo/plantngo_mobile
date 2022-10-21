@@ -18,14 +18,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          "Profile",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              const BoxShadow(
+                color: Colors.grey,
+                offset: Offset(0, 2.0),
+                blurRadius: 4.0,
+              )
+            ],
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.green.shade200,
+                Colors.green.shade300,
+                Colors.green,
+              ],
+            ),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
+            SizedBox(height: 20),
             UserProfileSection(),
             SizedBox(height: 10),
             UserSettingSection(),
+            SizedBox(height: 20),
             SizedBox(
               width: 300,
               height: 40,

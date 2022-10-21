@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'profile_setting_screen.dart';
+
 class UserSettingSection extends StatelessWidget {
   const UserSettingSection({Key? key}) : super(key: key);
 
@@ -8,20 +10,16 @@ class UserSettingSection extends StatelessWidget {
     List<IconData> iconsList = [
       Icons.credit_card,
       Icons.compare_arrows,
-
     ];
     List<String> titleList = [
       "Payment Methods",
       "Profile Settings",
-
-
     ];
     List<String> subtitleList = [
       "",
       "",
-  
     ];
-    List<Widget> routeList = [];
+    List<String> routeList = ["", CustomerSettingScreen.routeName];
     return Column(
       children: [
         ListView.builder(
@@ -84,9 +82,7 @@ class UserSettingSection extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => routeList[i],
-                ));
+                Navigator.pushNamed(context, routeList[i]);
               }, // Handle your onTap here.
             );
           },

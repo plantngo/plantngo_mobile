@@ -6,23 +6,21 @@ import 'package:plantngo_frontend/providers/merchant_ingredients_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'providers/promotion_provider.dart';
+import 'providers/voucher_shop_provider.dart';
 import 'utils/all.dart';
 import 'router.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => CustomerProvider()),
-        ChangeNotifierProvider(create: (context) => MerchantProvider()),
-        ChangeNotifierProvider(
-            create: (context) => MerchantIngredientsProvider()),
-        ChangeNotifierProvider(create: (context) => MerchantCategoryProvider()),
-        ChangeNotifierProvider(create: (context) => LocationProvider()),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => CustomerProvider()),
+    ChangeNotifierProvider(create: (context) => MerchantProvider()),
+    ChangeNotifierProvider(create: (context) => MerchantCategoryProvider()),
+    ChangeNotifierProvider(create: (context) => LocationProvider()),
+    ChangeNotifierProvider(create: (context) => VoucherShopProvider()),
+    ChangeNotifierProvider(create: (context) => PromotionProvider()),
+    ChangeNotifierProvider(create: (context) => MerchantIngredientsProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -47,6 +45,7 @@ class _MyAppState extends State<MyApp> {
     Widget app = const LoginSignUpScreen();
 
     /// Check if the logged in user is a customer or a merchant ///
+
     if (Provider.of<CustomerProvider>(context).customer.token.isNotEmpty) {
       app = const CustomerApp();
     } else if (Provider.of<MerchantProvider>(context)

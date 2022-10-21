@@ -11,6 +11,7 @@ class ForgetPasswordScreen extends StatefulWidget {
 
 class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   String? _email;
+  String? _username;
   bool _emailSent = false;
 
   final _formKey = GlobalKey<FormState>();
@@ -34,6 +35,27 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 height: 200,
               ),
               TextFormField(
+                keyboardType: TextInputType.text,
+                autofocus: true,
+                validator: ((value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a valid username';
+                  }
+                }),
+                decoration: const InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Your username',
+                  labelText: 'Username',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _username = value;
+                  });
+                },
+              ),
+              const SizedBox(height:20),
+              TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 autofocus: true,
                 validator: ((value) {
@@ -45,6 +67,7 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 }),
                 decoration: const InputDecoration(
                   filled: true,
+                  fillColor: Colors.white,
                   hintText: 'Your email address',
                   labelText: 'Email',
                 ),

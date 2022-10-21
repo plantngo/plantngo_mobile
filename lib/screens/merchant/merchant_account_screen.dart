@@ -44,6 +44,7 @@ class _MerchantAccountScreenState extends State<MerchantAccountScreen> {
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
+            const SizedBox(height: 10),
             const MerchantProfileSection(),
             const SizedBox(height: 10),
             SizedBox(
@@ -80,7 +81,9 @@ class _MerchantAccountScreenState extends State<MerchantAccountScreen> {
                           )
                         ],
                       ),
-                      const Spacer(flex: 2),
+                      const Spacer(
+                        flex: 3,
+                      ),
                       const Icon(
                         Icons.arrow_forward_ios,
                         color: Colors.grey,

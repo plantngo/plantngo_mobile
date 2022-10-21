@@ -15,6 +15,12 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(
       preference: (json['preference'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      ownedVouchers: (json['ownedVouchers'] as List<dynamic>)
+          .map((e) => Voucher.fromJSON(e as Map<String, dynamic>))
+          .toList(),
+      vouchersCart: (json['vouchersCart'] as List<dynamic>)
+          .map((e) => Voucher.fromJSON(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
@@ -24,4 +30,6 @@ Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
       'greenPoints': instance.greenPoints,
       'token': instance.token,
       'preference': instance.preference,
+      'ownedVouchers': instance.ownedVouchers,
+      'vouchersCart': instance.vouchersCart,
     };

@@ -148,7 +148,6 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                   onPressed: vouchersInCart.isEmpty
                       ? null
                       : () {
-                          voucherShopProvider.purchaseVouchers(context);
                           if (total > greenPoints!) {
                             ScaffoldMessenger.of(context).hideCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -171,6 +170,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                               ),
                             );
                           }
+                          voucherShopProvider.purchaseVouchers(context);
                         },
                   child: const Text('Checkout'),
                 ),

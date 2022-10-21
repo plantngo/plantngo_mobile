@@ -18,7 +18,6 @@ class PromotionService {
     List<Promotion> promotions = [];
 
     try {
-      print("here");
       http.Response res = await http.get(
         Uri.parse('$uri/api/v1/promotion'),
         headers: <String, String>{
@@ -27,7 +26,6 @@ class PromotionService {
         },
       );
       if (res.statusCode == 200) { 
-        print("hi");
         for (var i = 0; i < jsonDecode(res.body).length; i++) {
           // print(Promotion.fromJSON(jsonDecode(res.body)[i]));
           promotions.add(Promotion.fromJSON(jsonDecode(res.body)[i]));

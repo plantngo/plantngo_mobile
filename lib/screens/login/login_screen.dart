@@ -54,13 +54,15 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               ...[
-                const Text("As",
+                SizedBox(height: 30),
+                const Text("I am a...",
                     textAlign: TextAlign.center,
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  const Spacer(flex: 1),
                   Expanded(
-                    flex: 3,
+                    flex: 5,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                                 foregroundColor:
@@ -78,14 +80,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                         }),
                   ),
-                  const Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      height: 0,
-                    ),
-                  ),
+                  const Spacer(flex: 1),
                   Expanded(
-                    flex: 3,
+                    flex: 5,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                                 foregroundColor:
@@ -103,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                         }),
                   ),
+                  const Spacer(flex: 1),
                 ]),
                 TextFormField(
                   controller: _usernameController,

@@ -65,7 +65,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
       body: Column(
         children: [
           Expanded(
-            flex:2,
+            flex: 2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -145,30 +145,34 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                   ).copyWith(
                     elevation: ButtonStyleButton.allOrNull(0.0),
                   ),
-                  child: const Text('Checkout'),
                   onPressed: vouchersInCart.isEmpty
                       ? null
                       : () {
                           voucherShopProvider.purchaseVouchers(context);
                           if (total > greenPoints!) {
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: Colors.red,
                                 content: Text('Insufficient Balance!'),
+                                duration: Duration(milliseconds: 300),
                               ),
                             );
                           } else {
                             customerProvider.emptyCart();
                             customerProvider.customer.greenPoints =
                                 greenPoints - total;
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: Colors.green,
                                 content: Text('Purchase Successful!'),
+                                duration: Duration(milliseconds: 300),
                               ),
                             );
                           }
                         },
+                  child: const Text('Checkout'),
                 ),
               ),
             ),

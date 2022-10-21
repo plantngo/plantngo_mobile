@@ -80,10 +80,13 @@ class _VoucherCardState extends State<VoucherCard> {
                                     context, widget.voucher);
                                 voucherShopProvider.vouchers
                                     .remove(widget.voucher);
+                                ScaffoldMessenger.of(context)
+                                    .hideCurrentSnackBar();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     backgroundColor: Colors.green,
                                     content: Text('Voucher Added to Cart!'),
+                                    duration: Duration(milliseconds: 300),
                                   ),
                                 );
                               },

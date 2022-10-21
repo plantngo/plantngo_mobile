@@ -87,17 +87,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const SizedBox(height: 40),
-            const Text("As",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 30),
             Form(
               key: _signUpFormKey,
               child: Column(
                 children: [
+                  const Text("I am a...",
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    const Spacer(flex: 1),
                     Expanded(
-                      flex: 3,
+                      flex: 5,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                                   foregroundColor:
@@ -115,14 +118,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             });
                           }),
                     ),
-                    const Expanded(
-                      flex: 1,
-                      child: SizedBox(
-                        height: 0,
-                      ),
-                    ),
+                    const Spacer(flex: 1),
                     Expanded(
-                      flex: 3,
+                      flex: 5,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                                   foregroundColor: !_isUser
@@ -142,6 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             });
                           }),
                     ),
+                    const Spacer(flex: 1),
                   ]),
                   const SizedBox(height: 20),
                   Container(
@@ -287,7 +286,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           }
                         }),
                   ),
-                  const SizedBox(height:20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

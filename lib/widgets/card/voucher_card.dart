@@ -67,27 +67,29 @@ class _VoucherCardState extends State<VoucherCard> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              right: 16, bottom: 4, top: 26),
-                          child: IconButton(
-                            icon: Icon(Icons.add_shopping_cart,
-                                size: 30, color: Colors.black),
-                            // Adds voucher to customer's cart
-                            onPressed: () {
-                              customerProvider.addVouchersToCart(
-                                  context, widget.voucher);
-                              voucherShopProvider.vouchers
-                                  .remove(widget.voucher);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  backgroundColor: Colors.green,
-                                  content: Text('Voucher Added to Cart!'),
-                                ),
-                              );
-                            },
-                            style: IconButton.styleFrom(
-                              foregroundColor: colors.onSecondaryContainer,
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                right: 16, bottom: 4, top: 26),
+                            child: IconButton(
+                              icon: Icon(Icons.add_shopping_cart,
+                                  size: 30, color: Colors.black),
+                              // Adds voucher to customer's cart
+                              onPressed: () {
+                                customerProvider.addVouchersToCart(
+                                    context, widget.voucher);
+                                voucherShopProvider.vouchers
+                                    .remove(widget.voucher);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: Text('Voucher Added to Cart!'),
+                                  ),
+                                );
+                              },
+                              style: IconButton.styleFrom(
+                                foregroundColor: colors.onSecondaryContainer,
+                              ),
                             ),
                           ),
                         ),

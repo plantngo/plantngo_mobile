@@ -56,6 +56,26 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                offset: Offset(0, 2.0),
+                blurRadius: 4.0,
+              )
+            ],
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.green.shade200,
+                Colors.green.shade300,
+                Colors.green,
+              ],
+            ),
+          ),
+        ),
         title: const Text(
           "Profile Settings",
           style: TextStyle(fontWeight: FontWeight.bold),

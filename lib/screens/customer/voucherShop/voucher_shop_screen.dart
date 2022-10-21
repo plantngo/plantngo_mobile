@@ -65,42 +65,31 @@ class _VoucherShopState extends State<VoucherShop> {
       body: Column(
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 12, top: 16),
-                      child: Text(
-                        "Green Points: $greenPoints",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 24, top: 14),
-                      child: Icon(CustomIcons.leaf, color: Colors.green[400]),
-                    )
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: Text(
+                    "Green Points: $greenPoints",
+                    style: TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 24),
+                  child: Icon(CustomIcons.leaf, color: Colors.green[400]),
                 ),
               ],
             ),
           ),
           Expanded(
-            flex: 18,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    Column(
-                      children: renderVouchers(),
-                    ),
-                  ],
-                ),
+            flex: 20,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: renderVouchers(),
               ),
             ),
           ),
@@ -144,12 +133,8 @@ class _VoucherShopState extends State<VoucherShop> {
     List<Voucher> allVouchers = voucherShopProvider.vouchers;
 
     for (int i = 0; i < allVouchers.length; i++) {
-      listVouchers.add(Expanded(
-        child: Expanded(
-          child: VoucherCard(
-            voucher: allVouchers[i],
-          ),
-        ),
+      listVouchers.add(VoucherCard(
+        voucher: allVouchers[i],
       ));
     }
 

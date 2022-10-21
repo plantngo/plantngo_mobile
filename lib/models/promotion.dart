@@ -8,22 +8,17 @@ class Promotion {
   int? id;
   String? description;
   //url to link to the promotional banner image
-  String? bannerUrl; 
-  double? percentageDiscount;
+  String? bannerUrl;
   //derived from date of promo creation
   String? startDate;
   String? endDate;
-  //selected products on promotion
-  List<Product>? products;
 
   Promotion({
     required this.id,
     required this.description,
     required this.bannerUrl,
-    required this.percentageDiscount,
     required this.startDate,
     required this.endDate,
-    required this.products
   });
 
   factory Promotion.fromJSON(Map<String, dynamic> json) =>

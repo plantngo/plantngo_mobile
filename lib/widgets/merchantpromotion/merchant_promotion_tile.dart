@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/promotion.dart';
-import 'package:plantngo_frontend/screens/merchant/edit_promotion_screen.dart';
-import 'package:plantngo_frontend/screens/merchant/edit_voucher_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/promotion/edit_promotion_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/voucher/edit_voucher_screen.dart';
 
 class MerchantPromotionTile extends StatefulWidget {
   const MerchantPromotionTile({Key? key, required this.promotion})

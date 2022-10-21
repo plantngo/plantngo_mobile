@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/merchant/merchant_profile_section.dart';
-import 'package:plantngo_frontend/screens/merchant/merchant_promotion_screen.dart';
-import 'package:plantngo_frontend/screens/merchant/merchant_voucher_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/merchant_profile_section.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/promotion/merchant_promotion_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/voucher/merchant_voucher_screen.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 
-class MerchantAccountScreen extends StatefulWidget {
-  const MerchantAccountScreen({super.key});
+class MerchantProfileScreen extends StatefulWidget {
+  const MerchantProfileScreen({super.key});
 
   @override
-  State<MerchantAccountScreen> createState() => _MerchantAccountScreenState();
+  State<MerchantProfileScreen> createState() => _MerchantProfileScreenState();
 }
 
-class _MerchantAccountScreenState extends State<MerchantAccountScreen> {
+class _MerchantProfileScreenState extends State<MerchantProfileScreen> {
   void logOut() {
     AuthService.logOut(context);
   }
@@ -21,7 +21,7 @@ class _MerchantAccountScreenState extends State<MerchantAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Account"),
+        title: const Text("Profile"),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),

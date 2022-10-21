@@ -28,6 +28,25 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
   bool _isObscure = true;
   bool _isValidPassword = true;
   bool _isChangingPassword = false;
+  String username = '';
+
+  @override
+  void initState() {
+    super.initState();
+    var customerProvider =
+        Provider.of<CustomerProvider>(context, listen: false);
+    var merchantProvider =
+        Provider.of<MerchantProvider>(context, listen: false);
+    username = customerProvider.customer.username!;
+    _emailController.text = customerProvider.customer.email!;
+    _usernameController.text = username;
+
+    if (customerProvider.customer.id == null) {
+      username = merchantProvider.merchant.username!;
+      _usertypeController.text = "M";
+      _usernameController.text = username;
+    }
+  }
 
   @override
   dispose() {
@@ -42,16 +61,13 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var customerProvider = Provider.of<CustomerProvider>(context, listen: true);
-    var merchantProvider = Provider.of<MerchantProvider>(context, listen: true);
-    _emailController.text = customerProvider.customer.email!;
-    String username = customerProvider.customer.username!;
-    _usernameController.text = username;
+    // _emailController.text = customerProvider.customer.email!;
+    // _usernameController.text = customerProvider.customer.username!;
 
-    if (customerProvider.customer.id == null) {
-      _usertypeController.text = "M";
-      _usernameController.text = merchantProvider.merchant.username!;
-    }
+    // if (customerProvider.customer.id == null) {
+    //   _usertypeController.text = "M";
+    //   _usernameController.text = merchantProvider.merchant.username!;
+    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -109,15 +125,16 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                                   !EmailValidator.validate(value)) {
                                 return 'Please enter a valid email';
                               }
+                              return null;
                             }),
                           ),
                           const SizedBox(height: 20),
-                          if (_companyController.text == "M")
+                          if (_usertypeController.text == "M")
                             TextFormField(
                               controller: _companyController,
                               decoration: const InputDecoration(
                                 filled: true,
-                                labelText: "Comapany",
+                                labelText: "Company",
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide:

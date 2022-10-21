@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
-import 'package:plantngo_frontend/screens/merchant/create_promotion_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/promotion/create_promotion_screen.dart';
 import 'package:plantngo_frontend/widgets/merchantpromotion/merchant_promotion_tile.dart';
 import 'package:provider/provider.dart';
 

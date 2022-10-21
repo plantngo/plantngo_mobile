@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/voucher.dart';
-import 'package:plantngo_frontend/screens/merchant/edit_voucher_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/voucher/edit_voucher_screen.dart';
 
 class MerchantVoucherTile extends StatefulWidget {
   const MerchantVoucherTile({Key? key, required this.voucher})

@@ -29,7 +29,6 @@ class _VoucherShopState extends State<VoucherShop> {
         Provider.of<VoucherShopProvider>(context, listen: true);
 
     removeVouchers(customerProvider, voucherShopProvider);
-
     var greenPoints = (customerProvider.customer.greenPoints == null)
         ? 0
         : customerProvider.customer.greenPoints;
@@ -73,8 +72,7 @@ class _VoucherShopState extends State<VoucherShop> {
                   padding: const EdgeInsets.only(right: 12),
                   child: Text(
                     "Green Points: $greenPoints",
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Padding(
@@ -95,18 +93,22 @@ class _VoucherShopState extends State<VoucherShop> {
           ),
         ],
       ),
-      floatingActionButton: Container(
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-        ),
-        child: FloatingActionButton(
-          backgroundColor: Color.fromARGB(156, 26, 188, 23),
-          shape: const CircleBorder(),
-          // Lead to checkout page
-          onPressed: () {
-            Navigator.pushNamed(context, VoucherCheckout.routeName);
-          },
-          child: const Icon(Icons.shopping_cart, color: Colors.black),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 20, right: 10),
+        child: Container(
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            
+          ),
+          child: FloatingActionButton(
+            backgroundColor: Color.fromARGB(255, 28, 216, 113),
+            shape: const CircleBorder(),
+            // Lead to checkout page
+            onPressed: () {
+              Navigator.pushNamed(context, VoucherCheckout.routeName);
+            },
+            child: const Icon(Icons.shopping_cart, color: Colors.black),
+          ),
         ),
       ),
     );
@@ -118,7 +120,6 @@ class _VoucherShopState extends State<VoucherShop> {
         voucherShopProvider.vouchers.remove(voucher);
       }
     }
-
     for (Voucher voucher in customerProvider.customer.ownedVouchers) {
       if (voucherShopProvider.vouchers.contains(voucher)) {
         voucherShopProvider.vouchers.remove(voucher);
@@ -139,10 +140,12 @@ class _VoucherShopState extends State<VoucherShop> {
     }
 
     return listVouchers.isEmpty
-        ? [const Padding(
-          padding: EdgeInsets.only(top:20),
-          child: Text("No Vouchers Available"),
-        )]
+        ? [
+            const Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Text("No Vouchers Available"),
+            )
+          ]
         : listVouchers;
   }
 }

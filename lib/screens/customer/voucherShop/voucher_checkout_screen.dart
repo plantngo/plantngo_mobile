@@ -102,9 +102,9 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30),
+              padding: const EdgeInsets.only(left: 30, right: 30, bottom: 50),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -158,7 +158,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                               ),
                             );
                           } else {
-                            customerProvider.emptyCart();
+                            voucherShopProvider.purchaseVouchers(context);
                             customerProvider.customer.greenPoints =
                                 greenPoints - total;
                             ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -170,7 +170,6 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                               ),
                             );
                           }
-                          voucherShopProvider.purchaseVouchers(context);
                         },
                   child: const Text('Checkout'),
                 ),

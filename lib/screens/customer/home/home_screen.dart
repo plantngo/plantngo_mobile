@@ -48,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
     const String searchFieldPlaceholder = "Search for food and shops";
     const double bannerHeight = 200.0;
     List<Promotion> promotion = promotionProvider.promotions;
-    print(promotion);
     // replace with actual data
     List<String> nearbyBanners = mockNearbyBanners;
     List<String> promotionBanners = mockPromotionBanners;

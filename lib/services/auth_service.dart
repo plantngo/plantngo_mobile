@@ -21,6 +21,7 @@ class AuthService {
       required String userType,
       required}) async {
     try {
+      print("$email $username $password $userType");
       http.Response res = await http.post(
         Uri.parse('$uri/api/v1/register'),
         body: jsonEncode({

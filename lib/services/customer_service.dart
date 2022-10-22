@@ -54,12 +54,6 @@ class CustomerService {
         body: jsonEncode(
             {"voucherId": voucher.id, "merchantId": voucher.merchantId}),
       );
-      httpErrorHandle(
-          response: res,
-          context: context,
-          onSuccess: () {
-            // showSnackBar(context, res.body);
-          });
     } catch (e) {
       //to do catch exception
     }
@@ -90,5 +84,4 @@ class CustomerService {
     }
     return vouchers;
   }
-
 }

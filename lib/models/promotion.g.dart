@@ -17,7 +17,7 @@ Promotion _$PromotionFromJson(Map<String, dynamic> json) => Promotion(
 Map<String, dynamic> _$PromotionToJson(Promotion instance) => <String, dynamic>{
       'id': instance.id,
       'description': instance.description,
-      'banner': instance.bannerUrl,
+      'bannerUrl': instance.bannerUrl,
       'startDate': instance.startDate,
       'endDate': instance.endDate,
     };

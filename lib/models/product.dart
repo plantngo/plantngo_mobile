@@ -3,7 +3,7 @@ import 'package:plantngo_frontend/models/ingredient.dart';
 
 part 'product.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Product {
   int? id;
   String? name;
@@ -22,8 +22,8 @@ class Product {
       this.imageUrl,
       required this.ingredients});
 
-  factory Product.fromJSON(Map<String, dynamic> json) =>
+  factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
 
-  Map<String, dynamic> toJSON() => _$ProductToJson(this);
+  Map<String, dynamic> toJson() => _$ProductToJson(this);
 }

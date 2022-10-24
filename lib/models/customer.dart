@@ -4,7 +4,7 @@ import 'package:quiver/core.dart';
 
 part "customer.g.dart";
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Customer {
   int? id;
   String? username;
@@ -25,14 +25,14 @@ class Customer {
       required this.ownedVouchers,
       required this.vouchersCart});
 
-  factory Customer.fromJSON(Map<String, dynamic> json) =>
+  factory Customer.fromJson(Map<String, dynamic> json) =>
       _$CustomerFromJson(json);
 
-  Map<String, dynamic> toJSON() => _$CustomerToJson(this);
+  Map<String, dynamic> toJson() => _$CustomerToJson(this);
 
   @override
   String toString() {
-    return toJSON().toString();
+    return toJson().toString();
   }
 
   bool operator ==(o) => o is Customer && username == o.username && id == o.id;

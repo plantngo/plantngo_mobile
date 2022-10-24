@@ -76,7 +76,7 @@ class CustomerService {
       );
       if (res.statusCode == 200) {
         for (var i = 0; i < res.body.length; i++) {
-          vouchers.add(Voucher.fromJSON(jsonDecode(res.body)[i]));
+          vouchers.add(Voucher.fromJson(jsonDecode(res.body)[i]));
         }
       }
     } catch (e) {

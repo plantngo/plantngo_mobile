@@ -8,13 +8,10 @@ class Ingredient {
   String? name;
   double? servingQty;
 
-  Ingredient(
-      {required this.id,
-      required this.name,
-      required this.servingQty});
+  Ingredient({required this.id, required this.name, required this.servingQty});
 
-  factory Ingredient.fromJSON(Map<String, dynamic> json) =>
+  factory Ingredient.fromJson(Map<String, dynamic> json) =>
       _$IngredientFromJson(json);
 
-  Map<String, dynamic> toJSON() => _$IngredientToJson(this);
+  Map<String, dynamic> toJson() => _$IngredientToJson(this);
 }

@@ -47,8 +47,6 @@ When you're done cloning the project, you will need to `cd` into the project dir
 ```bash
 # change directory into the project
 cd plantngo_frontend
-# start the project with flutter
-flutter run
 ```
 
 ## Running

@@ -11,8 +11,11 @@ class LoginSignUpScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: const [
-            SizedBox(height: 150),
+            const SizedBox(
+              height: 100,
+            ),
             Image(image: AssetImage('assets/icon/Plant&Go.png')),
             LoginSignUpButtons(),
           ],

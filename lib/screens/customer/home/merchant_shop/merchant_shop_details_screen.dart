@@ -49,7 +49,6 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
   buildMenu(List<Category>? categories) {
     List<Widget> categoryMenuList = [];
     if (categories != null && categories.isNotEmpty) {
-      print("------------" + categories![0].name);
       for (Category category in categories) {
         if (category.products != null && category.products!.isNotEmpty) {
           categoryMenuList.addAll(

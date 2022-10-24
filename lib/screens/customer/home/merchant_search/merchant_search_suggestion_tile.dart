@@ -34,7 +34,7 @@ class MerchantSearchSuggestionTile extends StatelessWidget {
         merchant.company,
       ),
       subtitle: ConstrainedBox(
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
           minWidth: double.maxFinite,
         ),
         child: Wrap(

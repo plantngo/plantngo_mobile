@@ -63,9 +63,9 @@ flutter run -d <emulator/device-id>
 ### Self-Hosted Backend Server
 If you wish to host the Backend Server yourself, you can refer to the guide on [Plant&Go Backend Server's Github Repository](https://github.com/plantngo/plantngo_backend) on setting up a [Plant&Go Backend Server](https://github.com/plantngo/plantngo_backend).
 
-To run the mobile application with a Self-Hosted Backend Server, modify and execute the `run.sh` bash script provided.
+To run the mobile application with a Self-Hosted Backend Server, modify and execute the `flutter_run.sh` bash script provided.
 ```bash
-<run.sh>
+<flutter_run.sh>
 # runs the app with the SPRINGBOOT_HOST variable
 # change the IP Below to your locally hosted server's ip:port
 flutter run --dart-define=SPRINGBOOT_HOST="http://localhost:8080"

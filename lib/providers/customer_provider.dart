@@ -23,7 +23,7 @@ class CustomerProvider extends ChangeNotifier {
   void setCustomer(String customer, String token) {
     Map<String, dynamic> customerMap = jsonDecode(customer);
     customerMap['token'] = token;
-    _customer = Customer.fromJSON(customerMap);
+    _customer = Customer.fromJson(customerMap);
     notifyListeners();
   }
 
@@ -67,5 +67,4 @@ class CustomerProvider extends ChangeNotifier {
     customer.vouchersCart = [];
     notifyListeners();
   }
-
 }

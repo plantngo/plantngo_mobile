@@ -13,10 +13,10 @@ Merchant _$MerchantFromJson(Map<String, dynamic> json) => Merchant(
       company: json['company'] as String?,
       token: json['token'] as String,
       categories: (json['categories'] as List<dynamic>?)
-          ?.map((e) => Category.fromJSON(e as Map<String, dynamic>))
+          ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
       vouchers: (json['vouchers'] as List<dynamic>?)
-          ?.map((e) => Voucher.fromJSON(e as Map<String, dynamic>))
+          ?.map((e) => Voucher.fromJson(e as Map<String, dynamic>))
           .toList(),
       logoUrl: json['logoUrl'] as String?,
       bannerUrl: json['bannerUrl'] as String?,
@@ -28,7 +28,7 @@ Merchant _$MerchantFromJson(Map<String, dynamic> json) => Merchant(
       priceRating: json['priceRating'] as int?,
       operatingHours: json['operatingHours'] as String?,
       promotions: (json['promotions'] as List<dynamic>?)
-          ?.map((e) => Promotion.fromJSON(e as Map<String, dynamic>))
+          ?.map((e) => Promotion.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -38,9 +38,9 @@ Map<String, dynamic> _$MerchantToJson(Merchant instance) => <String, dynamic>{
       'email': instance.email,
       'company': instance.company,
       'token': instance.token,
-      'categories': instance.categories,
-      'vouchers': instance.vouchers,
-      'promotions': instance.promotions,
+      'categories': instance.categories?.map((e) => e.toJson()).toList(),
+      'vouchers': instance.vouchers?.map((e) => e.toJson()).toList(),
+      'promotions': instance.promotions?.map((e) => e.toJson()).toList(),
       'logoUrl': instance.logoUrl,
       'bannerUrl': instance.bannerUrl,
       'address': instance.address,

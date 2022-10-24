@@ -232,7 +232,7 @@ class MerchantService {
       if (res.statusCode == 200) {
         for (var i = 0; i < jsonDecode(res.body)["categories"].length; i++) {
           categories
-              .add(Category.fromJSON(jsonDecode(res.body)["categories"][i]));
+              .add(Category.fromJson(jsonDecode(res.body)["categories"][i]));
         }
       }
     } catch (e) {
@@ -390,7 +390,7 @@ class MerchantService {
         onSuccess: () {
           json
               .decode(res.body)
-              .map((e) => {vouchers.add(Voucher.fromJSON(e))})
+              .map((e) => {vouchers.add(Voucher.fromJson(e))})
               .toList();
           Provider.of<MerchantProvider>(context, listen: false)
               .setVouchers(vouchers);
@@ -418,7 +418,7 @@ class MerchantService {
         onSuccess: () {
           json
               .decode(res.body)
-              .map((e) => {ingredients.add(Ingredient.fromJSON(e))})
+              .map((e) => {ingredients.add(Ingredient.fromJson(e))})
               .toList();
           Provider.of<MerchantIngredientsProvider>(context, listen: false)
               .setIngredients(ingredients);

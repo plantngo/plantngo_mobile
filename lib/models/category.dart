@@ -3,17 +3,16 @@ import 'package:plantngo_frontend/models/product.dart';
 
 part "category.g.dart";
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Category {
   int? id;
   String name;
   List<Product>? products;
-  
 
   Category({required this.id, required this.name, required this.products});
 
-  factory Category.fromJSON(Map<String, dynamic> json) =>
+  factory Category.fromJson(Map<String, dynamic> json) =>
       _$CategoryFromJson(json);
 
-  Map<String, dynamic> toJSON() => _$CategoryToJson(this);
+  Map<String, dynamic> toJson() => _$CategoryToJson(this);
 }

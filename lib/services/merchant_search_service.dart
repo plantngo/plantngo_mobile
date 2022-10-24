@@ -28,7 +28,7 @@ class MerchantSearchService {
       );
       if (res.statusCode == 200) {
         for (int i = 0; i < jsonDecode(res.body).length; i++) {
-          MerchantSearch e = MerchantSearch.fromJSON(jsonDecode(res.body)[i]);
+          MerchantSearch e = MerchantSearch.fromJson(jsonDecode(res.body)[i]);
 
           if (e.company.toLowerCase().trim().contains(query.toLowerCase()) ||
               e.cuisineType

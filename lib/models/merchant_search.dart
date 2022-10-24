@@ -3,7 +3,7 @@ import 'package:plantngo_frontend/models/category.dart';
 
 part 'merchant_search.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MerchantSearch {
   int id;
   String company;
@@ -16,6 +16,7 @@ class MerchantSearch {
   int priceRating;
   String operatingHours;
   String description;
+  double? carbonRating;
   List<Category>? categories;
 
   @JsonKey(ignore: true)
@@ -36,11 +37,12 @@ class MerchantSearch {
     required this.operatingHours,
     required this.description,
     required this.categories,
+    this.carbonRating,
     this.distanceFrom,
   });
 
-  factory MerchantSearch.fromJSON(Map<String, dynamic> json) =>
+  factory MerchantSearch.fromJson(Map<String, dynamic> json) =>
       _$MerchantSearchFromJson(json);
 
-  Map<String, dynamic> toJSON() => _$MerchantSearchToJson(this);
+  Map<String, dynamic> toJson() => _$MerchantSearchToJson(this);
 }

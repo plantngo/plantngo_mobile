@@ -27,7 +27,7 @@ class ShopService {
       );
       if (res.statusCode == 200) {
         for (var i = 0; i < res.body.length; i++) {
-          vouchers.add(Voucher.fromJSON(jsonDecode(res.body)[i]));
+          vouchers.add(Voucher.fromJson(jsonDecode(res.body)[i]));
         }
       }
     } catch (e) {
@@ -41,7 +41,8 @@ class ShopService {
     Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
     String username = payload['sub'];
 
-    var customerProvider = Provider.of<CustomerProvider>(context, listen: false);
+    var customerProvider =
+        Provider.of<CustomerProvider>(context, listen: false);
 
     try {
       http.Response res = await http.post(

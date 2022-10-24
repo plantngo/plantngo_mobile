@@ -25,10 +25,10 @@ class PromotionService {
           'Authorization': 'Bearer $token'
         },
       );
-      if (res.statusCode == 200) { 
+      if (res.statusCode == 200) {
         for (var i = 0; i < jsonDecode(res.body).length; i++) {
           // print(Promotion.fromJSON(jsonDecode(res.body)[i]));
-          promotions.add(Promotion.fromJSON(jsonDecode(res.body)[i]));
+          promotions.add(Promotion.fromJson(jsonDecode(res.body)[i]));
         }
         // print(promotions);
       }
@@ -58,7 +58,7 @@ class PromotionService {
       );
       if (res.statusCode == 200) {
         for (var i = 0; i < res.body.length; i++) {
-          promotions.add(Promotion.fromJSON(jsonDecode(res.body)[i]));
+          promotions.add(Promotion.fromJson(jsonDecode(res.body)[i]));
         }
       }
     } catch (e) {

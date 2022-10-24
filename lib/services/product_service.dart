@@ -78,7 +78,7 @@ class ProductService {
             json
                 .decode(res.body)
                 .map((e) => {
-                      ingredients.add(Ingredient.fromJSON({
+                      ingredients.add(Ingredient.fromJson({
                         "id": e["id"],
                         "servingQty": e["servingQty"],
                         "name": e["ingredient"]["name"]

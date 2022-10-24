@@ -29,7 +29,7 @@ class MerchantProvider extends ChangeNotifier {
   void setMerchant(String merchant, String token) {
     Map<String, dynamic> merchantMap = jsonDecode(merchant);
     merchantMap['token'] = token;
-    _merchant = Merchant.fromJSON(merchantMap);
+    _merchant = Merchant.fromJson(merchantMap);
     notifyListeners();
   }
 

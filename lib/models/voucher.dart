@@ -14,26 +14,24 @@ class Voucher {
   double? discount;
   int? merchantId;
 
-  Voucher({
-    required this.id,
-    required this.description,
-    required this.value,
-    required this.discount,
-    required this.type,
-    required this.merchantId
-  });
-  factory Voucher.fromJSON(Map<String, dynamic> json) =>
+  Voucher(
+      {required this.id,
+      required this.description,
+      required this.value,
+      required this.discount,
+      required this.type,
+      required this.merchantId});
+  factory Voucher.fromJson(Map<String, dynamic> json) =>
       _$VoucherFromJson(json);
 
-  Map<String, dynamic> toJSON() => _$VoucherToJson(this);
+  Map<String, dynamic> toJson() => _$VoucherToJson(this);
 
   @override
-  String toString(){
-    return toJSON().toString();
+  String toString() {
+    return toJson().toString();
   }
 
-  bool operator ==(o) => o is Voucher && id == o.id && merchantId == o.merchantId;
+  bool operator ==(o) =>
+      o is Voucher && id == o.id && merchantId == o.merchantId;
   int get hashCode => hash2(id.hashCode, merchantId.hashCode);
-
-  static fromJson(Map<String, dynamic> e) {}
 }

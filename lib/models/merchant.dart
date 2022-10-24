@@ -5,7 +5,7 @@ import 'package:plantngo_frontend/models/voucher.dart';
 
 part "merchant.g.dart";
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Merchant {
   int? id;
   String? username;
@@ -44,13 +44,13 @@ class Merchant {
       required this.operatingHours,
       required this.promotions});
 
-  factory Merchant.fromJSON(Map<String, dynamic> json) =>
+  factory Merchant.fromJson(Map<String, dynamic> json) =>
       _$MerchantFromJson(json);
 
-  Map<String, dynamic> toJSON() => _$MerchantToJson(this);
+  Map<String, dynamic> toJson() => _$MerchantToJson(this);
 
   @override
   String toString() {
-    return toJSON().toString();
+    return toJson().toString();
   }
 }

@@ -20,8 +20,9 @@ MerchantSearch _$MerchantSearchFromJson(Map<String, dynamic> json) =>
       operatingHours: json['operatingHours'] as String,
       description: json['description'] as String,
       categories: (json['categories'] as List<dynamic>?)
-          ?.map((e) => Category.fromJSON(e as Map<String, dynamic>))
+          ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
+      carbonRating: (json['carbonRating'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$MerchantSearchToJson(MerchantSearch instance) =>
@@ -37,5 +38,6 @@ Map<String, dynamic> _$MerchantSearchToJson(MerchantSearch instance) =>
       'priceRating': instance.priceRating,
       'operatingHours': instance.operatingHours,
       'description': instance.description,
-      'categories': instance.categories,
+      'carbonRating': instance.carbonRating,
+      'categories': instance.categories?.map((e) => e.toJson()).toList(),
     };

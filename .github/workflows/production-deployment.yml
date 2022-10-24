@@ -1,59 +1,57 @@
 name: Production Release
 
 # on create of tags
-on: 
+on:
   push:
     tags:
-    - '*'
+      - "*"
 
 jobs:
-  ios_build:
-    
-    runs-on: macos-latest
-    #permissions for release 
-    permissions:
-      contents: write
-    
-    # use checkout action
-    steps:
-    - uses: actions/checkout@v3
+  # ios_build:
 
-    # use flutter action
-    - uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.3.4'
-    - run: flutter pub get
-    - run: flutter build ipa 
+  #   runs-on: macos-latest
+  #   #permissions for release
+  #   permissions:
+  #     contents: write
 
-  android_build: 
+  #   # use checkout action
+  #   steps:
+  #   - uses: actions/checkout@v3
+
+  #   # use flutter action
+  #   - uses: subosito/flutter-action@v2
+  #     with:
+  #       flutter-version: '3.3.4'
+  #   - run: flutter pub get
+  #   - run: flutter build ipa
+
+  android_build:
     runs-on: ubuntu-latest
-    # permissions for release 
+    # permissions for release
     permissions:
       contents: write
 
     steps:
-    # use checkout action
-    - uses: actions/checkout@v3
-    
-    # use java action
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'zulu'
-        java-version: '17'
-    
-    # user flutter action
-    - uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.3.4'
-    - run: flutter pub get
-    - run: flutter build apk
-    # - run: flutter build appbundle
+      # use checkout action
+      - uses: actions/checkout@v3
 
-    # use release action to create release
-    - uses: ncipollo/release-action@v1
-      with:
-        allowUpdates: true
-        artifacts: "build/app/outputs/flutter-apk/app-release.apk"
-        token: ${{ secrets.GITHUB_TOKEN }}
+      # use java action
+      - uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "17"
 
-  
+      # user flutter action
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.4"
+      - run: flutter pub get
+      - run: flutter build apk --dart-define=SPRINGBOOT_HOST="https://plantngo.potatovault.com"
+      # - run: flutter build appbundle
+
+      # use release action to create release
+      - uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
+          token: ${{ secrets.GITHUB_TOKEN }}

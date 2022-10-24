@@ -49,11 +49,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             UserProfileSection(),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             UserSettingSection(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             SizedBox(
               width: 300,
               height: 40,

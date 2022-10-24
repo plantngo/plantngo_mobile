@@ -35,15 +35,13 @@ class PriceTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: Container(
-          color: Colors.grey[100],
-          child: Padding(
-            padding: const EdgeInsets.all(3),
-            child: buildSymbol(context),
-          ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        color: Colors.grey[100],
+        child: Padding(
+          padding: const EdgeInsets.all(3),
+          child: buildSymbol(context),
         ),
       ),
     );

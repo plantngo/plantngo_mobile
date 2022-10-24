@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
-import 'package:plantngo_frontend/screens/merchant/add_category_screen.dart';
-import 'package:plantngo_frontend/screens/merchant/add_item_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/menu/category/add_category_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/menu/item/add_item_screen.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/merchantsetupmenu/setup_menu_item_tiles.dart';
+import '../../../widgets/merchantsetupmenu/setup_menu_item_tiles.dart';
 
 class MerchantSetupMenuScreen extends StatefulWidget {
   const MerchantSetupMenuScreen({Key? key}) : super(key: key);

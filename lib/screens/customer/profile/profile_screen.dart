@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/customer/profile/user_profile_section.dart';
-import 'package:plantngo_frontend/screens/customer/profile/user_settings_section.dart';
+import 'package:plantngo_frontend/screens/user_profile_section.dart';
+import 'package:plantngo_frontend/screens/user_settings_section.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -49,11 +49,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             UserProfileSection(),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             UserSettingSection(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             SizedBox(
               width: 300,
               height: 40,

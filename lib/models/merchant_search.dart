@@ -11,7 +11,7 @@ class MerchantSearch {
   String bannerUrl;
   String address;
   double latitude;
-  double longtitude;
+  double longitude;
   String cuisineType;
   int priceRating;
   String operatingHours;
@@ -30,7 +30,7 @@ class MerchantSearch {
     required this.bannerUrl,
     required this.address,
     required this.latitude,
-    required this.longtitude,
+    required this.longitude,
     required this.cuisineType,
     required this.priceRating,
     required this.operatingHours,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/services/auth_service.dart';
 
-import 'profile_setting_screen.dart';
+import 'user_setting_screen.dart';
 
 class UserSettingSection extends StatelessWidget {
   const UserSettingSection({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class UserSettingSection extends StatelessWidget {
       "",
       "",
     ];
-    List<String> routeList = ["", CustomerSettingScreen.routeName];
+    List<String> routeList = ["", UserSettingScreen.routeName];
     return Column(
       children: [
         ListView.builder(
@@ -82,6 +83,7 @@ class UserSettingSection extends StatelessWidget {
                 ),
               ),
               onTap: () {
+                AuthService.getUserData(context);
                 Navigator.pushNamed(context, routeList[i]);
               }, // Handle your onTap here.
             );

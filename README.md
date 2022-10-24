@@ -43,7 +43,7 @@ After installing the above dependencies, make a copy of the repository with the 
 ```bash
 git clone https://github.com/plantngo/plantngo_frontend
 ```
-When you're done cloning the project, you will need to `cd` into the project directory and use `flutter` to start the project. Open up your terminal and run the following commands:
+When you're done cloning the project, you will need to `cd` into the project directory. Open up your terminal and run the following command:
 ```bash
 # change directory into the project
 cd plantngo_frontend

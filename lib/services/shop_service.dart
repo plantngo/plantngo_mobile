@@ -41,7 +41,8 @@ class ShopService {
     Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
     String username = payload['sub'];
 
-    var customerProvider = Provider.of<CustomerProvider>(context, listen: false);
+    var customerProvider =
+        Provider.of<CustomerProvider>(context, listen: false);
 
     try {
       http.Response res = await http.post(
@@ -58,12 +59,7 @@ class ShopService {
         }
         customerProvider.emptyCart();
       }
-      httpErrorHandle(
-          response: res,
-          context: context,
-          onSuccess: () {
-            // showSnackBar(context, res.body);
-          });
+      // httpErrorHandle(response: res, context: context, onSuccess: () {});
     } catch (e) {
       //to do catch exception
     }

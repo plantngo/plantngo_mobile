@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
-import 'package:plantngo_frontend/screens/merchant/merchant_home_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/home/merchant_home_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/menu/merchant_menu_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/profile/merchant_profile_screen.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';

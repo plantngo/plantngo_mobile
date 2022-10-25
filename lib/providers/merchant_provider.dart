@@ -22,7 +22,8 @@ class MerchantProvider extends ChangeNotifier {
       longtitude: null,
       cuisineType: '',
       priceRating: null,
-      operatingHours: '');
+      operatingHours: '',
+      orders: []);
 
   Merchant get merchant => _merchant;
 
@@ -61,6 +62,7 @@ class MerchantProvider extends ChangeNotifier {
         longtitude: null,
         cuisineType: '',
         priceRating: null,
-        operatingHours: '');
+        operatingHours: '',
+        orders: []);
   }
 }

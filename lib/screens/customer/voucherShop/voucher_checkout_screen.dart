@@ -158,6 +158,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                               ),
                             );
                           } else {
+                            
                             voucherShopProvider.purchaseVouchers(context);
                             customerProvider.customer.greenPoints =
                                 greenPoints - total;

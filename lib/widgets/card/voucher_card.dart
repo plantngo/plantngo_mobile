@@ -55,10 +55,10 @@ class _VoucherCardState extends State<VoucherCard> {
                         leading: const Image(
                             image: AssetImage('assets/icon/voucher.png')),
                         title: Text(rewardName,
-                            style: const TextStyle(fontSize: 16)),
+                            style: const TextStyle(fontSize: 12)),
                         subtitle: Text("Price: $price",
                             style: TextStyle(
-                                fontSize: 14, color: Colors.orange[900])),
+                                fontSize: 12, color: Colors.orange[900])),
                       ),
                     ),
                   ),

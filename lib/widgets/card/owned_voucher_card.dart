@@ -119,7 +119,7 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
                                           AlertDialog(
                                         title: const Padding(
                                           padding: EdgeInsets.all(4.0),
-                                          child: Text("Redeeming Voucher",
+                                          child: Text("Redeem Voucher",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold)),
                                         ),
@@ -141,18 +141,21 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
                                                 ),
                                               ),
                                               Expanded(
-                                                child: Text(
-                                                  "$rewardName",
-                                                  style: TextStyle(
-                                                    color: Colors.orange[900],
+                                                flex: 2,
+                                                child: SizedBox(
+                                                  child: Text(
+                                                    "$rewardName",
+                                                    style: TextStyle(
+                                                      color: Colors.green[900],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                               Expanded(
                                                 child: Text(
-                                                  "ID: $voucherID_string",
-                                                  style: TextStyle(
-                                                    color: Colors.orange[900],
+                                                  "Redemption Code: $voucherID_string",
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
                                                   ),
                                                 ),
                                               ),
@@ -177,6 +180,8 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
                                           ),
                                           TextButton(
                                             onPressed: () {
+                                              customerProvider.useVoucher(
+                                                  context, widget.voucher);
                                               Navigator.pop(context, "Confirm");
                                             },
                                             child: const Text("Confirm"),

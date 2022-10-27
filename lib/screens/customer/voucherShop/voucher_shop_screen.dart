@@ -203,7 +203,6 @@ class _VoucherShopState extends State<VoucherShop> {
         Provider.of<CustomerProvider>(context, listen: true);
     List<Widget> listVouchers = [];
     List<Voucher> ownedVouchers = customerProvider.customer.ownedVouchers;
-    print(ownedVouchers);
     for (int i = 0; i < ownedVouchers.length; i++) {
       listVouchers.add(OwnedVoucherCard(
         voucher: ownedVouchers[i],

@@ -182,7 +182,18 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
                                             onPressed: () {
                                               customerProvider.useVoucher(
                                                   context, widget.voucher);
+
                                               Navigator.pop(context, "Confirm");
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  backgroundColor: Colors.green,
+                                                  content: Text(
+                                                      'Voucher Redeemed!'),
+                                                  duration: Duration(
+                                                      milliseconds: 300),
+                                                ),
+                                              );
                                             },
                                             child: const Text("Confirm"),
                                           ),

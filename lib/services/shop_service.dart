@@ -54,6 +54,7 @@ class ShopService {
       );
       if (res.statusCode == 200) {
         List<Voucher> cart = customerProvider.customer.vouchersCart;
+
         for (Voucher v in cart) {
           customerProvider.customer.ownedVouchers.add(v);
         }
@@ -62,6 +63,7 @@ class ShopService {
       // httpErrorHandle(response: res, context: context, onSuccess: () {});
     } catch (e) {
       //to do catch exception
+      print(e);
     }
   }
 }

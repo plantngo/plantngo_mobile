@@ -67,4 +67,10 @@ class CustomerProvider extends ChangeNotifier {
     customer.vouchersCart = [];
     notifyListeners();
   }
+
+  void useVoucher(BuildContext context, Voucher v) {
+    CustomerService.useVoucher(context, v);
+    customer.ownedVouchers.remove(v);
+    notifyListeners();
+  }
 }

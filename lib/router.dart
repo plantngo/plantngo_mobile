@@ -65,12 +65,12 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           settings: routeSettings, builder: (_) => const VoucherCheckout());
     case UserSettingScreen.routeName:
       return MaterialPageRoute(
-          settings: routeSettings,
-          builder: (_) => const UserSettingScreen());
+          settings: routeSettings, builder: (_) => const UserSettingScreen());
     case CreatePromotionScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings,
           builder: (_) => const CreatePromotionScreen());
+    
     default:
       return MaterialPageRoute(
         settings: routeSettings,

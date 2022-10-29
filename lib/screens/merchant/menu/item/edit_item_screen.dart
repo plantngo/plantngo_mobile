@@ -101,7 +101,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
         oldName: widget.name,
         description: _itemDescriptionController.text,
         price: double.parse(_itemPriceController.text),
-        emission: double.parse(_itemEmissionController.text),
         category: dropdownValue);
 
     await ProductService.deleteAllIngredients(
@@ -263,6 +262,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   ),
                   TextFormField(
                     controller: _itemEmissionController,
+                    readOnly: true,
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(
                           RegExp(r'^\d+\.?\d{0,2}'))

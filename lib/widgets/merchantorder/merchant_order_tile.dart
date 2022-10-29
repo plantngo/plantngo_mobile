@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/models/order.dart';
+import 'package:plantngo_frontend/screens/merchant/home/merchant_order_details_screen.dart';
 
 class MerchantOrderTile extends StatefulWidget {
-  const MerchantOrderTile({Key? key}) : super(key: key);
+  const MerchantOrderTile({Key? key, required this.order}) : super(key: key);
+
+  final Order order;
 
   @override
   _MerchantOrderTileState createState() => _MerchantOrderTileState();
@@ -13,35 +17,37 @@ class _MerchantOrderTileState extends State<MerchantOrderTile> {
     return GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => EditVoucherScreen(voucher: widget.voucher),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MerchantOrderDetailsScreen(
+                order: widget.order,
+              ),
+            ),
+          );
         },
-        //dine in uses: restautant icon
+        //dine in uses: restaurant icon
         //takeway uses: Shopping Bag icon
         child: Column(
-          children: const [
+          children: [
             ListTile(
-              leading: const Icon(
-                Icons.shopping_bag,
+              leading: Icon(
+                widget.order.isDineIn! ? Icons.restaurant : Icons.shopping_bag,
                 color: Colors.green,
                 size: 30,
               ),
               title: Text(
-                "Order ID:",
+                "Order ID: ${widget.order.id}",
                 style: const TextStyle(fontSize: 20),
               ),
-              subtitle: Text("No of Items: "),
+              subtitle: Text("No of Items: ${widget.order.orderItems?.length}"),
               trailing: const Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.grey,
                 size: 30,
               ),
             ),
-            Divider()
+            const Divider()
           ],
         ));
   }

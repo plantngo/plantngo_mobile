@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
+import 'package:plantngo_frontend/services/order_service.dart';
 import 'package:plantngo_frontend/widgets/merchantorder/merchant_order_tile.dart';
-import 'package:plantngo_frontend/widgets/merchantsetupmenu/setup_menu_item_tiles.dart';
 import 'package:provider/provider.dart';
 
 class MerchantHomeScreen extends StatefulWidget {
@@ -13,29 +14,45 @@ class MerchantHomeScreen extends StatefulWidget {
 }
 
 class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
+  List<Order> pendingOrders = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setPendingOrders();
+  }
+
+  setPendingOrders() async {
+    pendingOrders =
+        await OrderService.getPendingOrdersByMerchant(context: context);
+    setState(() {});
+  }
+
+  Future _refresh() async {
+    setPendingOrders();
+    await Future.delayed(const Duration(seconds: 1));
+  }
+
   @override
   Widget build(BuildContext context) {
     var merchantProvider = Provider.of<MerchantProvider>(context, listen: true);
 
-    Future _refresh() async {
-      AuthService.getUserData(context);
-      await Future.delayed(Duration(seconds: 1));
-    }
-
     return Consumer<MerchantProvider>(builder:
         (BuildContext context, MerchantProvider merchantProvider, child) {
       return DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
             appBar: AppBar(
               bottom: TabBar(
                 tabs: [
                   Tab(
-                    icon: Text(
-                        '${merchantProvider.merchant.orders?.length ?? 0} Orders'),
+                    icon: Text('${pendingOrders.length} Orders'),
                   ),
                   const Tab(
-                    text: 'History',
+                    text: 'Fulfilled',
+                  ),
+                  const Tab(
+                    text: 'Cancelled',
                   ),
                 ],
               ),
@@ -49,27 +66,20 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
               RefreshIndicator(
                   onRefresh: _refresh,
                   child: ListView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    children: const <Widget>[
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: <Widget>[
                       // for (var value in merchantProvider.merchant.categories!)
                       //   SetupMenuItemTile(
                       //       categoryName: value.name, value: value.products)
-                      MerchantOrderTile(),
-                      MerchantOrderTile(),
-                      MerchantOrderTile(),
-                      MerchantOrderTile(),
-                      MerchantOrderTile(),
-                      MerchantOrderTile(),
-                      MerchantOrderTile(),
-                      MerchantOrderTile(),
-                      MerchantOrderTile(),
-                      MerchantOrderTile(),
-                      MerchantOrderTile(),
-                      MerchantOrderTile(),
+                      for (var item in pendingOrders)
+                        MerchantOrderTile(order: item)
                     ],
                   )),
               const SingleChildScrollView(
                 child: Text('History Page'),
+              ),
+              const SingleChildScrollView(
+                child: Text('Cancelled Page'),
               ),
             ])),
       );

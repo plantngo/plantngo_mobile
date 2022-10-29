@@ -9,26 +9,20 @@ part 'order.g.dart';
 class Order {
   int? id;
 
-  int? customer_Id;
-
   double? totalPrice;
 
   bool? isDineIn;
 
   List<OrderItem>? orderItems;
 
-  Customer? customer;
-
-  Merchant? merchant;
+  String? orderStatus;
 
   Order(
       {required this.id,
-      required this.customer_Id,
       required this.totalPrice,
       required this.isDineIn,
       required this.orderItems,
-      required this.customer,
-      required this.merchant});
+      required this.orderStatus});
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 

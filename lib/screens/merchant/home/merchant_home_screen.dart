@@ -3,7 +3,7 @@ import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/order_service.dart';
-import 'package:plantngo_frontend/widgets/merchantorder/merchant_order_tile.dart';
+import 'package:plantngo_frontend/widgets/merchantorder/merchant_pending_order_tile.dart';
 import 'package:provider/provider.dart';
 
 class MerchantHomeScreen extends StatefulWidget {
@@ -15,17 +15,41 @@ class MerchantHomeScreen extends StatefulWidget {
 
 class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
   List<Order> pendingOrders = [];
+  List<MerchantOrderTile> pendingOrderTile = [];
+  List<Order> fulfilledOrders = [];
+  List<MerchantOrderTile> fulfilledOrderTile = [];
 
   Future setPendingOrders() async {
     pendingOrders =
         await OrderService.getPendingOrdersByMerchant(context: context);
+    List<MerchantOrderTile> pendingOrderTile = [];
+
+    for (var item in pendingOrders) {
+      pendingOrderTile.add(MerchantOrderTile(order: item, refresh: _refresh));
+    }
+    this.pendingOrderTile = pendingOrderTile;
+
+    fulfilledOrders =
+        await OrderService.getFulfilledOrdersByMerchant(context: context);
+    List<MerchantOrderTile> fulfilledOrderTile = [];
+
+    for (var item in fulfilledOrders) {
+      fulfilledOrderTile.add(MerchantOrderTile(order: item, refresh: _refresh));
+    }
+
+    this.fulfilledOrderTile = fulfilledOrderTile;
   }
 
   Future _refresh() async {
     List<Order> pendingOrders =
         await OrderService.getPendingOrdersByMerchant(context: context);
+    List<MerchantOrderTile> pendingOrderTile = [];
+    for (var item in pendingOrders) {
+      pendingOrderTile.add(MerchantOrderTile(order: item, refresh: _refresh));
+    }
     setState(() {
       this.pendingOrders = pendingOrders;
+      this.pendingOrderTile = pendingOrderTile;
     });
     await Future.delayed(const Duration(seconds: 1));
   }
@@ -64,18 +88,11 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                   RefreshIndicator(
                       onRefresh: _refresh,
                       child: ListView(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        children: <Widget>[
-                          for (var item in pendingOrders)
-                            MerchantOrderTile(
-                              order: item,
-                              refresh: _refresh,
-                            )
-                        ],
-                      )),
-                  const SingleChildScrollView(
-                    child: Text('History Page'),
-                  ),
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: pendingOrderTile)),
+                  ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: fulfilledOrderTile),
                   const SingleChildScrollView(
                     child: Text('Cancelled Page'),
                   ),

@@ -51,52 +51,78 @@ class _MerchantOrderDetailsScreenState
               physics: const AlwaysScrollableScrollPhysics(),
               children: orderItemsTiles,
             ),
-            bottomNavigationBar: SizedBox(
-              height: 175,
-              child: Container(
-                padding: const EdgeInsets.all(35),
-                color: const Color.fromARGB(33, 158, 158, 158),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: Row(
+            bottomNavigationBar: widget.order.orderStatus == "FULFILLED"
+                ? SizedBox(
+                    height: 115,
+                    child: Container(
+                      padding: const EdgeInsets.all(35),
+                      color: const Color.fromARGB(33, 158, 158, 158),
+                      child: Column(
                         children: [
-                          const Spacer(),
-                          Text(
-                            "Total(\$): \$${widget.order.totalPrice}0",
-                            style: const TextStyle(fontSize: 20),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                const Spacer(),
+                                Text(
+                                  "Total(\$): \$${widget.order.totalPrice}0",
+                                  style: const TextStyle(fontSize: 20),
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),
                     ),
-                    const Spacer(),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            foregroundColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                          ).copyWith(
-                            elevation: ButtonStyleButton.allOrNull(0.0),
+                  )
+                : SizedBox(
+                    height: 175,
+                    child: Container(
+                      padding: const EdgeInsets.all(35),
+                      color: const Color.fromARGB(33, 158, 158, 158),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                const Spacer(),
+                                Text(
+                                  "Total(\$): \$${widget.order.totalPrice}0",
+                                  style: const TextStyle(fontSize: 20),
+                                )
+                              ],
+                            ),
                           ),
-                          child: const Text('Mark as Fulfilled'),
-                          onPressed: () async {
-                            await OrderService.updateOrderStatusToFulFilled(
-                                context: context, order: widget.order);
+                          const Spacer(),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  foregroundColor:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
+                                ).copyWith(
+                                  elevation: ButtonStyleButton.allOrNull(0.0),
+                                ),
+                                child: const Text('Mark as Fulfilled'),
+                                onPressed: () async {
+                                  await OrderService
+                                      .updateOrderStatusToFulFilled(
+                                          context: context,
+                                          order: widget.order);
 
-                            AuthService.getUserData(context);
-                            Navigator.pop(context);
-                          }),
+                                  AuthService.getUserData(context);
+                                  Navigator.pop(context);
+                                }),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
           );
         }));
   }

@@ -98,10 +98,7 @@ class OrderService {
         response: res,
         context: context,
         onSuccess: () {
-          showSnackBar(
-            context,
-            res.body,
-          );
+          showSnackBar(context, "Marked as fulfilled!");
         },
       );
     } catch (e) {

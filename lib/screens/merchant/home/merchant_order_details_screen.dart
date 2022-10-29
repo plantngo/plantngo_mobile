@@ -111,7 +111,7 @@ class _MerchantOrderDetailsScreenState
                                 child: const Text('Mark as Fulfilled'),
                                 onPressed: () async {
                                   await OrderService
-                                      .updateOrderStatusToFulFilled(
+                                      .updateOrderStatusToFulfilled(
                                           context: context,
                                           order: widget.order);
 

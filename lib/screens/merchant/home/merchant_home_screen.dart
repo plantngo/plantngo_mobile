@@ -18,6 +18,8 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
   List<MerchantOrderTile> pendingOrderTile = [];
   List<Order> fulfilledOrders = [];
   List<MerchantOrderTile> fulfilledOrderTile = [];
+  List<Order> cancelledOrders = [];
+  List<MerchantOrderTile> cancelledOrderTile = [];
 
   Future setPendingOrders() async {
     pendingOrders =
@@ -38,6 +40,16 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
     }
 
     this.fulfilledOrderTile = fulfilledOrderTile;
+
+    cancelledOrders =
+        await OrderService.getCancelledOrdersByMerchant(context: context);
+    List<MerchantOrderTile> cancelledOrderTile = [];
+
+    for (var item in cancelledOrders) {
+      cancelledOrderTile.add(MerchantOrderTile(order: item, refresh: _refresh));
+    }
+
+    this.cancelledOrderTile = cancelledOrderTile;
   }
 
   Future _refresh() async {
@@ -47,9 +59,25 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
     for (var item in pendingOrders) {
       pendingOrderTile.add(MerchantOrderTile(order: item, refresh: _refresh));
     }
+    List<Order> fulfilledOrders =
+        await OrderService.getFulfilledOrdersByMerchant(context: context);
+    List<MerchantOrderTile> fulfilledOrderTile = [];
+    for (var item in fulfilledOrders) {
+      fulfilledOrderTile.add(MerchantOrderTile(order: item, refresh: _refresh));
+    }
+    List<Order> cancelledOrders =
+        await OrderService.getCancelledOrdersByMerchant(context: context);
+    List<MerchantOrderTile> cancelledOrderTile = [];
+    for (var item in cancelledOrders) {
+      cancelledOrderTile.add(MerchantOrderTile(order: item, refresh: _refresh));
+    }
     setState(() {
       this.pendingOrders = pendingOrders;
       this.pendingOrderTile = pendingOrderTile;
+      this.fulfilledOrders = fulfilledOrders;
+      this.fulfilledOrderTile = fulfilledOrderTile;
+      this.cancelledOrders = cancelledOrders;
+      this.cancelledOrderTile = cancelledOrderTile;
     });
     await Future.delayed(const Duration(seconds: 1));
   }
@@ -89,13 +117,33 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                       onRefresh: _refresh,
                       child: ListView(
                           physics: const AlwaysScrollableScrollPhysics(),
-                          children: pendingOrderTile)),
+                          children: pendingOrderTile.length == 0
+                              ? [
+                                  const SizedBox(
+                                    height: 40,
+                                  ),
+                                  Center(
+                                    child: Column(
+                                      children: const [
+                                        Icon(
+                                          Icons.add_circle,
+                                          size: 40,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text("No orders, Pull down to refresh")
+                                      ],
+                                    ),
+                                  ),
+                                ]
+                              : pendingOrderTile)),
                   ListView(
                       physics: const AlwaysScrollableScrollPhysics(),
                       children: fulfilledOrderTile),
-                  const SingleChildScrollView(
-                    child: Text('Cancelled Page'),
-                  ),
+                  ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: cancelledOrderTile),
                 ])),
           );
         });

@@ -82,7 +82,7 @@ class OrderService {
     return orders;
   }
 
-  static Future updateOrderStatusToFulFilled(
+  static Future updateOrderStatusToFulfilled(
       {required BuildContext context, required Order order}) async {
     try {
       String? token = await UserSecureStorage.getToken();

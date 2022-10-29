@@ -15,21 +15,18 @@ class MerchantHomeScreen extends StatefulWidget {
 
 class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
   List<Order> pendingOrders = [];
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setPendingOrders();
-  }
 
-  setPendingOrders() async {
+  Future setPendingOrders() async {
     pendingOrders =
         await OrderService.getPendingOrdersByMerchant(context: context);
-    setState(() {});
   }
 
   Future _refresh() async {
-    setPendingOrders();
+    List<Order> pendingOrders =
+        await OrderService.getPendingOrdersByMerchant(context: context);
+    setState(() {
+      this.pendingOrders = pendingOrders;
+    });
     await Future.delayed(const Duration(seconds: 1));
   }
 
@@ -37,52 +34,53 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
   Widget build(BuildContext context) {
     var merchantProvider = Provider.of<MerchantProvider>(context, listen: true);
 
-    return Consumer<MerchantProvider>(builder:
-        (BuildContext context, MerchantProvider merchantProvider, child) {
-      return DefaultTabController(
-        length: 3,
-        child: Scaffold(
-            appBar: AppBar(
-              bottom: TabBar(
-                tabs: [
-                  Tab(
-                    icon: Text('${pendingOrders.length} Orders'),
-                  ),
-                  const Tab(
-                    text: 'Fulfilled',
-                  ),
-                  const Tab(
-                    text: 'Cancelled',
-                  ),
-                ],
-              ),
-              title: Text(
-                "Hello, ${merchantProvider.merchant.username}",
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              centerTitle: false,
-            ),
-            body: TabBarView(children: [
-              RefreshIndicator(
-                  onRefresh: _refresh,
-                  child: ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children: <Widget>[
-                      // for (var value in merchantProvider.merchant.categories!)
-                      //   SetupMenuItemTile(
-                      //       categoryName: value.name, value: value.products)
-                      for (var item in pendingOrders)
-                        MerchantOrderTile(order: item)
+    return FutureBuilder(
+        future: setPendingOrders(),
+        builder: (BuildContext context, snapshot) {
+          return DefaultTabController(
+            length: 3,
+            child: Scaffold(
+                appBar: AppBar(
+                  bottom: TabBar(
+                    tabs: [
+                      Tab(
+                        icon: Text('${pendingOrders.length} Orders'),
+                      ),
+                      const Tab(
+                        text: 'Fulfilled',
+                      ),
+                      const Tab(
+                        text: 'Cancelled',
+                      ),
                     ],
-                  )),
-              const SingleChildScrollView(
-                child: Text('History Page'),
-              ),
-              const SingleChildScrollView(
-                child: Text('Cancelled Page'),
-              ),
-            ])),
-      );
-    });
+                  ),
+                  title: Text(
+                    "Hello, ${merchantProvider.merchant.username}",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  centerTitle: false,
+                ),
+                body: TabBarView(children: [
+                  RefreshIndicator(
+                      onRefresh: _refresh,
+                      child: ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        children: <Widget>[
+                          for (var item in pendingOrders)
+                            MerchantOrderTile(
+                              order: item,
+                              refresh: _refresh,
+                            )
+                        ],
+                      )),
+                  const SingleChildScrollView(
+                    child: Text('History Page'),
+                  ),
+                  const SingleChildScrollView(
+                    child: Text('Cancelled Page'),
+                  ),
+                ])),
+          );
+        });
   }
 }

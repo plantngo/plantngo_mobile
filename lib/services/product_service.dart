@@ -94,10 +94,16 @@ class ProductService {
     return ingredients;
   }
 
-  static Future<Product?> getProductById(
+  static Future<Product> getProductById(
       {required BuildContext context, required int id}) async {
     String? token = await UserSecureStorage.getToken();
-    Product? product;
+    Product product = Product(
+        id: id,
+        name: '',
+        description: '',
+        price: 0,
+        carbonEmission: 0,
+        ingredients: []);
     try {
       http.Response res =
           await http.get(Uri.parse('$uri/api/v1/product/$id'), headers: {

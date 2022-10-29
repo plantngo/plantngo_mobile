@@ -3,9 +3,11 @@ import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/screens/merchant/home/merchant_order_details_screen.dart';
 
 class MerchantOrderTile extends StatefulWidget {
-  const MerchantOrderTile({Key? key, required this.order}) : super(key: key);
+  const MerchantOrderTile({Key? key, required this.order,required this.refresh}) : super(key: key);
 
   final Order order;
+  final void Function() refresh;
+
 
   @override
   _MerchantOrderTileState createState() => _MerchantOrderTileState();
@@ -22,6 +24,7 @@ class _MerchantOrderTileState extends State<MerchantOrderTile> {
             MaterialPageRoute(
               builder: (context) => MerchantOrderDetailsScreen(
                 order: widget.order,
+                refresh: widget.refresh,
               ),
             ),
           );

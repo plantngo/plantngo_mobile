@@ -16,7 +16,7 @@ class LoginSignUpScreen extends StatelessWidget {
             const SizedBox(
               height: 100,
             ),
-            Image(image: AssetImage('assets/icon/Plant&Go.png')),
+            Image(image: AssetImage('assets/icon/plantngo_logo.png')),
             LoginSignUpButtons(),
           ],
         ),

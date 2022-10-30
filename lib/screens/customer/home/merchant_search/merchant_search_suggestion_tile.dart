@@ -14,11 +14,15 @@ class MerchantSearchSuggestionTile extends StatelessWidget {
   });
 
   renderDistanceTag() {
-    if (merchant.distanceFrom != null) {
-      return Tag(
-        text: "${merchant.distanceFrom!.toStringAsFixed(2)} km",
+    if (merchant.distanceFrom == null || merchant.distanceFrom == -1) {
+      return const SizedBox(
+        height: 0,
       );
     }
+
+    return Tag(
+      text: "${merchant.distanceFrom!.toStringAsFixed(2)} km",
+    );
   }
 
   @override

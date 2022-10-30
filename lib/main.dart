@@ -65,10 +65,18 @@ class _MyAppState extends State<MyApp> {
         cardTheme: const CardTheme(
           color: Colors.white,
         ),
+        tabBarTheme: TabBarTheme(
+            unselectedLabelColor: Colors.grey, labelColor: Colors.green),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: Colors.green,
           unselectedItemColor: Colors.grey,
           backgroundColor: Colors.white,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+          ),
         ),
       ),
       onGenerateRoute: ((settings) => generateRoute(settings)),

@@ -30,6 +30,9 @@ Merchant _$MerchantFromJson(Map<String, dynamic> json) => Merchant(
       promotions: (json['promotions'] as List<dynamic>?)
           ?.map((e) => Promotion.fromJson(e as Map<String, dynamic>))
           .toList(),
+      orders: (json['orders'] as List<dynamic>?)
+          ?.map((e) => Order.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$MerchantToJson(Merchant instance) => <String, dynamic>{
@@ -50,4 +53,5 @@ Map<String, dynamic> _$MerchantToJson(Merchant instance) => <String, dynamic>{
       'cuisineType': instance.cuisineType,
       'priceRating': instance.priceRating,
       'operatingHours': instance.operatingHours,
+      'orders': instance.orders?.map((e) => e.toJson()).toList(),
     };

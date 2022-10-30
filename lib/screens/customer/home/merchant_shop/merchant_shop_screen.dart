@@ -3,6 +3,7 @@ import 'package:plantngo_frontend/models/category.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
 import 'package:plantngo_frontend/models/product.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_about_section.dart';
+import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_bottom_app_bar.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_menu_section.dart';
 import 'package:plantngo_frontend/utils/mock_merchants.dart';
 import 'package:plantngo_frontend/utils/mock_products.dart';
@@ -46,7 +47,7 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
     // futureMenuProduct = fetchMerchantMenuProductData();
   }
 
-  buildMenu(List<Category>? categories) {
+  buildMerchantShopMenuSection(List<Category>? categories) {
     List<Widget> categoryMenuList = [];
     if (categories != null && categories.isNotEmpty) {
       for (Category category in categories) {
@@ -56,9 +57,6 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
               MerchantShopMenuSection(
                   title: category.name,
                   merchantProductList: category.products!),
-              const Divider(
-                thickness: 5,
-              ),
             ],
           );
         }
@@ -67,11 +65,22 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
     return categoryMenuList;
   }
 
+  void onViewCartPressed() {}
+
   @override
   Widget build(BuildContext context) {
     MerchantSearch merchant = widget.merchant;
 
     return Scaffold(
+      bottomNavigationBar: true
+          ? SizedBox(
+              height: 0,
+            )
+          : MerchantShopBottomAppBar(
+              onViewCartPressed: onViewCartPressed,
+              itemCount: 1,
+              itemTotalPrice: 10.0,
+            ),
       body: NestedScrollView(
         physics: const NeverScrollableScrollPhysics(),
         floatHeaderSlivers: true,
@@ -96,10 +105,15 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
               MerchantShopAboutSection(
                 merchant: merchant,
               ),
-              const Divider(
+              Divider(
                 thickness: 5,
+                color: Colors.grey.shade100,
               ),
-              ...buildMenu(merchant.categories),
+              ...buildMerchantShopMenuSection(merchant.categories),
+              Divider(
+                thickness: 5,
+                color: Colors.grey.shade100,
+              ),
               const SizedBox(
                 height: 50,
               )

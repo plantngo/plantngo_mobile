@@ -150,7 +150,6 @@ class MerchantService {
       required String newName,
       required String description,
       required double price,
-      required double emission,
       required String category}) async {
     final merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);
@@ -167,7 +166,6 @@ class MerchantService {
             "name": newName,
             "price": price,
             "description": description,
-            "carbonEmission": emission
           }));
       httpErrorHandle(
         response: res,
@@ -199,6 +197,7 @@ class MerchantService {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token'
           });
+        print('delete product');
       httpErrorHandle(
         response: res,
         context: context,

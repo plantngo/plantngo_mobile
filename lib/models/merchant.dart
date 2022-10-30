@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:plantngo_frontend/models/category.dart';
+import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/models/promotion.dart';
 import 'package:plantngo_frontend/models/voucher.dart';
 
@@ -24,6 +25,7 @@ class Merchant {
   String? cuisineType;
   int? priceRating;
   String? operatingHours;
+  List<Order>? orders;
 
   Merchant(
       {required this.id,
@@ -42,7 +44,8 @@ class Merchant {
       required this.cuisineType,
       required this.priceRating,
       required this.operatingHours,
-      required this.promotions});
+      required this.promotions,
+      required this.orders});
 
   factory Merchant.fromJson(Map<String, dynamic> json) =>
       _$MerchantFromJson(json);

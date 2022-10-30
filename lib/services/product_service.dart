@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/ingredient.dart';
+import 'package:plantngo_frontend/models/product.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
 import 'package:plantngo_frontend/utils/user_secure_storage.dart';
@@ -75,8 +76,7 @@ class ProductService {
           response: res,
           context: context,
           onSuccess: () {
-            json
-                .decode(res.body)
+            jsonDecode(res.body)
                 .map((e) => {
                       ingredients.add(Ingredient.fromJson({
                         "id": e["id"],
@@ -92,5 +92,29 @@ class ProductService {
     }
 
     return ingredients;
+  }
+
+  static Future<Product> getProductById(
+      {required BuildContext context, required int id}) async {
+    String? token = await UserSecureStorage.getToken();
+    Product product = Product(
+        id: id,
+        name: '',
+        description: '',
+        price: 0,
+        carbonEmission: 0,
+        ingredients: []);
+    try {
+      http.Response res =
+          await http.get(Uri.parse('$uri/api/v1/product/$id'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      });
+
+      product = Product.fromJson(jsonDecode(res.body));
+    } catch (e) {
+      //todo
+    }
+    return product;
   }
 }

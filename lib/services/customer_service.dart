@@ -84,4 +84,24 @@ class CustomerService {
     }
     return vouchers;
   }
+
+  static void useVoucher(BuildContext context, Voucher voucher) async {
+    String? token = await UserSecureStorage.getToken();
+    Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
+    String username = payload['sub'];
+
+    try {
+      http.Response res = await http.delete(
+        Uri.parse('$uri/api/v1/store/$username/my-vouchers'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+        body: jsonEncode(
+            {"voucherId": voucher.id, "merchantId": voucher.merchantId}),
+      );
+    } catch (e) {
+      //to do catch exception
+    }
+  }
 }

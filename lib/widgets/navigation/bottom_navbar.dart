@@ -34,10 +34,9 @@ class BottomNavbar extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).primaryColor,
-            spreadRadius: 0.5,
-            blurRadius: 0.5,
-          ),
+              color: Colors.black26,
+              blurRadius: 15.0,
+              offset: Offset(0.0, 0.75)),
         ],
       ),
       child: ClipRRect(

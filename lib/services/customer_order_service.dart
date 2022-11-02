@@ -3,24 +3,25 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:http/http.dart' as http;
+import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
 import 'package:plantngo_frontend/utils/user_secure_storage.dart';
 import 'package:provider/provider.dart';
 import '../utils/global_variables.dart';
 
-class OrderService {
-  static Future<List<Order>> getPendingOrdersByMerchant({
+class CustomerOrderService {
+  static Future<List<Order>> getAllOrdersByCustomer({
     required BuildContext context,
   }) async {
     List<Order> orders = [];
     try {
-      final merchantProvider =
-          Provider.of<MerchantProvider>(context, listen: false);
+      final customerProvider =
+          Provider.of<CustomerProvider>(context, listen: false);
       String? token = await UserSecureStorage.getToken();
       http.Response res = await http.get(
         Uri.parse(
-            '$uri/api/v1/order/merchant/${merchantProvider.merchant.username}/pending'),
+            '$uri/api/v1/order/customer/${customerProvider.customer.username}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token'
@@ -32,6 +33,32 @@ class OrderService {
       //todo
     }
     return orders;
+  }
+
+  static Future<Order?> getOrderByCustomerAndMerchantAndOrderStatus({
+    required BuildContext context,
+    required String merchantName,
+    required String orderStatus,
+  }) async {
+    Order? order;
+    try {
+      final customerProvider =
+          Provider.of<CustomerProvider>(context, listen: false);
+      String? token = await UserSecureStorage.getToken();
+      http.Response res = await http.get(
+        Uri.parse(
+            '$uri/api/v1/order/customer/${customerProvider.customer.username}/merchant/$merchantName/orderStatus/$orderStatus'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+      );
+
+      order = Order.fromJson(jsonDecode(res.body));
+    } catch (e) {
+      //todo
+    }
+    return order;
   }
 
   static Future<List<Order>> getFulfilledOrdersByMerchant({

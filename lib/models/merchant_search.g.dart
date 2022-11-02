@@ -9,6 +9,7 @@ part of 'merchant_search.dart';
 MerchantSearch _$MerchantSearchFromJson(Map<String, dynamic> json) =>
     MerchantSearch(
       id: json['id'] as int,
+      username: json['username'] as String,
       company: json['company'] as String,
       logoUrl: json['logoUrl'] as String,
       bannerUrl: json['bannerUrl'] as String,
@@ -28,6 +29,7 @@ MerchantSearch _$MerchantSearchFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$MerchantSearchToJson(MerchantSearch instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'username': instance.username,
       'company': instance.company,
       'logoUrl': instance.logoUrl,
       'bannerUrl': instance.bannerUrl,

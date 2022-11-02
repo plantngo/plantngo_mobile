@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/screens/customer/home/home_screen.dart';
+import 'package:plantngo_frontend/screens/customer/orders/orders_screen.dart';
 
 import '../screens/customer/profile/profile_screen.dart';
 import '../screens/customer/voucherShop/voucher_shop_screen.dart';
 import '../widgets/navigation/bottom_navbar.dart';
-
 
 class CustomerApp extends StatefulWidget {
   static const routeName = '/customerapp';
@@ -15,7 +15,6 @@ class CustomerApp extends StatefulWidget {
 }
 
 class _CustomerAppState extends State<CustomerApp> {
-
   PageController pageController = PageController();
 
   int bottomNavbarSelectedIndex = 0;
@@ -24,6 +23,7 @@ class _CustomerAppState extends State<CustomerApp> {
   final List<Widget> screens = const [
     HomeScreen(),
     VoucherShop(),
+    OrdersScreen(),
     ProfileScreen(),
   ];
 
@@ -40,7 +40,7 @@ class _CustomerAppState extends State<CustomerApp> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         body: PageView(
           controller: pageController,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:plantngo_frontend/models/category.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
-import 'package:plantngo_frontend/models/product.dart';
+import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_about_section.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_bottom_app_bar.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_menu_section.dart';
-import 'package:plantngo_frontend/utils/mock_merchants.dart';
-import 'package:plantngo_frontend/utils/mock_products.dart';
+import 'package:plantngo_frontend/services/customer_order_service.dart';
 
 class MerchantShopDetailsScreen extends StatefulWidget {
   MerchantSearch merchant;
@@ -22,31 +22,29 @@ class MerchantShopDetailsScreen extends StatefulWidget {
 }
 
 class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
-  // late Future<MerchantSearch> futureMerchant;
-  // late Future<List<Product>> futurePopularProduct;
-  // late Future<List<Product>> futureMenuProduct;
-
-  // Future<MerchantSearch> fetchMerchantData() {
-  //   return Future<MerchantSearch>.value(
-  //       mockMerchantSearchList.firstWhere((e) => e.id == widget.merchantId));
-  // }
-
-  // Future<List<Product>> fetchMerchantPopularProductData() {
-  //   return Future<List<Product>>.value(mockProductList);
-  // }
-
-  // Future<List<Product>> fetchMerchantMenuProductData() {
-  //   return Future<List<Product>>.value(mockProductList);
-  // }
+  Order? customerMerchantOrder;
 
   @override
   void initState() {
     super.initState();
-    // futureMerchant = fetchMerchantData();
-    // futurePopularProduct = fetchMerchantPopularProductData();
-    // futureMenuProduct = fetchMerchantMenuProductData();
+    updateActiveOrders();
   }
 
+  updateActiveOrders() async {
+    CustomerOrderService.getOrderByCustomerAndMerchantAndOrderStatus(
+      context: context,
+      merchantName: widget.merchant.username,
+      orderStatus: "CREATED",
+    ).then((value) {
+      SchedulerBinding.instance.addPostFrameCallback((d) {
+        setState(() {
+          customerMerchantOrder = value;
+        });
+      });
+    });
+  }
+
+  // iterate through categories and create category lists
   buildMerchantShopMenuSection(List<Category>? categories) {
     List<Widget> categoryMenuList = [];
     if (categories != null && categories.isNotEmpty) {
@@ -55,8 +53,10 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
           categoryMenuList.addAll(
             [
               MerchantShopMenuSection(
-                  title: category.name,
-                  merchantProductList: category.products!),
+                title: category.name,
+                merchantProductList: category.products!,
+                customerMerchantOrder: customerMerchantOrder,
+              ),
             ],
           );
         }
@@ -72,14 +72,15 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
     MerchantSearch merchant = widget.merchant;
 
     return Scaffold(
-      bottomNavigationBar: true
-          ? SizedBox(
-              height: 0,
-            )
-          : MerchantShopBottomAppBar(
+      bottomNavigationBar: customerMerchantOrder != null &&
+              customerMerchantOrder!.orderItems!.isNotEmpty
+          ? MerchantShopBottomAppBar(
               onViewCartPressed: onViewCartPressed,
-              itemCount: 1,
-              itemTotalPrice: 10.0,
+              itemCount: customerMerchantOrder!.orderItems!.length,
+              itemTotalPrice: customerMerchantOrder!.totalPrice!,
+            )
+          : const SizedBox(
+              height: 0,
             ),
       body: NestedScrollView(
         physics: const NeverScrollableScrollPhysics(),

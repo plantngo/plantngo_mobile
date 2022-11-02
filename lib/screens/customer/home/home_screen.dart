@@ -4,6 +4,7 @@ import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/providers/promotion_provider.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_promotion/merchant_promotion_details_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_delegate.dart';
+import 'package:plantngo_frontend/services/promotion_service.dart';
 import 'package:plantngo_frontend/utils/mock_promotions.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
         );
     Provider.of<PromotionProvider>(context, listen: false)
         .setPromotions(context);
+
+    
   }
 
   void onBannerPressed(String merchantName, String merchantPromotionImage) {
@@ -48,10 +51,18 @@ class _HomeScreenState extends State<HomeScreen> {
     const String searchFieldPlaceholder = "Search for food and shops";
     const double bannerHeight = 200.0;
     List<Promotion> promotion = promotionProvider.promotions;
+    List<Promotion> trending = [];
+
+    for (var i = 0; i < promotionProvider.promotions.length / 2; i++) {
+      trending.add(promotionProvider.promotions[i]);
+    }
     // replace with actual data
-    List<String> nearbyBanners = mockNearbyBanners;
-    List<String> promotionBanners = mockPromotionBanners;
-    List<String> trendingBanners = mockTrendingBanners;
+    // List<String> nearbyBanners = mockNearbyBanners;
+    // List<String> promotionBanners = mockPromotionBanners;
+    // List<String> trendingBanners = mockTrendingBanners;
+    for (Promotion promo in trending) {
+      promotion.remove(promo);
+    }
 
     return Scaffold(
       body: CustomScrollView(
@@ -131,9 +142,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
-                        padding: EdgeInsets.only(left:8.0),
+                        padding: EdgeInsets.only(left: 8.0),
                         child: Text(
-                          "Nearby",
+                          "Trending",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.w400),
                         ),
@@ -142,12 +153,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: bannerHeight,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: promotion.length,
+                          itemCount: trending.length,
                           itemBuilder: (_, i) {
                             return GestureDetector(
                               onTap: () {
                                 onBannerPressed(
-                                    "Promotion", promotion[i].bannerUrl!);
+                                    "Promotion", trending[i].bannerUrl!);
+                                PromotionService.addClicks(context: context, promotionId: trending[i].id!);
                               },
                               child: Card(
                                 semanticContainer: true,
@@ -158,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 elevation: 5,
                                 margin: const EdgeInsets.all(10),
                                 child: Image.network(
-                                  promotion[i].bannerUrl!,
+                                  trending[i].bannerUrl!,
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -181,12 +193,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: bannerHeight,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: promotionBanners.length,
+                          itemCount: promotion.length,
                           itemBuilder: (_, i) {
                             return GestureDetector(
                               onTap: () {
                                 onBannerPressed(
-                                    "Promotion", promotionBanners[i]);
+                                    "Promotion", promotion[i].bannerUrl!);
+                                PromotionService.addClicks(context: context, promotionId: promotion[i].id!);
                               },
                               child: Card(
                                 semanticContainer: true,
@@ -197,45 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 elevation: 5,
                                 margin: const EdgeInsets.all(10),
                                 child: Image.network(
-                                  promotionBanners[i],
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left:8.0),
-                        child: Text(
-                          "Trending",
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                      SizedBox(
-                        height: bannerHeight,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: trendingBanners.length,
-                          itemBuilder: (_, i) {
-                            return GestureDetector(
-                              onTap: () {
-                                onBannerPressed(
-                                    "Promotion", trendingBanners[i]);
-                              },
-                              child: Card(
-                                semanticContainer: true,
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                elevation: 5,
-                                margin: const EdgeInsets.all(10),
-                                child: Image.network(
-                                  trendingBanners[i],
+                                  promotion[i].bannerUrl!,
                                   fit: BoxFit.fill,
                                 ),
                               ),

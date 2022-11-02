@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/providers/promotion_provider.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
 import 'package:provider/provider.dart';
 import '../models/promotion.dart';
@@ -14,12 +15,11 @@ class PromotionService {
   static Future<List<Promotion>> fetchAllPromotions(
       BuildContext context) async {
     String? token = await UserSecureStorage.getToken();
-
     List<Promotion> promotions = [];
 
     try {
       http.Response res = await http.get(
-        Uri.parse('$uri/api/v1/promotion'),
+        Uri.parse('$uri/api/v1/promotion/allPromoSorted'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token'
@@ -131,6 +131,32 @@ class PromotionService {
     } catch (e) {
       //todo
       print(e);
+    }
+  }
+
+  static Future addClicks(
+      {required BuildContext context, required int promotionId}) async {
+    String? token = await UserSecureStorage.getToken();
+    try {
+      http.Response res = await http.put(
+          Uri.parse('$uri/api/v1/promotion/addClick/$promotionId'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token'
+          });
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          PromotionProvider promotionProvider =
+              Provider.of<PromotionProvider>(context, listen: false);
+          promotionProvider.setPromotions(context);
+        },
+      );
+    } catch (e) {
+      //todo
+      // print(e);
     }
   }
 

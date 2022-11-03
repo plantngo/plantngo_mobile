@@ -117,45 +117,54 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
                                       context: context,
                                       builder: (BuildContext context) =>
                                           AlertDialog(
-                                        title: const Padding(
+                                        title: Padding(
                                           padding: EdgeInsets.all(4.0),
-                                          child: Text("Redeem Voucher",
+                                          child: Center(
+                                            child: Text(
+                                              "$rewardName",
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.bold)),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                          ),
                                         ),
                                         content: ConstrainedBox(
                                           constraints: const BoxConstraints(
-                                              maxHeight: 160),
+                                              maxHeight: 80),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              const Expanded(
-                                                child: Text(
-                                                  "Please show this page to the staff",
-                                                  style: TextStyle(
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
                                               Expanded(
                                                 flex: 2,
-                                                child: SizedBox(
-                                                  child: Text(
-                                                    "$rewardName",
-                                                    style: TextStyle(
-                                                      color: Colors.green[900],
+                                                child: SizedBox.expand(
+                                                  child: Container(
+                                                    color: Colors.green[100],
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          "Redemption Code",
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          "$voucherID_string",
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  "Redemption Code: $voucherID_string",
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
                                                   ),
                                                 ),
                                               ),
@@ -188,8 +197,8 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
                                                   .showSnackBar(
                                                 const SnackBar(
                                                   backgroundColor: Colors.green,
-                                                  content: Text(
-                                                      'Voucher Redeemed!'),
+                                                  content:
+                                                      Text('Voucher Redeemed!'),
                                                   duration: Duration(
                                                       milliseconds: 300),
                                                 ),

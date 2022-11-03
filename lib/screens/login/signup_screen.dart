@@ -284,6 +284,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           if (_signUpFormKey.currentState!.validate()) {
                             _isUser ? signUpUser() : signUpMerchant();
                           }
+                          Navigator.pushNamed(context, '/login');
                         }),
                   ),
                   const SizedBox(height: 20),

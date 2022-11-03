@@ -71,14 +71,12 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
             children: [
               Expanded(
                 child: Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Flexible(
                       flex: 8,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: ListTile(
-                          // insert company logo here
                           leading: const Image(
                               image: AssetImage('assets/icon/voucher.png')),
                           title: Text(rewardName,
@@ -87,7 +85,7 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
                       ),
                     ),
                     Flexible(
-                      flex: 3,
+                      flex: 4,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -130,45 +128,59 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
                                         ),
                                         content: ConstrainedBox(
                                           constraints: const BoxConstraints(
-                                              maxHeight: 80),
+                                              maxHeight: 120),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
                                               Expanded(
-                                                flex: 2,
+                                                flex: 10,
                                                 child: SizedBox.expand(
                                                   child: Container(
                                                     color: Colors.green[100],
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          "Redemption Code",
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 16,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Text(
+                                                              "Redemption Code",
+                                                              style:
+                                                                  const TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                        Text(
-                                                          "$voucherID_string",
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 16,
+                                                          Expanded(
+                                                            child: Text(
+                                                              "$voucherID_string",
+                                                              style:
+                                                                  const TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
+                                              Spacer(),
                                               Expanded(
+                                                flex: 6,
                                                 child: Text(
                                                   "(NOTE: Voucher will be used upon Confirm)",
                                                   style: TextStyle(

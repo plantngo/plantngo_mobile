@@ -33,17 +33,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
   String dropdownValue = "";
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Provider.of<MerchantProvider>(context, listen: false)
-        .merchant
-        .categories!
-        .map((e) => categories.add(e.name))
-        .toList();
-    dropdownValue = categories.first;
-  }
-
-  @override
   void initState() {
     super.initState();
     listSelectIngredientWidgets = [
@@ -54,6 +43,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
           deleteIngredient: deleteIngredient)
     ];
     fetchAllIngredients();
+    fetchAllCategories();
+    dropdownValue = categories.first;
   }
 
   @override
@@ -77,6 +68,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
       this.ingredients.add(DropdownMenuItem(
           value: item.name, child: Text(item.name.toString())));
     }
+  }
+
+  fetchAllCategories() {
+    Provider.of<MerchantProvider>(context, listen: false)
+        .merchant
+        .categories!
+        .map((e) => categories.add(e.name))
+        .toList();
   }
 
   List<Ingredient> selectedListOfIngredients() {

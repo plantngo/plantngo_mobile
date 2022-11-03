@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
-import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/order_service.dart';
 import 'package:plantngo_frontend/widgets/merchantorder/merchant_pending_order_tile.dart';
 import 'package:provider/provider.dart';

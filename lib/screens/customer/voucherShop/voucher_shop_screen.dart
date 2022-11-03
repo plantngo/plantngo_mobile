@@ -97,7 +97,7 @@ class _VoucherShopState extends State<VoucherShop> {
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: ToggleButtons(
               direction: Axis.horizontal,
               onPressed: (int index) {

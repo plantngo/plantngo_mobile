@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           "Trending",
                           style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.w400),
+                              fontSize: 24, fontWeight: FontWeight.w500),
                         ),
                       ),
                       SizedBox(
@@ -186,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           "Promotions",
                           style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.w400),
+                              fontSize: 24, fontWeight: FontWeight.w500),
                         ),
                       ),
                       SizedBox(

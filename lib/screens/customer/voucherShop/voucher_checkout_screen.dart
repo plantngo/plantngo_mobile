@@ -65,7 +65,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
       body: Column(
         children: [
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -102,7 +102,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
             ),
           ),
           Expanded(
-            flex: 4,
+            flex: 5,
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 30, bottom: 50),
               child: Row(

@@ -1,106 +1,87 @@
-//  openDialog(
-//                   context,
-//                   merchantProductList[i],
-//                   customerMerchantOrder != null &&
-//                           customerMerchantOrder!.orderItems!.isNotEmpty &&
-//                           customerMerchantOrder!.orderItems!
-//                               .where((element) =>
-//                                   element.productId ==
-//                                   merchantProductList[i].id)
-//                               .isNotEmpty
-//                       ? customerMerchantOrder!.orderItems!
-//                           .where((element) =>
-//                               element.productId == merchantProductList[i].id)
-//                           .first
-//                           .quantity!
-//                       : 0,
-//                 );
+import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/models/order.dart';
+import 'package:plantngo_frontend/models/product.dart';
 
+class MerchantShopUpdateOrder extends StatelessWidget {
+  Product merchantProduct;
+  Order? customerMerchantOrder;
+  MerchantShopUpdateOrder({
+    super.key,
+    required this.merchantProduct,
+    required this.customerMerchantOrder,
+  });
 
+  renderQuantity() {
+    if (customerMerchantOrder == null ||
+        customerMerchantOrder!.orderItems == null ||
+        customerMerchantOrder!.orderItems!
+            .where((element) => element.id == merchantProduct.id)
+            .isEmpty) {
+      return 0;
+    }
 
+    return customerMerchantOrder!.orderItems!
+        .where((e) => e.productId == merchantProduct.id);
+  }
 
-
-//                  void updateOrderItem(int productId, int updatedQuantity) {}
-//   final TextEditingController textEditingController = TextEditingController();
-//   Future openDialog(
-//     BuildContext context,
-//     Product merchantProduct,
-//     int quantity,
-//   ) =>
-//       showDialog(
-//         context: context,
-//         builder: (context) {
-//           return AlertDialog(
-//             actionsAlignment: MainAxisAlignment.center,
-//             shape: const RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.all(
-//               Radius.circular(8),
-//             )),
-//             actions: [
-//               ElevatedButton(onPressed: () {}, child: Text("Add to cart")),
-//             ],
-//             title: Text(
-//               merchantProduct.name!,
-//               style: Theme.of(context).textTheme.bodyLarge,
-//             ),
-//             content: Builder(
-//               builder: (context) {
-//                 return Column(
-//                   children: [
-//                     SizedBox(
-//                       height: 15,
-//                     ),
-//                     ClipRRect(
-//                       borderRadius: BorderRadius.circular(8.0),
-//                       child: Image.network(
-//                         merchantProduct.imageUrl!,
-//                         fit: BoxFit.cover,
-//                       ),
-//                     ),
-//                     SizedBox(
-//                       height: 15,
-//                     ),
-//                     // Text(
-//                     //   "\$${merchantProduct.price!.toStringAsFixed(2)}",
-//                     //   style: Theme.of(context).textTheme.caption,
-//                     // ),
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       children: [
-//                         IconButton(
-//                             onPressed: () {}, icon: const Icon(Icons.remove)),
-//                         ConstrainedBox(
-//                           constraints: const BoxConstraints(minWidth: 50),
-//                           child: IntrinsicWidth(
-//                             child: TextField(
-//                               controller: textEditingController,
-//                               textAlign: TextAlign.center,
-//                               textAlignVertical: TextAlignVertical.center,
-//                               decoration: const InputDecoration(
-//                                 contentPadding: EdgeInsets.zero,
-//                                 border: OutlineInputBorder(),
-//                               ),
-//                               keyboardType: TextInputType.number,
-//                               inputFormatters: <TextInputFormatter>[
-//                                 FilteringTextInputFormatter.digitsOnly
-//                               ],
-//                             ),
-//                           ),
-//                         ),
-//                         IconButton(
-//                           onPressed: () {
-//                             updateOrderItem(merchantProduct.id!, quantity);
-//                           },
-//                           icon: const Icon(
-//                             Icons.add,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ],
-//                 );
-//               },
-//             ),
-//           );
-//         },
-//       );
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          merchantProduct.name!,
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.remove,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Text("${renderQuantity()}"),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.add,
+                      color: Colors.green,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text("Add to order"),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Image.network(
+              merchantProduct.imageUrl!,
+              fit: BoxFit.cover,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

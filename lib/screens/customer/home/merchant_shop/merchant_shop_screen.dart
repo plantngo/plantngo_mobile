@@ -44,6 +44,12 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
     });
   }
 
+  updateCustomerMerchantOrder(Order order) {
+    setState(() {
+      customerMerchantOrder = order;
+    });
+  }
+
   // iterate through categories and create category lists
   buildMerchantShopMenuSection(List<Category>? categories) {
     List<Widget> categoryMenuList = [];
@@ -56,6 +62,7 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
                 title: category.name,
                 merchantProductList: category.products!,
                 customerMerchantOrder: customerMerchantOrder,
+                updateCustomerMerchantOrder: updateCustomerMerchantOrder,
               ),
             ],
           );

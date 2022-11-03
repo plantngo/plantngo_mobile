@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.hardware.location.gps" />
    <application
-        android:label="plantngo_frontend"
+        android:label="PlantNGo"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
  

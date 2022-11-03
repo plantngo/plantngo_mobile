@@ -3,7 +3,7 @@ import 'package:plantngo_frontend/models/merchant_search.dart';
 import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_result_card.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_suggestion_tile.dart';
-import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_details_screen.dart';
+import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_screen.dart';
 import 'package:plantngo_frontend/services/location_service.dart';
 import 'package:plantngo_frontend/services/merchant_search_service.dart';
 import 'package:plantngo_frontend/utils/mock_merchants.dart';

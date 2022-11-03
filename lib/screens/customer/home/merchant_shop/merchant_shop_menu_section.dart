@@ -28,11 +28,14 @@ class MerchantShopMenuSection extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
-        ListView.builder(
+        ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           padding: EdgeInsets.zero,
           itemCount: merchantProductList.length,
+          separatorBuilder: (context, index) {
+            return const Divider();
+          },
           itemBuilder: (_, i) {
             return ListTile(
               leading: SizedBox(

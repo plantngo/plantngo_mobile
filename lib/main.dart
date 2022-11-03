@@ -72,6 +72,12 @@ class _MyAppState extends State<MyApp> {
           unselectedItemColor: Colors.grey,
           backgroundColor: Colors.white,
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+          ),
+        ),
       ),
       onGenerateRoute: ((settings) => generateRoute(settings)),
       home: app,

@@ -8,14 +8,14 @@ import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_s
 
 class MerchantShopMenuSection extends StatelessWidget {
   List<Product> merchantProductList;
-  Order? customerMerchantOrder;
+  Order? order;
   String title;
-  Function updateCustomerMerchantOrder;
+  Future Function(int, int) updateCustomerMerchantOrder;
 
   MerchantShopMenuSection({
     super.key,
     required this.merchantProductList,
-    required this.customerMerchantOrder,
+    required this.order,
     required this.title,
     required this.updateCustomerMerchantOrder,
   });
@@ -47,8 +47,9 @@ class MerchantShopMenuSection extends StatelessWidget {
           },
           itemBuilder: (_, i) {
             return MerchantShopItem(
-              order: customerMerchantOrder,
+              order: order,
               product: merchantProductList[i],
+              updateCustomerMerchantOrder: updateCustomerMerchantOrder,
             );
           },
         ),

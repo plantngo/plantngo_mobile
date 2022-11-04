@@ -1,27 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/models/product.dart';
+import 'package:plantngo_frontend/utils/error_handling.dart';
 
-class MerchantShopUpdateOrder extends StatelessWidget {
+class MerchantShopUpdateOrder extends StatefulWidget {
   Product merchantProduct;
-  Order? customerMerchantOrder;
+  Order? order;
+  Future Function(int, int) updateCustomerMerchantOrder;
   MerchantShopUpdateOrder({
     super.key,
     required this.merchantProduct,
-    required this.customerMerchantOrder,
+    required this.order,
+    required this.updateCustomerMerchantOrder,
   });
 
-  renderQuantity() {
-    if (customerMerchantOrder == null ||
-        customerMerchantOrder!.orderItems == null ||
-        customerMerchantOrder!.orderItems!
-            .where((element) => element.id == merchantProduct.id)
+  @override
+  State<MerchantShopUpdateOrder> createState() =>
+      _MerchantShopUpdateOrderState();
+}
+
+class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
+  late int quantity;
+  late int originalQuantity;
+  bool itemExisted = false;
+
+  setInitialQuantity() {
+    widget.order!.orderItems!.forEach((element) {
+      print(element.toJson().toString());
+    });
+    if (widget.order == null ||
+        widget.order!.orderItems == null ||
+        widget.order!.orderItems!
+            .where((e) => e.productId == widget.merchantProduct.id)
             .isEmpty) {
       return 0;
     }
 
-    return customerMerchantOrder!.orderItems!
-        .where((e) => e.productId == merchantProduct.id);
+    return widget.order!.orderItems!
+        .where((e) => e.productId == widget.merchantProduct.id)
+        .first
+        .quantity;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    quantity = setInitialQuantity();
+    originalQuantity = quantity;
+    if (quantity > 0) {
+      itemExisted = true;
+    }
   }
 
   @override
@@ -29,7 +58,7 @@ class MerchantShopUpdateOrder extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          merchantProduct.name!,
+          widget.merchantProduct.name!,
           style: Theme.of(context).textTheme.titleSmall,
         ),
       ),
@@ -42,15 +71,28 @@ class MerchantShopUpdateOrder extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
+                    onPressed: () {
+                      if (quantity > 0) {
+                        setState(() {
+                          quantity -= 1;
+                        });
+                      }
+                    },
+                    icon: Icon(
                       Icons.remove,
-                      color: Colors.green,
+                      color:
+                          quantity <= 0 ? Colors.grey.shade200 : Colors.green,
                     ),
                   ),
-                  Text("${renderQuantity()}"),
+                  Text("$quantity"),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (quantity < 99) {
+                        setState(() {
+                          quantity += 1;
+                        });
+                      }
+                    },
                     icon: const Icon(
                       Icons.add,
                       color: Colors.green,
@@ -64,8 +106,34 @@ class MerchantShopUpdateOrder extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text("Add to order"),
+                  style: ButtonStyle(
+                      backgroundColor: itemExisted && quantity <= 0
+                          ? MaterialStateProperty.all(Colors.red)
+                          : itemExisted && quantity == originalQuantity
+                              ? MaterialStateProperty.all(Colors.grey.shade400)
+                              : MaterialStateProperty.all(Colors.green)),
+                  onPressed: originalQuantity == quantity
+                      ? null
+                      : () {
+                          if (quantity <= 0) {
+                            // error
+                            showSnackBar(
+                                context, "Please enter an amount more than 0!");
+                          } else {
+                            widget.updateCustomerMerchantOrder(
+                              widget.merchantProduct.id!,
+                              quantity,
+                            );
+                            Navigator.of(context).pop();
+                          }
+                        },
+                  child: Text(
+                    itemExisted && quantity <= 0
+                        ? "Remove from cart"
+                        : itemExisted
+                            ? "Update cart"
+                            : "Add to cart",
+                  ),
                 ),
               ),
             )
@@ -76,7 +144,7 @@ class MerchantShopUpdateOrder extends StatelessWidget {
         child: Column(
           children: [
             Image.network(
-              merchantProduct.imageUrl!,
+              widget.merchantProduct.imageUrl!,
               fit: BoxFit.cover,
             ),
           ],

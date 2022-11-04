@@ -91,7 +91,7 @@ class MerchantSearchDelegate extends SearchDelegate {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MerchantShopDetailsScreen(
+                        builder: (context) => MerchantShopScreen(
                           merchant: result,
                         ),
                       ),
@@ -148,7 +148,7 @@ class MerchantSearchDelegate extends SearchDelegate {
                     // -- Show result page immediately
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MerchantShopDetailsScreen(
+                        builder: (context) => MerchantShopScreen(
                           merchant: suggestion,
                         ),
                       ),

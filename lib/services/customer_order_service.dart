@@ -61,75 +61,115 @@ class CustomerOrderService {
     return order;
   }
 
-  static Future<List<Order>> getFulfilledOrdersByMerchant({
-    required BuildContext context,
-  }) async {
-    List<Order> orders = [];
+  static Future createCustomerOrder(
+      {required BuildContext context,
+      required Order order,
+      required String merchantName}) async {
     try {
-      final merchantProvider =
-          Provider.of<MerchantProvider>(context, listen: false);
+      final customerProvider =
+          Provider.of<CustomerProvider>(context, listen: false);
       String? token = await UserSecureStorage.getToken();
-      http.Response res = await http.get(
-        Uri.parse(
-            '$uri/api/v1/order/merchant/${merchantProvider.merchant.username}/fulfilled'),
+
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/v1/order/${customerProvider.customer.username}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token'
         },
-      );
-
-      jsonDecode(res.body).map((e) => orders.add(Order.fromJson(e))).toList();
-    } catch (e) {
-      //todo
-    }
-    return orders;
-  }
-
-  static Future<List<Order>> getCancelledOrdersByMerchant({
-    required BuildContext context,
-  }) async {
-    List<Order> orders = [];
-    try {
-      final merchantProvider =
-          Provider.of<MerchantProvider>(context, listen: false);
-      String? token = await UserSecureStorage.getToken();
-      http.Response res = await http.get(
-        Uri.parse(
-            '$uri/api/v1/order/merchant/${merchantProvider.merchant.username}/cancelled'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $token'
-        },
-      );
-
-      jsonDecode(res.body).map((e) => orders.add(Order.fromJson(e))).toList();
-    } catch (e) {
-      //todo
-    }
-    return orders;
-  }
-
-  static Future updateOrderStatusToFulfilled(
-      {required BuildContext context, required Order order}) async {
-    try {
-      String? token = await UserSecureStorage.getToken();
-      http.Response res = await http.put(
-          Uri.parse('$uri/api/v1/order/${order.id}'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $token'
+        body: jsonEncode(
+          {
+            "isDineIn": order.isDineIn,
+            "merchantName": merchantName,
+            "orderItems": [
+              {
+                "productId": order.orderItems!.first.productId,
+                "quantity": order.orderItems!.first.quantity
+              }
+            ],
+            "orderStatus": order.orderStatus,
           },
-          body: jsonEncode(
-              {"isDineIn": order.isDineIn, "orderStatus": "FULFILLED"}));
+        ),
+      );
+
       httpErrorHandle(
         response: res,
         context: context,
-        onSuccess: () {
-          showSnackBar(context, "Marked as fulfilled!");
-        },
+        onSuccess: () {},
       );
     } catch (e) {
-      //todo
+      //
     }
   }
+
+  // static Future<List<Order>> getFulfilledOrdersByMerchant({
+  //   required BuildContext context,
+  // }) async {
+  //   List<Order> orders = [];
+  //   try {
+  //     final merchantProvider =
+  //         Provider.of<MerchantProvider>(context, listen: false);
+  //     String? token = await UserSecureStorage.getToken();
+  //     http.Response res = await http.get(
+  //       Uri.parse(
+  //           '$uri/api/v1/order/merchant/${merchantProvider.merchant.username}/fulfilled'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json; charset=UTF-8',
+  //         'Authorization': 'Bearer $token'
+  //       },
+  //     );
+
+  //     jsonDecode(res.body).map((e) => orders.add(Order.fromJson(e))).toList();
+  //   } catch (e) {
+  //     //todo
+  //   }
+  //   return orders;
+  // }
+
+  // static Future<List<Order>> getCancelledOrdersByMerchant({
+  //   required BuildContext context,
+  // }) async {
+  //   List<Order> orders = [];
+  //   try {
+  //     final merchantProvider =
+  //         Provider.of<MerchantProvider>(context, listen: false);
+  //     String? token = await UserSecureStorage.getToken();
+  //     http.Response res = await http.get(
+  //       Uri.parse(
+  //           '$uri/api/v1/order/merchant/${merchantProvider.merchant.username}/cancelled'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json; charset=UTF-8',
+  //         'Authorization': 'Bearer $token'
+  //       },
+  //     );
+
+  //     jsonDecode(res.body).map((e) => orders.add(Order.fromJson(e))).toList();
+  //   } catch (e) {
+  //     //todo
+  //   }
+  //   return orders;
+  // }
+
+  // static Future updateOrderStatusToFulfilled(
+  //     {required BuildContext context, required Order order}) async {
+  //   try {
+  //     String? token = await UserSecureStorage.getToken();
+  //     http.Response res = await http.put(
+  //         Uri.parse('$uri/api/v1/order/${order.id}'),
+  //         headers: <String, String>{
+  //           'Content-Type': 'application/json; charset=UTF-8',
+  //           'Authorization': 'Bearer $token'
+  //         },
+  //         body: jsonEncode(
+  //             {"isDineIn": order.isDineIn, "orderStatus": "FULFILLED"}));
+  //     httpErrorHandle(
+  //       response: res,
+  //       context: context,
+  //       onSuccess: () {
+  //         showSnackBar(context, "Marked as fulfilled!");
+  //       },
+  //     );
+  //   } catch (e) {
+  //     //todo
+  //   }
+  // }
 }

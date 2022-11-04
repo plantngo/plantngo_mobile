@@ -4,6 +4,7 @@ import 'package:plantngo_frontend/providers/merchant_category_provider.dart';
 import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_ingredients_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/providers/order_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:provider/provider.dart';
 import 'providers/promotion_provider.dart';
@@ -20,6 +21,7 @@ void main() {
     ChangeNotifierProvider(create: (context) => VoucherShopProvider()),
     ChangeNotifierProvider(create: (context) => PromotionProvider()),
     ChangeNotifierProvider(create: (context) => MerchantIngredientsProvider()),
+    ChangeNotifierProvider(create: (context) => OrderProvider()),
   ], child: const MyApp()));
 }
 

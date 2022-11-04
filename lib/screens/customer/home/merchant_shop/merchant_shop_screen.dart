@@ -3,26 +3,27 @@ import 'package:flutter/scheduler.dart';
 import 'package:plantngo_frontend/models/category.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
 import 'package:plantngo_frontend/models/order.dart';
+import 'package:plantngo_frontend/models/orderitem.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_about_section.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_bottom_app_bar.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_menu_section.dart';
 import 'package:plantngo_frontend/services/customer_order_service.dart';
+import 'package:plantngo_frontend/services/customer_service.dart';
 
-class MerchantShopDetailsScreen extends StatefulWidget {
+class MerchantShopScreen extends StatefulWidget {
   MerchantSearch merchant;
 
-  MerchantShopDetailsScreen({
+  MerchantShopScreen({
     super.key,
     required this.merchant,
   });
 
   @override
-  State<MerchantShopDetailsScreen> createState() =>
-      _MerchantShopDetailsScreenState();
+  State<MerchantShopScreen> createState() => _MerchantShopScreenState();
 }
 
-class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
-  Order? customerMerchantOrder;
+class _MerchantShopScreenState extends State<MerchantShopScreen> {
+  Order? order;
 
   @override
   void initState() {
@@ -30,24 +31,42 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
     updateActiveOrders();
   }
 
-  updateActiveOrders() async {
-    CustomerOrderService.getOrderByCustomerAndMerchantAndOrderStatus(
+  Future updateActiveOrders() async {
+    Order? _order =
+        await CustomerOrderService.getOrderByCustomerAndMerchantAndOrderStatus(
       context: context,
       merchantName: widget.merchant.username,
       orderStatus: "CREATED",
-    ).then((value) {
-      SchedulerBinding.instance.addPostFrameCallback((d) {
-        setState(() {
-          customerMerchantOrder = value;
-        });
-      });
+    );
+    setState(() {
+      order = _order;
     });
   }
 
-  updateCustomerMerchantOrder(Order order) {
-    setState(() {
-      customerMerchantOrder = order;
-    });
+  Future updateCustomerMerchantOrder(int productId, int quantity) async {
+    // no existing orders yet
+    if (order == null) {
+      // create new order
+      Order order = Order.createOrder(
+        isDineIn: false,
+        orderItems: [
+          OrderItem.createOrderItem(
+            productId: productId,
+            quantity: quantity,
+          )
+        ],
+        orderStatus: "CREATED",
+      );
+      CustomerOrderService.createCustomerOrder(
+        context: context,
+        order: order,
+        merchantName: widget.merchant.username,
+      ).then((value) => updateActiveOrders());
+    } else {
+      // update existing order
+
+    }
+    // refresh the data
   }
 
   // iterate through categories and create category lists
@@ -61,7 +80,7 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
               MerchantShopMenuSection(
                 title: category.name,
                 merchantProductList: category.products!,
-                customerMerchantOrder: customerMerchantOrder,
+                order: order,
                 updateCustomerMerchantOrder: updateCustomerMerchantOrder,
               ),
             ],
@@ -79,12 +98,11 @@ class _MerchantShopDetailsScreenState extends State<MerchantShopDetailsScreen> {
     MerchantSearch merchant = widget.merchant;
 
     return Scaffold(
-      bottomNavigationBar: customerMerchantOrder != null &&
-              customerMerchantOrder!.orderItems!.isNotEmpty
+      bottomNavigationBar: order != null && order!.orderItems!.isNotEmpty
           ? MerchantShopBottomAppBar(
               onViewCartPressed: onViewCartPressed,
-              itemCount: customerMerchantOrder!.orderItems!.length,
-              itemTotalPrice: customerMerchantOrder!.totalPrice!,
+              itemCount: order!.orderItems!.length,
+              itemTotalPrice: order!.totalPrice!,
             )
           : const SizedBox(
               height: 0,

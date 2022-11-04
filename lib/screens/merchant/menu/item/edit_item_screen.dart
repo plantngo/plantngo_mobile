@@ -68,21 +68,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
             selectedValueSingleDialog: e.name,
             deleteIngredient: deleteIngredient)))
         .toList();
+    fetchAllCategories();
+    dropdownValue = categories.first;
   }
 
   void deleteIngredient(SelectIngredientWidget ingredient) {
     listSelectIngredientWidgets.remove(ingredient);
     setState(() {});
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Provider.of<MerchantProvider>(context, listen: false)
-        .merchant
-        .categories!
-        .map((e) => categories.add(e.name))
-        .toList();
   }
 
   @override
@@ -135,6 +127,14 @@ class _EditItemScreenState extends State<EditItemScreen> {
       this.ingredients.add(DropdownMenuItem(
           value: item.name, child: Text(item.name.toString())));
     }
+  }
+
+  fetchAllCategories() {
+    Provider.of<MerchantProvider>(context, listen: false)
+        .merchant
+        .categories!
+        .map((e) => categories.add(e.name))
+        .toList();
   }
 
   void addSelectIngredientWidget() {

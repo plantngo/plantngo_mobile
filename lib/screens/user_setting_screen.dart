@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
-import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/user_service.dart';
 import 'package:provider/provider.dart';
+import 'package:time_range/time_range.dart';
 
 class UserSettingScreen extends StatefulWidget {
   const UserSettingScreen({super.key});
@@ -23,6 +23,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _companyController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _cuisineTypeController = TextEditingController();
 
   final _settingsFormKey = GlobalKey<FormState>();
 
@@ -30,6 +32,14 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
   bool _isValidPassword = true;
   bool _isChangingPassword = false;
   String username = '';
+  final _defaultTimeRange = TimeRangeResult(
+    TimeOfDay(hour: 8, minute: 00),
+    TimeOfDay(hour: 22, minute: 00),
+  );
+  TimeRangeResult? _timeRange;
+  static const orange = Colors.green;
+  static const dark = Color(0xFF333A47);
+  static const double leftPadding = 1;
 
   @override
   void initState() {
@@ -48,7 +58,10 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
       _usernameController.text = username;
       _emailController.text = merchantProvider.merchant.email!;
       _companyController.text = merchantProvider.merchant.company!;
+      _cuisineTypeController.text = merchantProvider.merchant.cuisineType!;
+      _descriptionController.text = merchantProvider.merchant.description!;
     }
+    _timeRange = _defaultTimeRange;
   }
 
   @override
@@ -60,6 +73,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
     _usernameController.dispose();
     _usertypeController.dispose();
     _companyController.dispose();
+    _descriptionController.dispose();
+    _cuisineTypeController.dispose();
   }
 
   @override
@@ -144,7 +159,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                             }),
                           ),
                           const SizedBox(height: 20),
-                          if (_usertypeController.text == "M")
+                          if (_usertypeController.text == "M") ...[
                             TextFormField(
                               controller: _companyController,
                               decoration: const InputDecoration(
@@ -156,13 +171,88 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                                         BorderSide(color: Colors.greenAccent)),
                               ),
                               validator: ((value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    !EmailValidator.validate(value)) {
-                                  return 'Please enter a valid email';
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter a company name';
                                 }
                               }),
                             ),
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              controller: _cuisineTypeController,
+                              decoration: const InputDecoration(
+                                filled: true,
+                                labelText: "Cuisine Type",
+                                fillColor: Colors.white,
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.greenAccent)),
+                              ),
+                              validator: ((value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter a cuisine type';
+                                }
+                              }),
+                            ),
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              controller: _descriptionController,
+                              keyboardType: TextInputType.text,
+                              maxLines: 4,
+                              decoration: const InputDecoration(
+                                filled: true,
+                                labelText: "Description",
+                                fillColor: Colors.white,
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.greenAccent)),
+                              ),
+                              validator: ((value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter a description';
+                                }
+                              }),
+                            ),
+                            const SizedBox(height: 20),
+                            const Text('Operating Hours'),
+                            TimeRange(
+                              fromTitle: const Text(
+                                'FROM',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: dark,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              toTitle: const Text(
+                                'TO',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: dark,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              titlePadding: leftPadding,
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.normal,
+                                color: dark,
+                              ),
+                              activeTextStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: orange,
+                              ),
+                              borderColor: dark,
+                              activeBorderColor: dark,
+                              backgroundColor: Colors.transparent,
+                              activeBackgroundColor: dark,
+                              firstTime: const TimeOfDay(hour: 8, minute: 00),
+                              lastTime: const TimeOfDay(hour: 22, minute: 00),
+                              initialRange: _timeRange,
+                              timeStep: 10,
+                              timeBlock: 30,
+                              onRangeCompleted: (range) =>
+                                  setState(() => _timeRange = range),
+                            ),
+                          ],
                           const SizedBox(height: 20),
                           SizedBox(
                             width: 200,
@@ -184,7 +274,10 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                                       username,
                                       _usernameController.text,
                                       _emailController.text,
-                                      _companyController.text);
+                                      _companyController.text,
+                                      _cuisineTypeController.text,
+                                      _descriptionController.text,
+                                      "${_timeRange!.start.hour < 10 ? "0${_timeRange!.start.hour}" : _timeRange!.start.hour}:${_timeRange!.start.minute < 10 ? "0${_timeRange!.start.minute}" : _timeRange!.start.minute} - ${_timeRange!.end.hour < 10 ? "0${_timeRange!.end.hour}" : _timeRange!.end.hour}:${_timeRange!.end.minute < 10 ? "0${_timeRange!.end.minute}" : _timeRange!.end.minute}");
                                 }
                                 Navigator.pop(context);
                               },

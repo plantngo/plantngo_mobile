@@ -17,15 +17,16 @@ class CartOrderList extends StatelessWidget {
             children: [
               Text(
                 order.merchant!.company,
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               GestureDetector(
                 onTap: () {},
                 child: Text(
                   "Edit Order",
-                  style: TextStyle(
-                    color: Colors.green,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.green),
                 ),
               ),
             ],

@@ -34,26 +34,28 @@ class _CartScreenState extends State<CartScreen> {
           "Cart",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.grey,
-                offset: Offset(0, 2.0),
-                blurRadius: 4.0,
-              )
-            ],
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.green.shade200,
-                Colors.green.shade300,
-                Colors.green,
-              ],
-            ),
-          ),
-        ),
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+        // flexibleSpace: Container(
+        //   decoration: BoxDecoration(
+        //     boxShadow: const [
+        //       BoxShadow(
+        //         color: Colors.grey,
+        //         offset: Offset(0, 2.0),
+        //         blurRadius: 4.0,
+        //       )
+        //     ],
+        //     gradient: LinearGradient(
+        //       begin: Alignment.topLeft,
+        //       end: Alignment.bottomRight,
+        //       colors: [
+        //         Colors.green.shade200,
+        //         Colors.green.shade300,
+        //         Colors.green,
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),

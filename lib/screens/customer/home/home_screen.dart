@@ -70,22 +70,23 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverAppBar(
             floating: true,
             expandedHeight: 100,
+            backgroundColor: Colors.green,
             flexibleSpace: FlexibleSpaceBar(
               expandedTitleScale: 1,
               centerTitle: true,
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Colors.green.shade200,
-                      Colors.green.shade300,
-                      Colors.green,
-                    ],
-                  ),
-                ),
-              ),
+              // background: Container(
+              //   decoration: BoxDecoration(
+              //     gradient: LinearGradient(
+              //       begin: Alignment.topLeft,
+              //       end: Alignment.bottomRight,
+              //       colors: [
+              //         Colors.green.shade200,
+              //         Colors.green.shade300,
+              //         Colors.green,
+              //       ],
+              //     ),
+              //   ),
+              // ),
               title: FractionallySizedBox(
                 widthFactor: 0.90,
                 child: TextField(

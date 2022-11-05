@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:http/http.dart' as http;
+import 'package:plantngo_frontend/models/orderitem.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
@@ -81,6 +82,94 @@ class CustomerOrderService {
             "isDineIn": order.isDineIn,
             "merchantName": merchantName,
             "orderItems": [
+              {
+                "productId": order.orderItems!.first.productId,
+                "quantity": order.orderItems!.first.quantity
+              }
+            ],
+            "orderStatus": order.orderStatus,
+          },
+        ),
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {},
+      );
+    } catch (e) {
+      //
+    }
+  }
+
+  static Future createCustomerOrderItem({
+    required BuildContext context,
+    required String merchantName,
+    required int orderId,
+    required OrderItem orderItem,
+  }) async {
+    try {
+      final customerProvider =
+          Provider.of<CustomerProvider>(context, listen: false);
+      String? token = await UserSecureStorage.getToken();
+
+      http.Response res = await http.post(
+        Uri.parse(
+            '$uri/api/v1/order/${customerProvider.customer.username}/$orderId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+        body: jsonEncode({
+          "productId": orderItem.productId,
+          "quantity": orderItem.quantity,
+        }),
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {},
+      );
+    } catch (e) {
+      //
+    }
+  }
+
+  static Future updateCustomerOrder(
+      {required BuildContext context,
+      required Order order,
+      required String merchantName}) async {
+    try {
+      final customerProvider =
+          Provider.of<CustomerProvider>(context, listen: false);
+      String? token = await UserSecureStorage.getToken();
+      print(jsonEncode(
+        {
+          "isDineIn": order.isDineIn,
+          "merchantName": merchantName,
+          "updateOrderItemDTOs": [
+            {
+              "productId": order.orderItems!.first.productId,
+              "quantity": order.orderItems!.first.quantity
+            }
+          ],
+          "orderStatus": order.orderStatus,
+        },
+      ).toString());
+      print(order.id);
+
+      http.Response res = await http.put(
+        Uri.parse('$uri/api/v1/order/${order.id}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+        body: jsonEncode(
+          {
+            "isDineIn": order.isDineIn,
+            "merchantName": merchantName,
+            "updateOrderItemDTOs": [
               {
                 "productId": order.orderItems!.first.productId,
                 "quantity": order.orderItems!.first.quantity

@@ -68,7 +68,9 @@ class _MyAppState extends State<MyApp> {
           color: Colors.white,
         ),
         tabBarTheme: TabBarTheme(
-            unselectedLabelColor: Colors.grey, labelColor: Colors.green),
+          unselectedLabelColor: Colors.grey,
+          labelColor: Colors.green,
+        ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: Colors.green,
           unselectedItemColor: Colors.grey,

@@ -25,9 +25,6 @@ class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
   bool itemExisted = false;
 
   setInitialQuantity() {
-    widget.order!.orderItems!.forEach((element) {
-      print(element.toJson().toString());
-    });
     if (widget.order == null ||
         widget.order!.orderItems == null ||
         widget.order!.orderItems!
@@ -109,13 +106,13 @@ class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
                   style: ButtonStyle(
                       backgroundColor: itemExisted && quantity <= 0
                           ? MaterialStateProperty.all(Colors.red)
-                          : itemExisted && quantity == originalQuantity
+                          : quantity == originalQuantity
                               ? MaterialStateProperty.all(Colors.grey.shade400)
                               : MaterialStateProperty.all(Colors.green)),
                   onPressed: originalQuantity == quantity
                       ? null
                       : () {
-                          if (quantity <= 0) {
+                          if (quantity <= 0 && !itemExisted) {
                             // error
                             showSnackBar(
                                 context, "Please enter an amount more than 0!");

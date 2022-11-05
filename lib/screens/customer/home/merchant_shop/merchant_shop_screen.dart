@@ -44,10 +44,14 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
   }
 
   Future updateCustomerMerchantOrder(int productId, int quantity) async {
-    // no existing orders yet
+    // 4 cases
+    //
+    // 1. no existing orders yet
+    // print(order!.orderItems != null);
+    // print(order!.orderItems!.where((e) => e.productId == productId).isEmpty);
     if (order == null) {
       // create new order
-      Order order = Order.createOrder(
+      Order _order = Order.createOrder(
         isDineIn: false,
         orderItems: [
           OrderItem.createOrderItem(
@@ -59,11 +63,39 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
       );
       CustomerOrderService.createCustomerOrder(
         context: context,
-        order: order,
+        order: _order,
+        merchantName: widget.merchant.username,
+      ).then((value) => updateActiveOrders());
+    } else if (order!.orderItems != null &&
+        order!.orderItems!.where((e) => e.productId == productId).isEmpty) {
+      // 2. existing order, add new order item
+      int orderId = order!.id!;
+      OrderItem orderItem = OrderItem.createOrderItem(
+        productId: productId,
+        quantity: quantity,
+      );
+
+      CustomerOrderService.createCustomerOrderItem(
+        context: context,
+        orderId: orderId,
+        orderItem: orderItem,
+        merchantName: widget.merchant.username,
+      ).then((value) => updateActiveOrders());
+    } else if (order!.orderItems != null &&
+        order!.orderItems!.where((e) => e.productId == productId).isNotEmpty) {
+      // 3. existing order, update order item
+      Order _order = order!;
+      OrderItem _orderItem = _order.orderItems!
+          .where((element) => element.productId == productId)
+          .first;
+      _orderItem.quantity = quantity;
+      CustomerOrderService.updateCustomerOrder(
+        context: context,
+        order: _order,
         merchantName: widget.merchant.username,
       ).then((value) => updateActiveOrders());
     } else {
-      // update existing order
+      // 4.
 
     }
     // refresh the data

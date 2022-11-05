@@ -18,7 +18,7 @@ class OrderService {
       final merchantProvider =
           Provider.of<MerchantProvider>(context, listen: false);
       String? token = await UserSecureStorage.getToken();
-      http.Response res = await await http.get(
+      http.Response res = await http.get(
         Uri.parse(
             '$uri/api/v1/order/merchant/${merchantProvider.merchant.username}/pending'),
         headers: <String, String>{
@@ -42,7 +42,7 @@ class OrderService {
       final merchantProvider =
           Provider.of<MerchantProvider>(context, listen: false);
       String? token = await UserSecureStorage.getToken();
-      http.Response res = await await http.get(
+      http.Response res = await http.get(
         Uri.parse(
             '$uri/api/v1/order/merchant/${merchantProvider.merchant.username}/fulfilled'),
         headers: <String, String>{
@@ -66,7 +66,7 @@ class OrderService {
       final merchantProvider =
           Provider.of<MerchantProvider>(context, listen: false);
       String? token = await UserSecureStorage.getToken();
-      http.Response res = await await http.get(
+      http.Response res = await http.get(
         Uri.parse(
             '$uri/api/v1/order/merchant/${merchantProvider.merchant.username}/cancelled'),
         headers: <String, String>{
@@ -86,7 +86,7 @@ class OrderService {
       {required BuildContext context, required Order order}) async {
     try {
       String? token = await UserSecureStorage.getToken();
-      http.Response res = await await http.put(
+      http.Response res = await http.put(
           Uri.parse('$uri/api/v1/order/${order.id}'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',

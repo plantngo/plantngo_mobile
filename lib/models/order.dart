@@ -24,6 +24,12 @@ class Order {
       required this.orderItems,
       required this.orderStatus});
 
+  Order.createOrder({
+    required this.isDineIn,
+    required this.orderItems,
+    required this.orderStatus,
+  });
+
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderToJson(this);

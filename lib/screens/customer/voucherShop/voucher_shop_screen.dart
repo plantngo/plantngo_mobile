@@ -54,26 +54,28 @@ class _VoucherShopState extends State<VoucherShop> {
           "Vouchers",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                offset: Offset(0, 2.0),
-                blurRadius: 4.0,
-              )
-            ],
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.green.shade200,
-                Colors.green.shade300,
-                Colors.green,
-              ],
-            ),
-          ),
-        ),
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+        // flexibleSpace: Container(
+        //   decoration: BoxDecoration(
+        //     boxShadow: [
+        //       BoxShadow(
+        //         color: Colors.grey,
+        //         offset: Offset(0, 2.0),
+        //         blurRadius: 4.0,
+        //       )
+        //     ],
+        //     gradient: LinearGradient(
+        //       begin: Alignment.topLeft,
+        //       end: Alignment.bottomRight,
+        //       colors: [
+        //         Colors.green.shade200,
+        //         Colors.green.shade300,
+        //         Colors.green,
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
       body: Column(
         children: [
@@ -107,12 +109,12 @@ class _VoucherShopState extends State<VoucherShop> {
                   }
                 });
               },
-              borderColor: Colors.green[800],
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              selectedBorderColor: Colors.green[900],
+              borderColor: Colors.grey.shade200,
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              selectedBorderColor: Colors.grey.shade200,
               selectedColor: Colors.white,
-              fillColor: Colors.green[500],
-              color: Colors.green[700],
+              fillColor: Colors.green,
+              color: Colors.green,
               constraints: const BoxConstraints(
                 minHeight: 40.0,
                 minWidth: 140.0,
@@ -150,13 +152,16 @@ class _VoucherShopState extends State<VoucherShop> {
             shape: BoxShape.circle,
           ),
           child: FloatingActionButton(
-            backgroundColor: Color.fromARGB(255, 28, 216, 113),
+            backgroundColor: Colors.green,
             shape: const CircleBorder(),
             // Lead to checkout page
             onPressed: () {
               Navigator.pushNamed(context, VoucherCheckout.routeName);
             },
-            child: const Icon(Icons.shopping_cart, color: Colors.black),
+            child: const Icon(
+              Icons.shopping_cart_outlined,
+              color: Colors.white,
+            ),
           ),
         ),
       ),

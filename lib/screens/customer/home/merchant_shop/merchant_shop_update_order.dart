@@ -139,11 +139,28 @@ class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.network(
               widget.merchantProduct.imageUrl!,
               fit: BoxFit.cover,
             ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Wrap(
+                children: [
+                  Text(
+                    widget.merchantProduct.description!,
+                    textAlign: TextAlign.left,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

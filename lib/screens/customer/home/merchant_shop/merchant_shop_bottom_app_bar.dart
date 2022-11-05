@@ -26,14 +26,14 @@ class MerchantShopBottomAppBar extends StatelessWidget {
       child: ClipRRect(
         child: BottomAppBar(
           child: Padding(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: onViewCartPressed,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "$itemCount items",
+                    "$itemCount item(s)",
                     style: const TextStyle(
                       fontSize: 10,
                     ),

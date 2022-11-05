@@ -52,4 +52,25 @@ class MerchantSearchService {
 
     return merchant;
   }
+
+  Future<MerchantSearch?> searchMerchantByUsername(
+      BuildContext context, String username) async {
+    final locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
+    String? token = await UserSecureStorage.getToken();
+
+    MerchantSearch? merchantSearch;
+
+    http.Response res = await http.get(
+      Uri.parse('$uri/api/v1/merchant/$username'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      },
+    );
+
+    merchantSearch = MerchantSearch.fromJson(jsonDecode(res.body));
+
+    return merchantSearch;
+  }
 }

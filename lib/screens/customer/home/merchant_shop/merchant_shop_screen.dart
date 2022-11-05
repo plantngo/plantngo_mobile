@@ -4,6 +4,7 @@ import 'package:plantngo_frontend/models/category.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/models/orderitem.dart';
+import 'package:plantngo_frontend/screens/customer/cart/cart_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_about_section.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_bottom_app_bar.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_menu_section.dart';
@@ -31,24 +32,22 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
     updateActiveOrders();
   }
 
-  Future updateActiveOrders() async {
-    Order? _order =
-        await CustomerOrderService.getOrderByCustomerAndMerchantAndOrderStatus(
+  void updateActiveOrders() async {
+    CustomerOrderService.getOrderByCustomerAndMerchantAndOrderStatus(
       context: context,
       merchantName: widget.merchant.username,
       orderStatus: "CREATED",
-    );
-    setState(() {
-      order = _order;
-    });
+    ).then((value) => {
+          setState(() {
+            order = value;
+          })
+        });
+    // print(_order!.toJson().toString());
   }
 
   Future updateCustomerMerchantOrder(int productId, int quantity) async {
-    // 4 cases
-    //
     // 1. no existing orders yet
-    // print(order!.orderItems != null);
-    // print(order!.orderItems!.where((e) => e.productId == productId).isEmpty);
+
     if (order == null) {
       // create new order
       Order _order = Order.createOrder(
@@ -94,9 +93,6 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
         order: _order,
         merchantName: widget.merchant.username,
       ).then((value) => updateActiveOrders());
-    } else {
-      // 4.
-
     }
     // refresh the data
   }
@@ -123,7 +119,13 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
     return categoryMenuList;
   }
 
-  void onViewCartPressed() {}
+  void onViewCartPressed() {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => CartScreen()),
+        (Route<dynamic> route) {
+      return !route.hasActiveRouteBelow;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +135,10 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
       bottomNavigationBar: order != null && order!.orderItems!.isNotEmpty
           ? MerchantShopBottomAppBar(
               onViewCartPressed: onViewCartPressed,
-              itemCount: order!.orderItems!.length,
+              itemCount: order!.orderItems!.fold(
+                  0,
+                  (previousValue, element) =>
+                      previousValue + (element.quantity!)),
               itemTotalPrice: order!.totalPrice!,
             )
           : const SizedBox(

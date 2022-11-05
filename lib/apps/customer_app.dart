@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/screens/customer/cart/cart_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/home_screen.dart';
 import 'package:plantngo_frontend/screens/customer/orders/orders_screen.dart';
 
@@ -22,8 +23,9 @@ class _CustomerAppState extends State<CustomerApp> {
 
   final List<Widget> screens = const [
     HomeScreen(),
-    VoucherShop(),
     OrdersScreen(),
+    VoucherShop(),
+    CartScreen(),
     ProfileScreen(),
   ];
 
@@ -40,7 +42,7 @@ class _CustomerAppState extends State<CustomerApp> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         body: PageView(
           controller: pageController,

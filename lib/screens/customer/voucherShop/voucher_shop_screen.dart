@@ -144,7 +144,7 @@ class _VoucherShopState extends State<VoucherShop> {
         ],
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 20, right: 10),
+        padding: const EdgeInsets.only(bottom: 10, right: 10),
         child: Container(
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
@@ -186,6 +186,9 @@ class _VoucherShopState extends State<VoucherShop> {
       listVouchers.add(VoucherCard(
         voucher: allVouchers[i],
       ));
+      if (i == allVouchers.length - 1) {
+        listVouchers.add(SizedBox(height:40));
+      }
     }
 
     return listVouchers.isEmpty
@@ -199,8 +202,7 @@ class _VoucherShopState extends State<VoucherShop> {
   }
 
   renderOwnedVouchers() {
-    var customerProvider =
-        Provider.of<CustomerProvider>(context, listen: true);
+    var customerProvider = Provider.of<CustomerProvider>(context, listen: true);
     List<Widget> listVouchers = [];
     List<Voucher> ownedVouchers = customerProvider.customer.ownedVouchers;
     for (int i = 0; i < ownedVouchers.length; i++) {

@@ -9,18 +9,15 @@ class UserSettingSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<IconData> iconsList = [
-      Icons.credit_card,
       Icons.compare_arrows,
     ];
     List<String> titleList = [
-      "Payment Methods",
       "Profile Settings",
     ];
     List<String> subtitleList = [
       "",
-      "",
     ];
-    List<String> routeList = ["", UserSettingScreen.routeName];
+    List<String> routeList = [UserSettingScreen.routeName];
     return Column(
       children: [
         ListView.builder(

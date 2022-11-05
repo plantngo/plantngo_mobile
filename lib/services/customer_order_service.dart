@@ -61,6 +61,30 @@ class CustomerOrderService {
     return orders;
   }
 
+  static Future<List<Order>> getAllPendingAndFulfilledOrdersByCustomer({
+    required BuildContext context,
+  }) async {
+    List<Order> orders = [];
+    try {
+      final customerProvider =
+          Provider.of<CustomerProvider>(context, listen: false);
+      String? token = await UserSecureStorage.getToken();
+      http.Response res = await http.get(
+        Uri.parse(
+            '$uri/api/v1/order/customer/${customerProvider.customer.username}/orderStatus/pendingAndFulfilled'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+      );
+
+      jsonDecode(res.body).map((e) => orders.add(Order.fromJson(e))).toList();
+    } catch (e) {
+      //todo
+    }
+    return orders;
+  }
+
   static Future<Order?> getOrderByCustomerAndMerchantAndOrderStatus({
     required BuildContext context,
     required String merchantName,
@@ -242,27 +266,31 @@ class CustomerOrderService {
   //   return orders;
   // }
 
-  // static Future updateOrderStatusToFulfilled(
-  //     {required BuildContext context, required Order order}) async {
-  //   try {
-  //     String? token = await UserSecureStorage.getToken();
-  //     http.Response res = await http.put(
-  //         Uri.parse('$uri/api/v1/order/${order.id}'),
-  //         headers: <String, String>{
-  //           'Content-Type': 'application/json; charset=UTF-8',
-  //           'Authorization': 'Bearer $token'
-  //         },
-  //         body: jsonEncode(
-  //             {"isDineIn": order.isDineIn, "orderStatus": "FULFILLED"}));
-  //     httpErrorHandle(
-  //       response: res,
-  //       context: context,
-  //       onSuccess: () {
-  //         showSnackBar(context, "Marked as fulfilled!");
-  //       },
-  //     );
-  //   } catch (e) {
-  //     //todo
-  //   }
-  // }
+  static Future updateOrderStatus(
+      {required BuildContext context,
+      required Order order,
+      required String orderStatus}) async {
+    try {
+      String? token = await UserSecureStorage.getToken();
+      http.Response res =
+          await http.put(Uri.parse('$uri/api/v1/order/${order.id}'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer $token'
+              },
+              body: jsonEncode(
+                {
+                  "isDineIn": order.isDineIn,
+                  "orderStatus": orderStatus,
+                },
+              ));
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {},
+      );
+    } catch (e) {
+      //todo
+    }
+  }
 }

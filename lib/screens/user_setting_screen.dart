@@ -67,26 +67,32 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                offset: Offset(0, 2.0),
-                blurRadius: 4.0,
-              )
-            ],
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.green.shade200,
-                Colors.green.shade300,
-                Colors.green,
-              ],
-            ),
-          ),
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
         ),
+        // flexibleSpace: Container(
+        //   decoration: BoxDecoration(
+        //     boxShadow: [
+        //       BoxShadow(
+        //         color: Colors.grey,
+        //         offset: Offset(0, 2.0),
+        //         blurRadius: 4.0,
+        //       )
+        //     ],
+        //     gradient: LinearGradient(
+        //       begin: Alignment.topLeft,
+        //       end: Alignment.bottomRight,
+        //       colors: [
+        //         Colors.green.shade200,
+        //         Colors.green.shade300,
+        //         Colors.green,
+        //       ],
+        //     ),
+        //   ),
+        // ),
         title: const Text(
           "Profile Settings",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -112,8 +118,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                               labelText: "Username",
                               fillColor: Colors.white,
                               enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.greenAccent),
+                                borderSide: BorderSide(color: Colors.green),
                               ),
                             ),
                             validator: ((value) {
@@ -131,8 +136,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                               labelText: "Email",
                               fillColor: Colors.white,
                               enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.greenAccent)),
+                                  borderSide: BorderSide(color: Colors.green)),
                             ),
                             validator: ((value) {
                               if (value == null ||
@@ -153,7 +157,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide:
-                                        BorderSide(color: Colors.greenAccent)),
+                                        BorderSide(color: Colors.green)),
                               ),
                               validator: ((value) {
                                 if (value == null ||
@@ -168,7 +172,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                             width: 200,
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                  backgroundColor: Colors.greenAccent,
+                                  backgroundColor: Colors.green,
                                   foregroundColor: Colors.grey[900]),
                               onPressed: () {
                                 if (_usertypeController.text == "C") {
@@ -188,7 +192,12 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                                 }
                                 Navigator.pop(context);
                               },
-                              child: const Text("Save Details"),
+                              child: const Text(
+                                "Save Details",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -202,8 +211,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                               filled: true,
                               fillColor: Colors.white,
                               enabledBorder: const OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.greenAccent),
+                                borderSide: BorderSide(color: Colors.green),
                               ),
                               labelText: 'Enter your Current Password',
                               suffixIcon: IconButton(
@@ -226,8 +234,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                               filled: true,
                               fillColor: Colors.white,
                               enabledBorder: const OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.greenAccent),
+                                borderSide: BorderSide(color: Colors.green),
                               ),
                               labelText: 'Enter your New Password',
                               suffixIcon: IconButton(
@@ -268,7 +275,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                             width: 200,
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                  backgroundColor: Colors.greenAccent,
+                                  backgroundColor: Colors.green,
                                   foregroundColor: Colors.black),
                               onPressed: () {
                                 UserService.changePassword(
@@ -280,14 +287,19 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                                 _newPasswordController.text = "";
                                 _oldPasswordController.text = "";
                               },
-                              child: const Text("Save Password"),
+                              child: const Text(
+                                "Save Password",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
                     TextButton(
-                      style: TextButton.styleFrom(
-                          foregroundColor: Colors.blue[800]),
+                      style:
+                          TextButton.styleFrom(foregroundColor: Colors.green),
                       onPressed: () {
                         setState(() {
                           _isChangingPassword = !_isChangingPassword;

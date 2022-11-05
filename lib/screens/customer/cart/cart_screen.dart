@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/screens/customer/cart/cart_order_list.dart';
 import 'package:plantngo_frontend/services/customer_order_service.dart';
+import 'package:plantngo_frontend/utils/error_handling.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -80,7 +81,23 @@ class _CartScreenState extends State<CartScreen> {
                   onPressed:
                       orderSelectedArr.where((element) => element).isEmpty
                           ? null
-                          : () {},
+                          : () async {
+                              List<Order> _orders = snapshot.data!;
+                              for (int i = 0; i < _orders.length; i++) {
+                                if (orderSelectedArr[i]) {
+                                  CustomerOrderService.updateOrderStatus(
+                                          context: context,
+                                          order: _orders[i],
+                                          orderStatus: "PENDING")
+                                      .then((value) {
+                                    retrieveAllOrders();
+                                    showSnackBar(
+                                        context, "Sucessfully Checked out!");
+                                  });
+                                }
+                              }
+                              // set orders to pending
+                            },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

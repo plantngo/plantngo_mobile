@@ -144,20 +144,6 @@ class CustomerOrderService {
       final customerProvider =
           Provider.of<CustomerProvider>(context, listen: false);
       String? token = await UserSecureStorage.getToken();
-      print(jsonEncode(
-        {
-          "isDineIn": order.isDineIn,
-          "merchantName": merchantName,
-          "updateOrderItemDTOs": [
-            {
-              "productId": order.orderItems!.first.productId,
-              "quantity": order.orderItems!.first.quantity
-            }
-          ],
-          "orderStatus": order.orderStatus,
-        },
-      ).toString());
-      print(order.id);
 
       http.Response res = await http.put(
         Uri.parse('$uri/api/v1/order/${order.id}'),
@@ -169,12 +155,7 @@ class CustomerOrderService {
           {
             "isDineIn": order.isDineIn,
             "merchantName": merchantName,
-            "updateOrderItemDTOs": [
-              {
-                "productId": order.orderItems!.first.productId,
-                "quantity": order.orderItems!.first.quantity
-              }
-            ],
+            "updateOrderItemDTOs": order.orderItems,
             "orderStatus": order.orderStatus,
           },
         ),

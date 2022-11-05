@@ -87,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
               //     ),
               //   ),
               // ),
+
               title: FractionallySizedBox(
                 widthFactor: 0.90,
                 child: TextField(

@@ -4,6 +4,7 @@ import 'package:plantngo_frontend/models/category.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/models/orderitem.dart';
+import 'package:plantngo_frontend/screens/customer/cart/cart_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_about_section.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_bottom_app_bar.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_menu_section.dart';
@@ -118,7 +119,13 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
     return categoryMenuList;
   }
 
-  void onViewCartPressed() {}
+  void onViewCartPressed() {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => CartScreen()),
+        (Route<dynamic> route) {
+      return !route.hasActiveRouteBelow;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +135,10 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
       bottomNavigationBar: order != null && order!.orderItems!.isNotEmpty
           ? MerchantShopBottomAppBar(
               onViewCartPressed: onViewCartPressed,
-              itemCount: order!.orderItems!.length,
+              itemCount: order!.orderItems!.fold(
+                  0,
+                  (previousValue, element) =>
+                      previousValue + (element.quantity!)),
               itemTotalPrice: order!.totalPrice!,
             )
           : const SizedBox(

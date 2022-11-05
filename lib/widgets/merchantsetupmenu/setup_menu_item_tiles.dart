@@ -43,10 +43,7 @@ class _SetupMenuItemTileState extends State<SetupMenuItemTile> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => EditItemScreen(
-                        name: item.name,
-                        price: item.price,
-                        description: item.description,
-                        carbonEmission: item.carbonEmission,
+                        item: item,
                         category: widget.categoryName,
                         ingredients: ingredients,
                       ),

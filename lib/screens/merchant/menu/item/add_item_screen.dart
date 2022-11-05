@@ -95,7 +95,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
         name: _itemNameController.text,
         description: _itemDescriptionController.text,
         price: double.parse(_itemPriceController.text),
-        category: dropdownValue);
+        category: dropdownValue,
+        image: image);
     for (var item in listSelectIngredientWidgets) {
       await ProductService.addIngredient(
           productName: _itemNameController.text,

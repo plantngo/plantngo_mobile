@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../utils/global_variables.dart';
 import '../utils/user_secure_storage.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
+import 'package:http_parser/http_parser.dart';
 
 class MerchantService {
   static Future editCategory(
@@ -105,28 +106,44 @@ class MerchantService {
     }
   }
 
-  static Future addProduct(
-      {required BuildContext context,
-      required String name,
-      required String description,
-      required double price,
-      required String category}) async {
+  static Future addProduct({
+    required BuildContext context,
+    required String name,
+    required String description,
+    required double price,
+    required String category,
+    required File image,
+  }) async {
     final merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);
     String? token = await UserSecureStorage.getToken();
+
     try {
-      http.Response res = await http.post(
+      var request = http.MultipartRequest(
+          'POST',
           Uri.parse(
-              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category'),
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $token'
-          },
-          body: jsonEncode({
-            "name": name,
-            "price": price,
-            "description": description,
-          }));
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category'))
+        ..files.add(await http.MultipartFile.fromPath('image', image.path,
+            contentType: MediaType("*", "*")))
+        ..files.add(http.MultipartFile.fromString(
+            'product',
+            jsonEncode({
+              "name": name,
+              "price": price,
+              "description": description,
+            }),
+            contentType: MediaType("application", "json")));
+
+      var header = {
+        "Accept": '*/*',
+        "Authorization": 'Bearer $token',
+      };
+
+      request.headers.addAll(header);
+
+      var streamedRes = await request.send();
+
+      var res = await http.Response.fromStream(streamedRes);
 
       httpErrorHandle(
         response: res,
@@ -197,7 +214,6 @@ class MerchantService {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token'
           });
-        print('delete product');
       httpErrorHandle(
         response: res,
         context: context,

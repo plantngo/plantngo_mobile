@@ -55,8 +55,15 @@ class UserService {
     }
   }
 
-  static void updateMerchantDetails(BuildContext context, String? oldUserName,
-      String? newUserName, String email, String company) async {
+  static void updateMerchantDetails(
+      BuildContext context,
+      String? oldUserName,
+      String? newUserName,
+      String email,
+      String company,
+      String cuisineType,
+      String description,
+      String operatingHours) async {
     try {
       if (oldUserName == newUserName) {
         newUserName = null;
@@ -68,6 +75,9 @@ class UserService {
           "email": email,
           "password": null,
           "company": company,
+          "cuisineType": cuisineType,
+          "description": description,
+          "operatingHours": operatingHours
         }),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

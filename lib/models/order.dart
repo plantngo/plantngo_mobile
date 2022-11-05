@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:plantngo_frontend/models/customer.dart';
 import 'package:plantngo_frontend/models/merchant.dart';
+import 'package:plantngo_frontend/models/merchant_search.dart';
+import 'package:plantngo_frontend/models/merchant_shallow.dart';
 import 'package:plantngo_frontend/models/orderitem.dart';
 
 part 'order.g.dart';
@@ -17,12 +19,16 @@ class Order {
 
   String? orderStatus;
 
-  Order(
-      {required this.id,
-      required this.totalPrice,
-      required this.isDineIn,
-      required this.orderItems,
-      required this.orderStatus});
+  MerchantShallow? merchant;
+
+  Order({
+    required this.id,
+    required this.totalPrice,
+    required this.isDineIn,
+    required this.orderItems,
+    required this.orderStatus,
+    required this.merchant,
+  });
 
   Order.createOrder({
     required this.isDineIn,

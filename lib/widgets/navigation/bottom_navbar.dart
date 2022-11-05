@@ -12,14 +12,16 @@ class BottomNavbar extends StatelessWidget {
 
   final List<IconData> selectedIcon = [
     Icons.home_rounded,
-    Icons.confirmation_number,
     Icons.receipt,
+    Icons.confirmation_number,
+    Icons.shopping_cart,
     Icons.account_circle_rounded,
   ];
   final List<IconData> unSelectedIcon = [
     Icons.home_outlined,
-    Icons.confirmation_num_outlined,
     Icons.receipt_outlined,
+    Icons.confirmation_num_outlined,
+    Icons.shopping_cart_outlined,
     Icons.account_circle_outlined,
   ];
 
@@ -59,17 +61,23 @@ class BottomNavbar extends StatelessWidget {
               icon: Icon(
                 renderIcon(1),
               ),
-              label: 'Vouchers',
+              label: 'Orders',
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 renderIcon(2),
               ),
-              label: 'Orders',
+              label: 'Vouchers',
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 renderIcon(3),
+              ),
+              label: 'Cart',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                renderIcon(4),
               ),
               label: 'Profile',
             ),

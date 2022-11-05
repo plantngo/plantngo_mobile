@@ -4,6 +4,7 @@ import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/providers/promotion_provider.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_promotion/merchant_promotion_details_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_delegate.dart';
+import 'package:plantngo_frontend/screens/customer/home/quests/quest_section.dart';
 import 'package:plantngo_frontend/services/promotion_service.dart';
 import 'package:plantngo_frontend/utils/mock_promotions.dart';
 import 'package:provider/provider.dart';
@@ -29,8 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
         );
     Provider.of<PromotionProvider>(context, listen: false)
         .setPromotions(context);
-
-    
   }
 
   void onBannerPressed(String merchantName, String merchantPromotionImage) {
@@ -144,6 +143,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Padding(
                         padding: EdgeInsets.only(left: 8.0),
                         child: Text(
+                          "Quests",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      QuestSection(),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Text(
                           "Trending",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.w500),
@@ -159,7 +170,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () {
                                 onBannerPressed(
                                     "Promotion", trending[i].bannerUrl!);
-                                PromotionService.addClicks(context: context, promotionId: trending[i].id!);
+                                PromotionService.addClicks(
+                                    context: context,
+                                    promotionId: trending[i].id!);
                               },
                               child: Card(
                                 semanticContainer: true,
@@ -199,7 +212,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () {
                                 onBannerPressed(
                                     "Promotion", promotion[i].bannerUrl!);
-                                PromotionService.addClicks(context: context, promotionId: promotion[i].id!);
+                                PromotionService.addClicks(
+                                    context: context,
+                                    promotionId: promotion[i].id!);
                               },
                               child: Card(
                                 semanticContainer: true,

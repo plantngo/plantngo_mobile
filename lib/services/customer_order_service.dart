@@ -36,6 +36,31 @@ class CustomerOrderService {
     return orders;
   }
 
+  static Future<List<Order>> getAllOrdersByCustomerAndOrderStatus({
+    required BuildContext context,
+    required String orderStatus,
+  }) async {
+    List<Order> orders = [];
+    try {
+      final customerProvider =
+          Provider.of<CustomerProvider>(context, listen: false);
+      String? token = await UserSecureStorage.getToken();
+      http.Response res = await http.get(
+        Uri.parse(
+            '$uri/api/v1/order/customer/${customerProvider.customer.username}/orderStatus/$orderStatus'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+      );
+
+      jsonDecode(res.body).map((e) => orders.add(Order.fromJson(e))).toList();
+    } catch (e) {
+      //todo
+    }
+    return orders;
+  }
+
   static Future<Order?> getOrderByCustomerAndMerchantAndOrderStatus({
     required BuildContext context,
     required String merchantName,
@@ -50,15 +75,13 @@ class CustomerOrderService {
         Uri.parse(
             '$uri/api/v1/order/customer/${customerProvider.customer.username}/merchant/$merchantName/orderStatus/$orderStatus'),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
+          'Content-Type': 'application/json',
           'Authorization': 'Bearer $token'
         },
       );
 
       order = Order.fromJson(jsonDecode(res.body));
-    } catch (e) {
-      //todo
-    }
+    } catch (e) {}
     return order;
   }
 

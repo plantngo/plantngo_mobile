@@ -12,7 +12,7 @@ Promotion _$PromotionFromJson(Map<String, dynamic> json) => Promotion(
       bannerUrl: json['bannerUrl'] as String?,
       startDate: json['startDate'] as String?,
       endDate: json['endDate'] as String?,
-      clicks: json['clicks'] as int?
+      clicks: json['clicks'] as int?,
     );
 
 Map<String, dynamic> _$PromotionToJson(Promotion instance) => <String, dynamic>{

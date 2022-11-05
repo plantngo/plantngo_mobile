@@ -31,24 +31,22 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
     updateActiveOrders();
   }
 
-  Future updateActiveOrders() async {
-    Order? _order =
-        await CustomerOrderService.getOrderByCustomerAndMerchantAndOrderStatus(
+  void updateActiveOrders() async {
+    CustomerOrderService.getOrderByCustomerAndMerchantAndOrderStatus(
       context: context,
       merchantName: widget.merchant.username,
       orderStatus: "CREATED",
-    );
-    setState(() {
-      order = _order;
-    });
+    ).then((value) => {
+          setState(() {
+            order = value;
+          })
+        });
+    // print(_order!.toJson().toString());
   }
 
   Future updateCustomerMerchantOrder(int productId, int quantity) async {
-    // 4 cases
-    //
     // 1. no existing orders yet
-    // print(order!.orderItems != null);
-    // print(order!.orderItems!.where((e) => e.productId == productId).isEmpty);
+
     if (order == null) {
       // create new order
       Order _order = Order.createOrder(
@@ -94,9 +92,6 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
         order: _order,
         merchantName: widget.merchant.username,
       ).then((value) => updateActiveOrders());
-    } else {
-      // 4.
-
     }
     // refresh the data
   }

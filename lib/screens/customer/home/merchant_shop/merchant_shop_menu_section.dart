@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:plantngo_frontend/models/order.dart';
+import 'package:plantngo_frontend/models/orderitem.dart';
 import 'package:plantngo_frontend/models/product.dart';
+import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_item.dart';
+import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_update_order.dart';
 
 class MerchantShopMenuSection extends StatelessWidget {
   List<Product> merchantProductList;
+  Order? order;
   String title;
+  Future Function(int, int) updateCustomerMerchantOrder;
 
   MerchantShopMenuSection({
     super.key,
     required this.merchantProductList,
+    required this.order,
     required this.title,
+    required this.updateCustomerMerchantOrder,
   });
 
   @override
@@ -21,7 +30,7 @@ class MerchantShopMenuSection extends StatelessWidget {
           height: 10,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.all(10),
           child: Text(
             title,
             textAlign: TextAlign.left,
@@ -37,26 +46,10 @@ class MerchantShopMenuSection extends StatelessWidget {
             return const Divider();
           },
           itemBuilder: (_, i) {
-            return ListTile(
-              leading: SizedBox(
-                height: 100,
-                width: 100,
-                child: Image.network(
-                  merchantProductList[i].imageUrl!,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              title: Text(
-                merchantProductList[i].name!,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              subtitle: Text(
-                "\$${merchantProductList[i].price!.toStringAsFixed(2)}",
-                style: Theme.of(context).textTheme.caption,
-              ),
-              onTap: () {
-                // onTap();
-              },
+            return MerchantShopItem(
+              order: order,
+              product: merchantProductList[i],
+              updateCustomerMerchantOrder: updateCustomerMerchantOrder,
             );
           },
         ),

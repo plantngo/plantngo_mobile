@@ -6,6 +6,7 @@ part 'merchant_search.g.dart';
 @JsonSerializable(explicitToJson: true)
 class MerchantSearch {
   int id;
+  String username;
   String company;
   String logoUrl;
   String bannerUrl;
@@ -26,6 +27,7 @@ class MerchantSearch {
 
   MerchantSearch({
     required this.id,
+    required this.username,
     required this.company,
     required this.logoUrl,
     required this.bannerUrl,

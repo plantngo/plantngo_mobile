@@ -26,6 +26,11 @@ class OrderItem {
       required this.order,
       required this.product});
 
+  OrderItem.createOrderItem({
+    required this.productId,
+    required this.quantity,
+  });
+
   factory OrderItem.fromJson(Map<String, dynamic> json) =>
       _$OrderItemFromJson(json);
 

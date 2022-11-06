@@ -41,31 +41,33 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
           "Checkout",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              const BoxShadow(
-                color: Colors.grey,
-                offset: Offset(0, 2.0),
-                blurRadius: 4.0,
-              )
-            ],
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.green.shade200,
-                Colors.green.shade300,
-                Colors.green,
-              ],
-            ),
-          ),
-        ),
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+        // flexibleSpace: Container(
+        //   decoration: BoxDecoration(
+        //     boxShadow: [
+        //       const BoxShadow(
+        //         color: Colors.grey,
+        //         offset: Offset(0, 2.0),
+        //         blurRadius: 4.0,
+        //       )
+        //     ],
+        //     gradient: LinearGradient(
+        //       begin: Alignment.topLeft,
+        //       end: Alignment.bottomRight,
+        //       colors: [
+        //         Colors.green.shade200,
+        //         Colors.green.shade300,
+        //         Colors.green,
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
       body: Column(
         children: [
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -102,7 +104,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
             ),
           ),
           Expanded(
-            flex: 4,
+            flex: 5,
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 30, bottom: 50),
               child: Row(
@@ -158,7 +160,6 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                               ),
                             );
                           } else {
-                            
                             voucherShopProvider.purchaseVouchers(context);
                             customerProvider.customer.greenPoints =
                                 greenPoints - total;

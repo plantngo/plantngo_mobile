@@ -14,6 +14,9 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
           ?.map((e) => OrderItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       orderStatus: json['orderStatus'] as String?,
+      merchant: json['merchant'] == null
+          ? null
+          : MerchantShallow.fromJson(json['merchant'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
@@ -22,4 +25,5 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'isDineIn': instance.isDineIn,
       'orderItems': instance.orderItems,
       'orderStatus': instance.orderStatus,
+      'merchant': instance.merchant,
     };

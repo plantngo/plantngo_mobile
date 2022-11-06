@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:plantngo_frontend/providers/customer_provider.dart';
+import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/error_handling.dart';
 import '../utils/global_variables.dart';
@@ -33,6 +36,14 @@ class UserService {
         response: res,
         context: context,
         onSuccess: () {
+          var customerProvider =
+              Provider.of<CustomerProvider>(context, listen: false);
+          if (newUserName != null) {
+            customerProvider.customer.username = newUserName;
+          }
+          if (email != null) {
+            customerProvider.customer.email = email;
+          }
           showSnackBar(
             context,
             'Change Successful!',
@@ -45,12 +56,14 @@ class UserService {
   }
 
   static void updateMerchantDetails(
-    BuildContext context,
-    String? oldUserName,
-    String? newUserName,
-    String email,
-    String company
-  ) async {
+      BuildContext context,
+      String? oldUserName,
+      String? newUserName,
+      String email,
+      String company,
+      String cuisineType,
+      String description,
+      String operatingHours) async {
     try {
       if (oldUserName == newUserName) {
         newUserName = null;
@@ -62,6 +75,9 @@ class UserService {
           "email": email,
           "password": null,
           "company": company,
+          "cuisineType": cuisineType,
+          "description": description,
+          "operatingHours": operatingHours
         }),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -71,6 +87,17 @@ class UserService {
         response: res,
         context: context,
         onSuccess: () {
+          var merchantProvider =
+              Provider.of<MerchantProvider>(context, listen: false);
+          if (newUserName != null) {
+            merchantProvider.merchant.username = newUserName;
+          }
+          if (email != null) {
+            merchantProvider.merchant.email = email;
+          }
+          if (company != null) {
+            merchantProvider.merchant.company = company;
+          }
           showSnackBar(
             context,
             'Change Successful!',

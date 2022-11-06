@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
 import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_result_card.dart';
@@ -91,7 +92,7 @@ class MerchantSearchDelegate extends SearchDelegate {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MerchantShopDetailsScreen(
+                        builder: (context) => MerchantShopScreen(
                           merchant: result,
                         ),
                       ),
@@ -148,7 +149,7 @@ class MerchantSearchDelegate extends SearchDelegate {
                     // -- Show result page immediately
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MerchantShopDetailsScreen(
+                        builder: (context) => MerchantShopScreen(
                           merchant: suggestion,
                         ),
                       ),
@@ -158,8 +159,23 @@ class MerchantSearchDelegate extends SearchDelegate {
               },
             );
           } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text("No Results"),
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 100,
+                    child: SvgPicture.asset("assets/graphics/no_results.svg"),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "No results",
+                    style: Theme.of(context).textTheme.caption,
+                  )
+                ],
+              ),
             );
           }
 

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/promotion.dart';
+import 'package:plantngo_frontend/models/quest_progress.dart';
 import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/providers/promotion_provider.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_promotion/merchant_promotion_details_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_delegate.dart';
+import 'package:plantngo_frontend/screens/customer/home/quests/quest_section.dart';
+import 'package:plantngo_frontend/services/promotion_service.dart';
+import 'package:plantngo_frontend/services/quest_service.dart';
 import 'package:plantngo_frontend/utils/mock_promotions.dart';
 import 'package:provider/provider.dart';
 
@@ -15,9 +19,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late Future<List<QuestProgress>> questProgress;
+
   @override
   void initState() {
     super.initState();
+    retrieveQuests();
     Provider.of<LocationProvider>(context, listen: false)
         .determinePosition()
         .then(
@@ -41,6 +48,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void retrieveQuests() {
+    setState(() {
+      questProgress = QuestService.getActiveQuestsByUser(context: context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var promotionProvider =
@@ -48,10 +61,18 @@ class _HomeScreenState extends State<HomeScreen> {
     const String searchFieldPlaceholder = "Search for food and shops";
     const double bannerHeight = 200.0;
     List<Promotion> promotion = promotionProvider.promotions;
+    List<Promotion> trending = [];
+
+    for (var i = 0; i < promotionProvider.promotions.length / 2; i++) {
+      trending.add(promotionProvider.promotions[i]);
+    }
     // replace with actual data
-    List<String> nearbyBanners = mockNearbyBanners;
-    List<String> promotionBanners = mockPromotionBanners;
-    List<String> trendingBanners = mockTrendingBanners;
+    // List<String> nearbyBanners = mockNearbyBanners;
+    // List<String> promotionBanners = mockPromotionBanners;
+    // List<String> trendingBanners = mockTrendingBanners;
+    for (Promotion promo in trending) {
+      promotion.remove(promo);
+    }
 
     return Scaffold(
       body: CustomScrollView(
@@ -60,22 +81,24 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverAppBar(
             floating: true,
             expandedHeight: 100,
+            backgroundColor: Colors.green,
             flexibleSpace: FlexibleSpaceBar(
               expandedTitleScale: 1,
               centerTitle: true,
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Colors.green.shade200,
-                      Colors.green.shade300,
-                      Colors.green,
-                    ],
-                  ),
-                ),
-              ),
+              // background: Container(
+              //   decoration: BoxDecoration(
+              //     gradient: LinearGradient(
+              //       begin: Alignment.topLeft,
+              //       end: Alignment.bottomRight,
+              //       colors: [
+              //         Colors.green.shade200,
+              //         Colors.green.shade300,
+              //         Colors.green,
+              //       ],
+              //     ),
+              //   ),
+              // ),
+
               title: FractionallySizedBox(
                 widthFactor: 0.90,
                 child: TextField(
@@ -131,23 +154,40 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
-                        padding: EdgeInsets.only(left:8.0),
+                        padding: EdgeInsets.only(left: 8.0),
                         child: Text(
-                          "Nearby",
+                          "Quests",
                           style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.w400),
+                              fontSize: 24, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      QuestSection(
+                        questProgress: questProgress,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          "Trending",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w500),
                         ),
                       ),
                       SizedBox(
                         height: bannerHeight,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: promotion.length,
+                          itemCount: trending.length,
                           itemBuilder: (_, i) {
                             return GestureDetector(
                               onTap: () {
                                 onBannerPressed(
-                                    "Promotion", promotion[i].bannerUrl!);
+                                    "Promotion", trending[i].bannerUrl!);
+                                PromotionService.addClicks(
+                                    context: context,
+                                    promotionId: trending[i].id!);
                               },
                               child: Card(
                                 semanticContainer: true,
@@ -158,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 elevation: 5,
                                 margin: const EdgeInsets.all(10),
                                 child: Image.network(
-                                  promotion[i].bannerUrl!,
+                                  trending[i].bannerUrl!,
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -174,19 +214,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           "Promotions",
                           style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.w400),
+                              fontSize: 24, fontWeight: FontWeight.w500),
                         ),
                       ),
                       SizedBox(
                         height: bannerHeight,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: promotionBanners.length,
+                          itemCount: promotion.length,
                           itemBuilder: (_, i) {
                             return GestureDetector(
                               onTap: () {
                                 onBannerPressed(
-                                    "Promotion", promotionBanners[i]);
+                                    "Promotion", promotion[i].bannerUrl!);
+                                PromotionService.addClicks(
+                                    context: context,
+                                    promotionId: promotion[i].id!);
                               },
                               child: Card(
                                 semanticContainer: true,
@@ -197,45 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 elevation: 5,
                                 margin: const EdgeInsets.all(10),
                                 child: Image.network(
-                                  promotionBanners[i],
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left:8.0),
-                        child: Text(
-                          "Trending",
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                      SizedBox(
-                        height: bannerHeight,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: trendingBanners.length,
-                          itemBuilder: (_, i) {
-                            return GestureDetector(
-                              onTap: () {
-                                onBannerPressed(
-                                    "Promotion", trendingBanners[i]);
-                              },
-                              child: Card(
-                                semanticContainer: true,
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                elevation: 5,
-                                margin: const EdgeInsets.all(10),
-                                child: Image.network(
-                                  trendingBanners[i],
+                                  promotion[i].bannerUrl!,
                                   fit: BoxFit.fill,
                                 ),
                               ),

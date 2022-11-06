@@ -33,17 +33,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
   String dropdownValue = "";
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Provider.of<MerchantProvider>(context, listen: false)
-        .merchant
-        .categories!
-        .map((e) => categories.add(e.name))
-        .toList();
-    dropdownValue = categories.first;
-  }
-
-  @override
   void initState() {
     super.initState();
     listSelectIngredientWidgets = [
@@ -54,6 +43,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
           deleteIngredient: deleteIngredient)
     ];
     fetchAllIngredients();
+    fetchAllCategories();
+    dropdownValue = categories.first;
   }
 
   @override
@@ -79,6 +70,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
   }
 
+  fetchAllCategories() {
+    Provider.of<MerchantProvider>(context, listen: false)
+        .merchant
+        .categories!
+        .map((e) => categories.add(e.name))
+        .toList();
+  }
+
   List<Ingredient> selectedListOfIngredients() {
     List<Ingredient> ingredients = [];
     for (var item in listSelectIngredientWidgets) {
@@ -96,7 +95,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
         name: _itemNameController.text,
         description: _itemDescriptionController.text,
         price: double.parse(_itemPriceController.text),
-        category: dropdownValue);
+        category: dropdownValue,
+        image: image);
     for (var item in listSelectIngredientWidgets) {
       await ProductService.addIngredient(
           productName: _itemNameController.text,

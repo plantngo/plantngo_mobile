@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plantngo_frontend/models/ingredient.dart';
+import 'package:plantngo_frontend/models/product.dart';
 import 'package:plantngo_frontend/providers/merchant_ingredients_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
@@ -14,17 +15,11 @@ import 'package:provider/provider.dart';
 class EditItemScreen extends StatefulWidget {
   EditItemScreen(
       {super.key,
-      required this.name,
-      required this.description,
-      required this.price,
-      required this.carbonEmission,
+      required this.item,
       required this.category,
       required this.ingredients});
 
-  String name;
-  String description;
-  double price;
-  double carbonEmission;
+  Product item;
   String category;
   List<Ingredient> ingredients;
 
@@ -52,10 +47,10 @@ class _EditItemScreenState extends State<EditItemScreen> {
   @override
   void initState() {
     super.initState();
-    _itemNameController.text = widget.name;
-    _itemDescriptionController.text = widget.description;
-    _itemPriceController.text = widget.price.toString();
-    _itemEmissionController.text = widget.carbonEmission.toString();
+    _itemNameController.text = widget.item.name!;
+    _itemDescriptionController.text = widget.item.description!;
+    _itemPriceController.text = widget.item.price.toString();
+    _itemEmissionController.text = widget.item.carbonEmission.toString();
     dropdownValue = widget.category;
     //todo:need to change this to item clicked
     //todo
@@ -68,21 +63,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
             selectedValueSingleDialog: e.name,
             deleteIngredient: deleteIngredient)))
         .toList();
+    fetchAllCategories();
+    dropdownValue = categories.first;
   }
 
   void deleteIngredient(SelectIngredientWidget ingredient) {
     listSelectIngredientWidgets.remove(ingredient);
     setState(() {});
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Provider.of<MerchantProvider>(context, listen: false)
-        .merchant
-        .categories!
-        .map((e) => categories.add(e.name))
-        .toList();
   }
 
   @override
@@ -98,7 +85,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     await MerchantService.editProduct(
         context: context,
         newName: _itemNameController.text,
-        oldName: widget.name,
+        oldName: widget.item.name!,
         description: _itemDescriptionController.text,
         price: double.parse(_itemPriceController.text),
         category: dropdownValue);
@@ -117,7 +104,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
   Future deleteItem() async {
     await MerchantService.deleteProduct(
-        context: context, name: widget.name, category: widget.category);
+        context: context, name: widget.item.name!, category: widget.category);
   }
 
   void selectImage() async {
@@ -135,6 +122,14 @@ class _EditItemScreenState extends State<EditItemScreen> {
       this.ingredients.add(DropdownMenuItem(
           value: item.name, child: Text(item.name.toString())));
     }
+  }
+
+  fetchAllCategories() {
+    Provider.of<MerchantProvider>(context, listen: false)
+        .merchant
+        .categories!
+        .map((e) => categories.add(e.name))
+        .toList();
   }
 
   void addSelectIngredientWidget() {
@@ -159,15 +154,12 @@ class _EditItemScreenState extends State<EditItemScreen> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  image != null
+                  widget.item.imageUrl != null
                       ? GestureDetector(
                           onTap: selectImage,
                           child: Builder(
-                              builder: (BuildContext context) => Image.file(
-                                    image,
-                                    fit: BoxFit.cover,
-                                    height: 200,
-                                  )))
+                              builder: (BuildContext context) =>
+                                  Image.network(widget.item.imageUrl!)))
                       : GestureDetector(
                           onTap: selectImage,
                           child: DottedBorder(

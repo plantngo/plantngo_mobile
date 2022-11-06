@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'merchant_search.dart';
+part of 'merchant_shallow.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-MerchantSearch _$MerchantSearchFromJson(Map<String, dynamic> json) =>
-    MerchantSearch(
+MerchantShallow _$MerchantShallowFromJson(Map<String, dynamic> json) =>
+    MerchantShallow(
       id: json['id'] as int,
       username: json['username'] as String,
       company: json['company'] as String,
@@ -20,13 +20,10 @@ MerchantSearch _$MerchantSearchFromJson(Map<String, dynamic> json) =>
       priceRating: json['priceRating'] as int,
       operatingHours: json['operatingHours'] as String,
       description: json['description'] as String,
-      categories: (json['categories'] as List<dynamic>?)
-          ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
-          .toList(),
       carbonRating: (json['carbonRating'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$MerchantSearchToJson(MerchantSearch instance) =>
+Map<String, dynamic> _$MerchantShallowToJson(MerchantShallow instance) =>
     <String, dynamic>{
       'id': instance.id,
       'username': instance.username,
@@ -41,5 +38,4 @@ Map<String, dynamic> _$MerchantSearchToJson(MerchantSearch instance) =>
       'operatingHours': instance.operatingHours,
       'description': instance.description,
       'carbonRating': instance.carbonRating,
-      'categories': instance.categories?.map((e) => e.toJson()).toList(),
     };

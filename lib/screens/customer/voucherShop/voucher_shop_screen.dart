@@ -214,8 +214,11 @@ class _VoucherShopState extends State<VoucherShop> {
       listVouchers.add(OwnedVoucherCard(
         voucher: ownedVouchers[i],
       ));
+      if (i == ownedVouchers.length - 1) {
+        listVouchers.add(SizedBox(height:40));
+      }
     }
-
+    
     return listVouchers.isEmpty
         ? [
             const Padding(

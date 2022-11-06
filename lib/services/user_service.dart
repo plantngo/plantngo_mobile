@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/screens/login/reset_password_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/error_handling.dart';
@@ -128,6 +130,64 @@ class UserService {
             context,
             'Change Successful!',
           );
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  static void getResetPasswordToken(
+    BuildContext context,
+    String email,
+  ) async {
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/v1/forgot-password/token'),
+        body: jsonEncode({
+          "email": email,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            'Reset Token Sent to Email!',
+          );
+        },
+      );
+    } catch (e) {}
+  }
+
+  static void resetPasswordWithToken(
+    BuildContext context,
+    String email,
+    String resetPasswordToken,
+    String newPassword,
+  ) async {
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/v1/forgot-password/'),
+        body: jsonEncode({
+          "email": email,
+          "resetPasswordToken": resetPasswordToken,
+          "newPassword": newPassword,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(context, "Password Reset Successful!");
+          Navigator.pushNamed(context, '/login');
         },
       );
     } catch (e) {

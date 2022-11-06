@@ -85,51 +85,65 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          final result = snapshot.data![index];
-                          return result.orderStatus == "PENDING"
-                              ? ListTile(
-                                  title: Text(
-                                    result.merchant!.company,
-                                    style:
-                                        Theme.of(context).textTheme.titleSmall,
-                                  ),
-                                  subtitle: Text(
-                                    "Order #${result.id!.toString().padLeft(5, '0')}",
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  leading: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: SizedBox(
-                                      height: 100,
-                                      width: 100,
-                                      child: Image.network(
-                                        result.merchant!.logoUrl,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    "S\$${result.totalPrice!.toStringAsFixed(2)}",
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => const Scaffold(),
-                                      ),
-                                    );
-                                  },
-                                )
-                              : SizedBox();
-                        },
-                      ),
+                      snapshot.data!
+                              .where((e) => e.orderStatus == "PENDING")
+                              .isEmpty
+                          ? Center(
+                              child: Text(
+                                "You have no pending orders now!",
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final result = snapshot.data![index];
+                                return result.orderStatus == "PENDING"
+                                    ? ListTile(
+                                        title: Text(
+                                          result.merchant!.company,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
+                                        ),
+                                        subtitle: Text(
+                                          "Order #${result.id!.toString().padLeft(5, '0')}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                        leading: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: SizedBox(
+                                            height: 100,
+                                            width: 100,
+                                            child: Image.network(
+                                              result.merchant!.logoUrl,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        ),
+                                        trailing: Text(
+                                          "S\$${result.totalPrice!.toStringAsFixed(2)}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Scaffold(),
+                                            ),
+                                          );
+                                        },
+                                      )
+                                    : SizedBox();
+                              },
+                            ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -149,50 +163,67 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          final result = snapshot.data![index];
-                          return result.orderStatus == "FULFILLED"
-                              ? ListTile(
-                                  title: Text(
-                                    result.merchant!.company,
-                                    style:
-                                        Theme.of(context).textTheme.titleSmall,
-                                  ),
-                                  subtitle: Text(
-                                    "Order #${result.id!.toString().padLeft(5, '0')}",
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  leading: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: SizedBox(
-                                      height: 100,
-                                      width: 100,
-                                      child: Image.network(
-                                        result.merchant!.bannerUrl,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    "S\$${result.totalPrice!.toStringAsFixed(2)}",
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => const Scaffold(),
-                                      ),
-                                    );
-                                  },
-                                )
-                              : SizedBox();
-                        },
+                      snapshot.data!
+                              .where((e) => e.orderStatus == "FULFILLED")
+                              .isEmpty
+                          ? Center(
+                              child: Text(
+                                "You have no fulfilled orders yet!",
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final result = snapshot.data![index];
+                                return result.orderStatus == "FULFILLED"
+                                    ? ListTile(
+                                        title: Text(
+                                          result.merchant!.company,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
+                                        ),
+                                        subtitle: Text(
+                                          "Order #${result.id!.toString().padLeft(5, '0')}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                        leading: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: SizedBox(
+                                            height: 100,
+                                            width: 100,
+                                            child: Image.network(
+                                              result.merchant!.bannerUrl,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        trailing: Text(
+                                          "S\$${result.totalPrice!.toStringAsFixed(2)}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Scaffold(),
+                                            ),
+                                          );
+                                        },
+                                      )
+                                    : SizedBox();
+                              },
+                            ),
+                      SizedBox(
+                        height: 20,
                       ),
                     ],
                   );

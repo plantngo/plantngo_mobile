@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/promotion.dart';
+import 'package:plantngo_frontend/models/quest_progress.dart';
 import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/providers/promotion_provider.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_promotion/merchant_promotion_details_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_delegate.dart';
 import 'package:plantngo_frontend/screens/customer/home/quests/quest_section.dart';
 import 'package:plantngo_frontend/services/promotion_service.dart';
+import 'package:plantngo_frontend/services/quest_service.dart';
 import 'package:plantngo_frontend/utils/mock_promotions.dart';
 import 'package:provider/provider.dart';
 
@@ -17,9 +19,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late Future<List<QuestProgress>> questProgress;
+
   @override
   void initState() {
     super.initState();
+    retrieveQuests();
     Provider.of<LocationProvider>(context, listen: false)
         .determinePosition()
         .then(
@@ -41,6 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void retrieveQuests() {
+    setState(() {
+      questProgress = QuestService.getActiveQuestsByUser(context: context);
+    });
   }
 
   @override
@@ -150,7 +161,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 24, fontWeight: FontWeight.w500),
                         ),
                       ),
-                      QuestSection(),
+                      QuestSection(
+                        questProgress: questProgress,
+                      ),
                       const SizedBox(
                         height: 30,
                       ),

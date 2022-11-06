@@ -173,12 +173,8 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
                 color: Colors.grey.shade100,
               ),
               ...buildMerchantShopMenuSection(merchant.categories),
-              Divider(
-                thickness: 5,
-                color: Colors.grey.shade100,
-              ),
               const SizedBox(
-                height: 50,
+                height: 25,
               )
             ],
           ),

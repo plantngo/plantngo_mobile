@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plantngo_frontend/models/quest_progress.dart';
+import 'package:plantngo_frontend/providers/customer_provider.dart';
+import 'package:plantngo_frontend/services/auth_service.dart';
+import 'package:plantngo_frontend/services/quest_service.dart';
+import 'package:provider/provider.dart';
 
 class QuestSection extends StatelessWidget {
   Future<List<QuestProgress>> questProgress;
-
+  void Function(String?) refreshQuestProgressHook;
   QuestSection({
     super.key,
     required this.questProgress,
+    required this.refreshQuestProgressHook,
   });
 
   @override
@@ -22,10 +27,16 @@ class QuestSection extends StatelessWidget {
       return title;
     }
 
+    final customerProvider =
+        Provider.of<CustomerProvider>(context, listen: true);
     return FutureBuilder<List<QuestProgress>>(
       future: questProgress,
       builder: ((context, snapshot) {
-        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text("Failed to load page"),
+          );
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           return SizedBox(
             height: 150,
             child: ListView.builder(
@@ -46,38 +57,67 @@ class QuestSection extends StatelessWidget {
                       height: 150,
                       width: 200,
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            processTitle(result.type!, result.countToComplete!),
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          LinearProgressIndicator(
-                            value: (result.countCompleted!.toDouble()) /
-                                result.countToComplete!,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
                             children: [
-                              Text(
-                                "$daysTillQuestEnd days left",
-                                style: Theme.of(context).textTheme.caption,
+                              SizedBox(
+                                height: 5,
                               ),
                               Text(
-                                "${result.countCompleted!}/${result.countToComplete!}",
-                                style: Theme.of(context).textTheme.caption,
+                                processTitle(
+                                    result.type!, result.countToComplete!),
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              LinearProgressIndicator(
+                                value: (result.countCompleted!.toDouble()) /
+                                    result.countToComplete!,
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "$daysTillQuestEnd days left",
+                                    style: Theme.of(context).textTheme.caption,
+                                  ),
+                                  Text(
+                                    "${result.countCompleted!}/${result.countToComplete!}",
+                                    style: Theme.of(context).textTheme.caption,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
+                          result.countCompleted! >= result.countToComplete!
+                              ? GestureDetector(
+                                  onTap: () {
+                                    QuestService.refreshQuestByQuestIdAndUser(
+                                      context: context,
+                                      id: result.id!,
+                                    ).then((value) {
+                                      refreshQuestProgressHook(
+                                          customerProvider.customer.username);
+                                      AuthService.getUserData(context);
+                                    });
+                                  },
+                                  child: Text(
+                                    "Claim",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption!
+                                        .copyWith(color: Colors.green),
+                                  ),
+                                )
+                              : SizedBox(),
                         ],
                       ),
                     ),

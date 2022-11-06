@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
+import 'package:plantngo_frontend/widgets/tag/carbon_tag.dart';
 
 class MerchantShopAboutSection extends StatelessWidget {
   MerchantSearch merchant;
@@ -19,7 +20,7 @@ class MerchantShopAboutSection extends StatelessWidget {
         Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ListView(
               padding: EdgeInsets.zero,
               shrinkWrap: true,
@@ -60,6 +61,38 @@ class MerchantShopAboutSection extends StatelessWidget {
                     merchant.operatingHours,
                     style: Theme.of(context).textTheme.caption,
                   ),
+                ),
+                ExpansionTile(
+                  title: Row(
+                    children: [
+                      Text(
+                        "Average Carbon Emission",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                  children: [
+                    ListTile(
+                      title: Wrap(
+                        children: [
+                          Text(
+                            "${merchant.company}'s products emit on average",
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                          Text(
+                            " ~${merchant.carbonRating!.toStringAsFixed(2)} gCO2 (grams of Carbon Dioxide)",
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption!
+                                .copyWith(color: Colors.green),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 ExpansionTile(
                   title: Text(

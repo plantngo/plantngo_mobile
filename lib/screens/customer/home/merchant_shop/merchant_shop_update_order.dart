@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/models/product.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
+import 'package:plantngo_frontend/widgets/tag/carbon_tag.dart';
+import 'package:plantngo_frontend/widgets/tag/tag.dart';
 
 class MerchantShopUpdateOrder extends StatefulWidget {
   Product merchantProduct;
@@ -53,12 +55,6 @@ class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.merchantProduct.name!,
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-      ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: [
@@ -137,32 +133,78 @@ class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.network(
-              widget.merchantProduct.imageUrl!,
-              fit: BoxFit.cover,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            stretch: true,
+            expandedHeight: 250.0,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.network(
+                widget.merchantProduct.imageUrl!,
+                fit: BoxFit.cover,
+              ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Wrap(
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.merchantProduct.description!,
-                    textAlign: TextAlign.left,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  SizedBox(
+                    height: 20,
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Wrap(
+                      alignment: WrapAlignment.start,
+                      textDirection: TextDirection.ltr,
+                      children: [
+                        Text(
+                          widget.merchantProduct.name!,
+                          textAlign: TextAlign.left,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      children: [
+                        CarbonTag(
+                            text:
+                                "${widget.merchantProduct.carbonEmission} gCO2e"),
+                        SizedBox(width: 5),
+                        Tag(
+                            text:
+                                "S\$${widget.merchantProduct.price!.toStringAsFixed(2)}"),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Wrap(
+                      children: [
+                        Text(
+                          widget.merchantProduct.description!,
+                          textAlign: TextAlign.left,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
-            )
-          ],
-        ),
+            ]),
+          ),
+        ],
       ),
     );
   }

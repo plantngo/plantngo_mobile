@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/services/customer_order_service.dart';
@@ -69,167 +70,106 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   return const Center(
                     child: Text("Failed to load page"),
                   );
-                } else if (snapshot.hasData
-                    // && snapshot.data!.isNotEmpty
-                    ) {
+                } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Text(
-                          "Pending Orders",
+                          "Recent Orders",
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      snapshot.data!
-                              .where((e) => e.orderStatus == "PENDING")
-                              .isEmpty
-                          ? Center(
-                              child: Text(
-                                "You have no pending orders now!",
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                final result = snapshot.data![index];
-                                return result.orderStatus == "PENDING"
-                                    ? ListTile(
-                                        title: Text(
-                                          result.merchant!.company,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleSmall,
-                                        ),
-                                        subtitle: Text(
-                                          "Order #${result.id!.toString().padLeft(5, '0')}",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                        leading: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          child: SizedBox(
-                                            height: 100,
-                                            width: 100,
-                                            child: Image.network(
-                                              result.merchant!.logoUrl,
-                                              fit: BoxFit.contain,
-                                            ),
-                                          ),
-                                        ),
-                                        trailing: Text(
-                                          "S\$${result.totalPrice!.toStringAsFixed(2)}",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Scaffold(),
-                                            ),
-                                          );
-                                        },
-                                      )
-                                    : SizedBox();
-                              },
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.length,
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                        itemBuilder: (context, index) {
+                          final result = snapshot.data![index];
+                          return ListTile(
+                            title: Text(
+                              result.merchant!.company,
+                              style: Theme.of(context).textTheme.titleSmall,
                             ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Divider(
-                        thickness: 5,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(
-                          "Fulfilled Orders",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      snapshot.data!
-                              .where((e) => e.orderStatus == "FULFILLED")
-                              .isEmpty
-                          ? Center(
-                              child: Text(
-                                "You have no fulfilled orders yet!",
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                final result = snapshot.data![index];
-                                return result.orderStatus == "FULFILLED"
-                                    ? ListTile(
-                                        title: Text(
-                                          result.merchant!.company,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleSmall,
-                                        ),
-                                        subtitle: Text(
-                                          "Order #${result.id!.toString().padLeft(5, '0')}",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                        leading: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          child: SizedBox(
-                                            height: 100,
-                                            width: 100,
-                                            child: Image.network(
-                                              result.merchant!.bannerUrl,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        trailing: Text(
-                                          "S\$${result.totalPrice!.toStringAsFixed(2)}",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Scaffold(),
-                                            ),
-                                          );
-                                        },
-                                      )
-                                    : SizedBox();
-                              },
+                            horizontalTitleGap: 0,
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  "${result.orderStatus!} ",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                          color:
+                                              result.orderStatus! == "PENDING"
+                                                  ? Colors.orange
+                                                  : result.orderStatus! ==
+                                                          "FULFILLED"
+                                                      ? Colors.green
+                                                      : Colors.red),
+                                ),
+                                Text(
+                                  "Order #${result.id!.toString().padLeft(5, '0')}",
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
                             ),
-                      SizedBox(
-                        height: 20,
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: SizedBox(
+                                height: 80,
+                                width: 80,
+                                child: Image.network(
+                                  result.merchant!.logoUrl,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                            trailing: Text(
+                              "S\$${result.totalPrice!.toStringAsFixed(2)}",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const Scaffold(),
+                                ),
+                              );
+                            },
+                          );
+                        },
                       ),
                     ],
                   );
                 } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-                  return const Center(
-                    child: Text("No Results"),
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 150,
+                      ),
+                      SizedBox(
+                        height: 100,
+                        child: SvgPicture.asset("assets/graphics/receipt.svg"),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "You don't have any order history",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ],
                   );
                 }
 

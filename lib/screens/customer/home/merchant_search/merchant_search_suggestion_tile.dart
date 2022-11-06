@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
+import 'package:plantngo_frontend/widgets/tag/carbon_tag.dart';
 import 'package:plantngo_frontend/widgets/tag/price_tag.dart';
 import 'package:plantngo_frontend/widgets/tag/tag.dart';
 
@@ -45,6 +46,8 @@ class MerchantSearchSuggestionTile extends StatelessWidget {
           spacing: 5,
           runSpacing: 5,
           children: [
+            CarbonTag(
+                text: "~${merchant.carbonRating!.toStringAsFixed(0)} gCO2e"),
             PriceTag(symbolCount: merchant.priceRating),
             renderDistanceTag(),
             Tag(text: merchant.cuisineType),

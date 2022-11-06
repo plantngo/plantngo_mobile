@@ -176,7 +176,7 @@ class _CartScreenState extends State<CartScreen> {
               return Column(
                 children: [
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   ListView.separated(
                     shrinkWrap: true,

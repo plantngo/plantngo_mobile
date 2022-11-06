@@ -3,6 +3,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/models/product.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_update_order.dart';
+import 'package:plantngo_frontend/widgets/tag/carbon_tag.dart';
+import 'package:plantngo_frontend/widgets/tag/tag.dart';
 
 class MerchantShopItem extends StatelessWidget {
   Order? order;
@@ -35,10 +37,20 @@ class MerchantShopItem extends StatelessWidget {
           product.name!,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
-        subtitle: Text(
-          "\$${product.price!.toStringAsFixed(2)}",
-          style: Theme.of(context).textTheme.caption,
+        subtitle: Row(
+          children: [
+            CarbonTag(
+                text: "${product.carbonEmission!.toStringAsFixed(2)} gCO2e"),
+            SizedBox(
+              width: 5,
+            ),
+            Tag(text: "S\$${product.price!.toStringAsFixed(2)}")
+          ],
         ),
+        // trailing: Text(
+        //   "\$${product.price!.toStringAsFixed(2)}",
+        //   style: Theme.of(context).textTheme.caption,
+        // ),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(

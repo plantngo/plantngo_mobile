@@ -419,12 +419,14 @@ class MerchantService {
   }
 
   static Future fetchAllIngredients(BuildContext context) async {
+    String? token = await UserSecureStorage.getToken();
     try {
       List<Ingredient> ingredients = [];
       http.Response res = await http.get(
         Uri.parse('$uri/api/v1/ingredient'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
         },
       );
       httpErrorHandle(

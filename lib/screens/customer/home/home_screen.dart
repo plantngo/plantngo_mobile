@@ -21,10 +21,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<QuestProgress>> questProgress;
+  Future<List<QuestProgress>> questProgress = Future.delayed(
+    Duration(seconds: 10),
+    () {
+      return [];
+    },
+  );
+  late List<Promotion> promotion = [];
+  late List<Promotion> trending = [];
 
   @override
   void initState() {
+    AuthService.getUserData(context).then(
+      (value) {
+        retrieveQuests(value);
+      },
+    );
     super.initState();
 
     Provider.of<LocationProvider>(context, listen: false)
@@ -37,15 +49,15 @@ class _HomeScreenState extends State<HomeScreen> {
         );
 
     Provider.of<PromotionProvider>(context, listen: false)
-        .setPromotions(context);
+        .setPromotions(context)
+        .then((value) => retrievePromotions());
   }
 
-  void onBannerPressed(String merchantName, String merchantPromotionImage) {
+  void onBannerPressed(Promotion promotion) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => MerchantPromotionDetailsScreen(
-          merchantName: merchantName,
-          merchantPromotionImage: merchantPromotionImage,
+          promotion: promotion,
         ),
       ),
     );
@@ -58,36 +70,43 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void retrievePromotions() {
+    Provider.of<PromotionProvider>(context, listen: false)
+        .setPromotions(context)
+        .then((value) {
+      List<Promotion> _promotion = value;
+      List<Promotion> _trending = [];
+
+      for (var i = 0; i < value.length / 2; i++) {
+        _trending.add(value[i]);
+      }
+
+      for (Promotion promo in _trending) {
+        _promotion.remove(promo);
+      }
+
+      setState(() {
+        promotion = _promotion;
+        trending = _trending;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var promotionProvider =
-        Provider.of<PromotionProvider>(context, listen: true);
-    final customerProvider =
-        Provider.of<CustomerProvider>(context, listen: true);
-    retrieveQuests(customerProvider.customer.username);
     const String searchFieldPlaceholder = "Search for food and shops";
     const double bannerHeight = 200.0;
-    List<Promotion> promotion = promotionProvider.promotions;
-    List<Promotion> trending = [];
-
-    for (var i = 0; i < promotionProvider.promotions.length / 2; i++) {
-      trending.add(promotionProvider.promotions[i]);
-    }
-    // replace with actual data
-    // List<String> nearbyBanners = mockNearbyBanners;
-    // List<String> promotionBanners = mockPromotionBanners;
-    // List<String> trendingBanners = mockTrendingBanners;
-    for (Promotion promo in trending) {
-      promotion.remove(promo);
-    }
 
     return RefreshIndicator(
       onRefresh: () {
         return Future.delayed(
           Duration(seconds: 1),
           () {
-            retrieveQuests(customerProvider.customer.username);
+            retrieveQuests(Provider.of<CustomerProvider>(context, listen: false)
+                .customer
+                .username);
             AuthService.getUserData(context);
+            retrievePromotions();
           },
         );
       },
@@ -201,8 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (_, i) {
                               return GestureDetector(
                                 onTap: () {
-                                  onBannerPressed(
-                                      "Promotion", trending[i].bannerUrl!);
+                                  onBannerPressed(trending[i]);
                                   PromotionService.addClicks(
                                       context: context,
                                       promotionId: trending[i].id!);
@@ -243,8 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (_, i) {
                               return GestureDetector(
                                 onTap: () {
-                                  onBannerPressed(
-                                      "Promotion", promotion[i].bannerUrl!);
+                                  onBannerPressed(promotion[i]);
                                   PromotionService.addClicks(
                                       context: context,
                                       promotionId: promotion[i].id!);

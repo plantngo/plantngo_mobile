@@ -30,28 +30,31 @@ class MerchantShopMenuSection extends StatelessWidget {
           height: 10,
         ),
         Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: Text(
             title,
             textAlign: TextAlign.left,
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
-        ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          itemCount: merchantProductList.length,
-          separatorBuilder: (context, index) {
-            return const Divider();
-          },
-          itemBuilder: (_, i) {
-            return MerchantShopItem(
-              order: order,
-              product: merchantProductList[i],
-              updateCustomerMerchantOrder: updateCustomerMerchantOrder,
-            );
-          },
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemCount: merchantProductList.length,
+            separatorBuilder: (context, index) {
+              return const Divider();
+            },
+            itemBuilder: (_, i) {
+              return MerchantShopItem(
+                order: order,
+                product: merchantProductList[i],
+                updateCustomerMerchantOrder: updateCustomerMerchantOrder,
+              );
+            },
+          ),
         ),
       ],
     );

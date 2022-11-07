@@ -42,9 +42,8 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
   Future createPromotion() async {
     await PromotionService.createPromotion(
         context: context,
-        bannerUrl:
-            "http://sg.syioknya.com/custom/picture/2585/syioknya1_60e41d6928724.jpg",
         description: _promotionDescriptionController.text,
+        image: image,
         startDate:
             '${_promotionalPeriod!.start.year}-${_promotionalPeriod!.start.month < 10 ? '0${_promotionalPeriod!.start.month}' : _promotionalPeriod!.start.month}-${_promotionalPeriod!.start.day < 10 ? '0${_promotionalPeriod!.start.day}' : _promotionalPeriod!.start.day}',
         endDate:

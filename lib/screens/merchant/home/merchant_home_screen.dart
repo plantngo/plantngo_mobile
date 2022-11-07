@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/order_service.dart';
@@ -123,15 +124,16 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                                   ),
                                   Center(
                                     child: Column(
-                                      children: const [
-                                        Icon(
-                                          Icons.add_circle,
-                                          size: 40,
-                                        ),
+                                      children: [
                                         SizedBox(
+                                            height: 100,
+                                            child: SvgPicture.asset(
+                                                "assets/graphics/no_orders.svg")),
+                                        const SizedBox(
                                           height: 20,
                                         ),
-                                        Text("No orders, Pull down to refresh")
+                                        const Text(
+                                            "No orders, Pull down to refresh")
                                       ],
                                     ),
                                   ),
@@ -145,6 +147,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                       children: cancelledOrderTile),
                 ])),
           );
+          // return const Center(child: CircularProgressIndicator());
         });
   }
 }

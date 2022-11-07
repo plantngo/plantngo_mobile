@@ -1,4 +1,7 @@
 //todo add image service
+import 'dart:convert';
+import 'dart:io';
+import 'package:image/image.dart' as img;
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,6 +43,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
   List<DropdownMenuItem> ingredients = [];
   List<SelectIngredientWidget> listSelectIngredientWidgets = [];
   //todo
+  var fileImage = null;
   var image = null;
 
   String dropdownValue = "";
@@ -65,6 +69,10 @@ class _EditItemScreenState extends State<EditItemScreen> {
         .toList();
     fetchAllCategories();
     dropdownValue = categories.first;
+
+    if (widget.item.imageUrl != null && widget.item.imageUrl != '') {
+      image = Image.network(widget.item.imageUrl!);
+    }
   }
 
   void deleteIngredient(SelectIngredientWidget ingredient) {
@@ -88,7 +96,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
         oldName: widget.item.name!,
         description: _itemDescriptionController.text,
         price: double.parse(_itemPriceController.text),
-        category: dropdownValue);
+        category: dropdownValue,
+        image: fileImage);
 
     await ProductService.deleteAllIngredients(
         productName: _itemNameController.text, context: context);
@@ -108,10 +117,20 @@ class _EditItemScreenState extends State<EditItemScreen> {
   }
 
   void selectImage() async {
-    var res = await MerchantService.pickImage();
+    File? res = await MerchantService.pickImage();
+    Image img = await convertFileToImage(res!);
     setState(() {
-      image = res;
+      image = img;
+      fileImage = res;
     });
+  }
+
+  Future<Image> convertFileToImage(File picture) async {
+    List<int> imageBase64 = picture.readAsBytesSync();
+    String imageAsString = base64Encode(imageBase64);
+    Uint8List uint8list = base64.decode(imageAsString);
+    Image image = Image.memory(uint8list);
+    return image;
   }
 
   fetchAllIngredients() {
@@ -154,14 +173,17 @@ class _EditItemScreenState extends State<EditItemScreen> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  widget.item.imageUrl != null
+                  image != null
                       ? GestureDetector(
                           onTap: selectImage,
                           child: Builder(
-                              builder: (BuildContext context) => Image.network(
-                                    widget.item.imageUrl!,
-                                    height: 200,
-                                    width: 200,
+                              builder: (BuildContext context) => ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: SizedBox(
+                                      height: 200,
+                                      width: 200,
+                                      child: image,
+                                    ),
                                   )))
                       : GestureDetector(
                           onTap: selectImage,

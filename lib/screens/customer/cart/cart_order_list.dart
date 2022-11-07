@@ -36,11 +36,18 @@ class CartOrderList extends StatelessWidget {
           children: [
             Row(
               children: [
-                Checkbox(
-                  value: selected,
-                  onChanged: (value) {
-                    onCheckboxChanged(value!, index);
-                  },
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    unselectedWidgetColor: Colors.green,
+                  ),
+                  child: Checkbox(
+                    checkColor: Colors.green,
+                    activeColor: Colors.green,
+                    value: selected,
+                    onChanged: (value) {
+                      onCheckboxChanged(value!, index);
+                    },
+                  ),
                 ),
                 Text(
                   order.merchant!.company,

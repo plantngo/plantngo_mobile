@@ -19,7 +19,7 @@ class MerchantShopAboutSection extends StatelessWidget {
       ];
     }
 
-    [
+    return [
       Tag(
         text: "${merchant.distanceFrom!.toStringAsFixed(2)} km",
       ),

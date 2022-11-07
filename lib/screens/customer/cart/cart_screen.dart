@@ -95,11 +95,11 @@ class _CartScreenState extends State<CartScreen> {
                               for (int i = 0; i < _orders.length; i++) {
                                 if (orderSelectedArr[i]) {
                                   CustomerOrderService.updateOrderStatus(
-                                          context: context,
-                                          order: _orders[i],
-                                          orderStatus: "PENDING",
-                                          isDineIn: orderIsDineIn[i])
-                                      .then((value) {
+                                    context: context,
+                                    order: _orders[i],
+                                    orderStatus: "PENDING",
+                                    isDineIn: orderIsDineIn[i],
+                                  ).then((value) {
                                     retrieveAllOrders();
                                     showSnackBar(
                                         context, "Sucessfully Checked out!");
@@ -172,7 +172,6 @@ class _CartScreenState extends State<CartScreen> {
         // ),
       ),
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
         child: FutureBuilder<List<Order>>(
           future: futureCustomerOrders,
           builder: (context, snapshot) {
@@ -184,17 +183,18 @@ class _CartScreenState extends State<CartScreen> {
               return Column(
                 children: [
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: snapshot.data!.length,
                     separatorBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5),
                         child: Divider(
-                          thickness: 5,
+                          thickness: 2,
+                          color: Colors.green.shade100,
                         ),
                       );
                     },
@@ -212,7 +212,17 @@ class _CartScreenState extends State<CartScreen> {
                         refreshHook: retrieveAllOrders,
                       );
                     },
-                  )
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    child: Divider(
+                      thickness: 2,
+                      color: Colors.green.shade100,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                 ],
               );
             } else if (snapshot.hasData && snapshot.data!.isEmpty) {

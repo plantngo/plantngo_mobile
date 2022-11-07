@@ -167,23 +167,55 @@ class MerchantService {
       required String newName,
       required String description,
       required double price,
-      required String category}) async {
+      required String category,
+      required File? image}) async {
     final merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);
     String? token = await UserSecureStorage.getToken();
     try {
-      http.Response res = await http.put(
+      // http.Response res = await http.put(
+      //     Uri.parse(
+      //         '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category/$oldName'),
+      //     headers: {
+      //       'Content-Type': 'application/json; charset=UTF-8',
+      //       'Authorization': 'Bearer $token'
+      //     },
+      //     body: jsonEncode({
+      //       "name": newName,
+      //       "price": price,
+      //       "description": description,
+      //     }));
+
+      var request = http.MultipartRequest(
+          'PUT',
           Uri.parse(
-              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category/$oldName'),
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $token'
-          },
-          body: jsonEncode({
-            "name": newName,
-            "price": price,
-            "description": description,
-          }));
+              '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category/$oldName'))
+        ..files.add(http.MultipartFile.fromString(
+            'product',
+            jsonEncode({
+              "name": newName,
+              "price": price,
+              "description": description,
+            }),
+            contentType: MediaType("application", "json")));
+
+      if (image != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+            'image', image!.path,
+            contentType: MediaType("*", "*")));
+      }
+
+      var header = {
+        "Accept": '*/*',
+        "Authorization": 'Bearer $token',
+      };
+
+      request.headers.addAll(header);
+
+      var streamedRes = await request.send();
+
+      var res = await http.Response.fromStream(streamedRes);
+
       httpErrorHandle(
         response: res,
         context: context,

@@ -30,10 +30,8 @@ class _MerchantOrderDetailsScreenState
     for (var item in widget.order.orderItems!) {
       Product product = await ProductService.getProductById(
           context: context, id: item.productId!);
-      futureOrderItemsTiles.add(MerchantOrderItemTile(
-          quantity: item.quantity!,
-          price: product.price!,
-          name: product.name!));
+      futureOrderItemsTiles.add(
+          MerchantOrderItemTile(quantity: item.quantity!, product: product));
     }
     orderItemsTiles = futureOrderItemsTiles;
   }
@@ -45,7 +43,8 @@ class _MerchantOrderDetailsScreenState
         builder: ((BuildContext context, snapshot) {
           return Scaffold(
             appBar: AppBar(
-              title: Text("Order ID: ${widget.order.id}"),
+              title:
+                  Text("Order #${widget.order.id.toString().padLeft(5, '0')}"),
             ),
             body: ListView(
               physics: const AlwaysScrollableScrollPhysics(),

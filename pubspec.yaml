@@ -51,6 +51,7 @@ dependencies:
   flutter_countdown_timer: ^4.1.0
   time_range: ^1.0.3
   flutter_svg: ^1.1.6
+  image: ^3.2.2
 
 dev_dependencies:
   flutter_test:

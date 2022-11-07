@@ -227,7 +227,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ),
                   TextFormField(
                     controller: _itemPriceController,
-                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,2}'))
+                    ],
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     decoration: const InputDecoration(
                         filled: true,
                         labelText: "Price",
@@ -238,7 +243,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       }
                       return null;
                     }),
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   const SizedBox(
                     height: 20,

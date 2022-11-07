@@ -4,6 +4,7 @@ import 'package:plantngo_frontend/models/category.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/models/orderitem.dart';
+import 'package:plantngo_frontend/screens/customer/cart/cart_main_screen.dart';
 import 'package:plantngo_frontend/screens/customer/cart/cart_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_about_section.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_bottom_app_bar.dart';
@@ -121,7 +122,7 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
 
   void onViewCartPressed() {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => CartScreen()),
+        MaterialPageRoute(builder: (context) => CartMainScreen()),
         (Route<dynamic> route) {
       return !route.hasActiveRouteBelow;
     });

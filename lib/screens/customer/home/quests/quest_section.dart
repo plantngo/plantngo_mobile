@@ -4,6 +4,7 @@ import 'package:plantngo_frontend/models/quest_progress.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/quest_service.dart';
+import 'package:plantngo_frontend/widgets/custom_icons_icons.dart';
 import 'package:provider/provider.dart';
 
 class QuestSection extends StatelessWidget {
@@ -46,7 +47,7 @@ class QuestSection extends StatelessWidget {
           );
         } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           return SizedBox(
-            height: 150,
+            height: 195,
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
@@ -62,10 +63,9 @@ class QuestSection extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: SizedBox(
-                      height: 110,
                       width: 240,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Column(
@@ -101,7 +101,7 @@ class QuestSection extends StatelessWidget {
                                     result.countToComplete!,
                               ),
                               SizedBox(
-                                height: 5,
+                                height: 10,
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -117,26 +117,57 @@ class QuestSection extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                          result.countCompleted! >= result.countToComplete!
-                              ? GestureDetector(
-                                  onTap: () {
-                                    QuestService.refreshQuestByQuestIdAndUser(
-                                      context: context,
-                                      id: result.id!,
-                                    ).then((value) {
-                                      refreshQuestProgressHook(
-                                          customerProvider.customer.username);
-                                      AuthService.getUserData(context);
-                                    });
-                                  },
-                                  child: Text(
-                                    "Claim",
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    size: 20,
+                                    CustomIcons.leaf,
+                                    color: Colors.green,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "${result.points!} ",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .caption!
+                                        .bodySmall!
                                         .copyWith(color: Colors.green),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          result.countCompleted! >= result.countToComplete!
+                              ? SizedBox(
+                                  width: 150,
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.grey.shade100),
+                                    ),
+                                    onPressed: () {
+                                      QuestService.refreshQuestByQuestIdAndUser(
+                                        context: context,
+                                        id: result.id!,
+                                      ).then((value) {
+                                        refreshQuestProgressHook(
+                                            customerProvider.customer.username);
+                                        AuthService.getUserData(context);
+                                      });
+                                    },
+                                    child: Text(
+                                      "Claim",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(color: Colors.green),
+                                    ),
                                   ),
                                 )
                               : SizedBox(),

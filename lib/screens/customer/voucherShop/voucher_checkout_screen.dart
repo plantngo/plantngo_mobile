@@ -35,35 +35,35 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          "Checkout",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-        // flexibleSpace: Container(
-        //   decoration: BoxDecoration(
-        //     boxShadow: [
-        //       const BoxShadow(
-        //         color: Colors.grey,
-        //         offset: Offset(0, 2.0),
-        //         blurRadius: 4.0,
-        //       )
-        //     ],
-        //     gradient: LinearGradient(
-        //       begin: Alignment.topLeft,
-        //       end: Alignment.bottomRight,
-        //       colors: [
-        //         Colors.green.shade200,
-        //         Colors.green.shade300,
-        //         Colors.green,
-        //       ],
-        //     ),
-        //   ),
-        // ),
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: const Text(
+      //     "Checkout",
+      //     style: TextStyle(fontWeight: FontWeight.bold),
+      //   ),
+      //   backgroundColor: Colors.green,
+      //   foregroundColor: Colors.white,
+      //   // flexibleSpace: Container(
+      //   //   decoration: BoxDecoration(
+      //   //     boxShadow: [
+      //   //       const BoxShadow(
+      //   //         color: Colors.grey,
+      //   //         offset: Offset(0, 2.0),
+      //   //         blurRadius: 4.0,
+      //   //       )
+      //   //     ],
+      //   //     gradient: LinearGradient(
+      //   //       begin: Alignment.topLeft,
+      //   //       end: Alignment.bottomRight,
+      //   //       colors: [
+      //   //         Colors.green.shade200,
+      //   //         Colors.green.shade300,
+      //   //         Colors.green,
+      //   //       ],
+      //   //     ),
+      //   //   ),
+      //   // ),
+      // ),
       body: Column(
         children: [
           Expanded(

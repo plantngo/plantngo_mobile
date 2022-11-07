@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/voucher.dart';
 import 'package:plantngo_frontend/providers/voucher_shop_provider.dart';
-import 'package:plantngo_frontend/screens/customer/voucherShop/voucher_checkout_screen.dart';
+import 'package:plantngo_frontend/screens/customer/cart/cart_main_screen.dart';
 import 'package:plantngo_frontend/widgets/card/owned_voucher_card.dart';
 import 'package:plantngo_frontend/widgets/card/voucher_card.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
@@ -56,26 +56,6 @@ class _VoucherShopState extends State<VoucherShop> {
         ),
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
-        // flexibleSpace: Container(
-        //   decoration: BoxDecoration(
-        //     boxShadow: [
-        //       BoxShadow(
-        //         color: Colors.grey,
-        //         offset: Offset(0, 2.0),
-        //         blurRadius: 4.0,
-        //       )
-        //     ],
-        //     gradient: LinearGradient(
-        //       begin: Alignment.topLeft,
-        //       end: Alignment.bottomRight,
-        //       colors: [
-        //         Colors.green.shade200,
-        //         Colors.green.shade300,
-        //         Colors.green,
-        //       ],
-        //     ),
-        //   ),
-        // ),
       ),
       body: Column(
         children: [
@@ -156,7 +136,9 @@ class _VoucherShopState extends State<VoucherShop> {
             shape: const CircleBorder(),
             // Lead to checkout page
             onPressed: () {
-              Navigator.pushNamed(context, VoucherCheckout.routeName);
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => CartMainScreen()),
+              );
             },
             child: const Icon(
               Icons.shopping_cart_outlined,
@@ -192,7 +174,7 @@ class _VoucherShopState extends State<VoucherShop> {
         voucher: allVouchers[i],
       ));
       if (i == allVouchers.length - 1) {
-        listVouchers.add(SizedBox(height:40));
+        listVouchers.add(SizedBox(height: 40));
       }
     }
 
@@ -215,10 +197,10 @@ class _VoucherShopState extends State<VoucherShop> {
         voucher: ownedVouchers[i],
       ));
       if (i == ownedVouchers.length - 1) {
-        listVouchers.add(SizedBox(height:40));
+        listVouchers.add(SizedBox(height: 40));
       }
     }
-    
+
     return listVouchers.isEmpty
         ? [
             const Padding(

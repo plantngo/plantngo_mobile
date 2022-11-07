@@ -204,7 +204,7 @@ class OrderDetailsScreen extends StatelessWidget {
                               Expanded(
                                 flex: 3,
                                 child: Text(
-                                  "S\$${(result.price! * result.quantity!).toStringAsFixed(2)}",
+                                  "S\$${(result.price!).toStringAsFixed(2)}",
                                   textAlign: TextAlign.right,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
@@ -250,7 +250,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     .copyWith(fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                "${order.orderItems!.fold<double>(0, (p, e) => p + e.product!.carbonEmission!).toStringAsFixed(2)} gCO2e",
+                                "${order.orderItems!.fold<double>(0, (p, e) => p + e.product!.carbonEmission! * e.quantity!).toStringAsFixed(2)} gCO2e",
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption!

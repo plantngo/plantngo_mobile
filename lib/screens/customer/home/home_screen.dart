@@ -4,6 +4,7 @@ import 'package:plantngo_frontend/models/quest_progress.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/location_provider.dart';
 import 'package:plantngo_frontend/providers/promotion_provider.dart';
+import 'package:plantngo_frontend/screens/customer/cart/cart_main_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_promotion/merchant_promotion_details_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_search/merchant_search_delegate.dart';
 import 'package:plantngo_frontend/screens/customer/home/quests/quest_section.dart';
@@ -111,6 +112,28 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
       child: Scaffold(
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 10, right: 10),
+          child: Container(
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            child: FloatingActionButton(
+              backgroundColor: Colors.green,
+              shape: const CircleBorder(),
+              // Lead to checkout page
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => CartMainScreen()),
+                );
+              },
+              child: const Icon(
+                Icons.shopping_cart_outlined,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
         body: CustomScrollView(
           shrinkWrap: true,
           slivers: [
@@ -121,20 +144,6 @@ class _HomeScreenState extends State<HomeScreen> {
               flexibleSpace: FlexibleSpaceBar(
                 expandedTitleScale: 1,
                 centerTitle: true,
-                // background: Container(
-                //   decoration: BoxDecoration(
-                //     gradient: LinearGradient(
-                //       begin: Alignment.topLeft,
-                //       end: Alignment.bottomRight,
-                //       colors: [
-                //         Colors.green.shade200,
-                //         Colors.green.shade300,
-                //         Colors.green,
-                //       ],
-                //     ),
-                //   ),
-                // ),
-
                 title: FractionallySizedBox(
                   widthFactor: 0.90,
                   child: TextField(

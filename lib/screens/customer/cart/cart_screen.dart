@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/screens/customer/cart/cart_order_list.dart';
+import 'package:plantngo_frontend/screens/customer/orders/order_details_screen.dart';
 import 'package:plantngo_frontend/services/customer_order_service.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
 import 'package:quiver/strings.dart';
@@ -87,27 +88,39 @@ class _CartScreenState extends State<CartScreen> {
                           orderSelectedArr.where((element) => element).isEmpty
                               ? Colors.grey
                               : Colors.green)),
-                  onPressed:
-                      orderSelectedArr.where((element) => element).isEmpty
-                          ? null
-                          : () async {
-                              List<Order> _orders = snapshot.data!;
-                              for (int i = 0; i < _orders.length; i++) {
-                                if (orderSelectedArr[i]) {
-                                  CustomerOrderService.updateOrderStatus(
-                                    context: context,
-                                    order: _orders[i],
-                                    orderStatus: "PENDING",
-                                    isDineIn: orderIsDineIn[i],
-                                  ).then((value) {
-                                    retrieveAllOrders();
-                                    showSnackBar(
-                                        context, "Sucessfully Checked out!");
-                                  });
+                  onPressed: orderSelectedArr
+                          .where((element) => element)
+                          .isEmpty
+                      ? null
+                      : () async {
+                          List<Order> _orders = snapshot.data!;
+                          for (int i = 0; i < _orders.length; i++) {
+                            if (orderSelectedArr[i]) {
+                              CustomerOrderService.updateOrderStatus(
+                                context: context,
+                                order: _orders[i],
+                                orderStatus: "PENDING",
+                                isDineIn: orderIsDineIn[i],
+                              ).then((value) {
+                                retrieveAllOrders();
+                                if (value != null) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => OrderDetailsScreen(
+                                        order: value,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  showSnackBar(context,
+                                      "Order Failed, please try again later.");
                                 }
-                              }
-                              // set orders to pending
-                            },
+                              });
+                            }
+                          }
+                          // set orders to pending
+                        },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -141,36 +154,36 @@ class _CartScreenState extends State<CartScreen> {
           return const Center(child: CircularProgressIndicator());
         },
       ),
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          "Cart",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        leading: BackButton(color: Colors.white),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-        // flexibleSpace: Container(
-        //   decoration: BoxDecoration(
-        //     boxShadow: const [
-        //       BoxShadow(
-        //         color: Colors.grey,
-        //         offset: Offset(0, 2.0),
-        //         blurRadius: 4.0,
-        //       )
-        //     ],
-        //     gradient: LinearGradient(
-        //       begin: Alignment.topLeft,
-        //       end: Alignment.bottomRight,
-        //       colors: [
-        //         Colors.green.shade200,
-        //         Colors.green.shade300,
-        //         Colors.green,
-        //       ],
-        //     ),
-        //   ),
-        // ),
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: const Text(
+      //     "Cart",
+      //     style: TextStyle(fontWeight: FontWeight.bold),
+      //   ),
+      //   leading: BackButton(color: Colors.white),
+      //   backgroundColor: Colors.green,
+      //   foregroundColor: Colors.white,
+      //   // flexibleSpace: Container(
+      //   //   decoration: BoxDecoration(
+      //   //     boxShadow: const [
+      //   //       BoxShadow(
+      //   //         color: Colors.grey,
+      //   //         offset: Offset(0, 2.0),
+      //   //         blurRadius: 4.0,
+      //   //       )
+      //   //     ],
+      //   //     gradient: LinearGradient(
+      //   //       begin: Alignment.topLeft,
+      //   //       end: Alignment.bottomRight,
+      //   //       colors: [
+      //   //         Colors.green.shade200,
+      //   //         Colors.green.shade300,
+      //   //         Colors.green,
+      //   //       ],
+      //   //     ),
+      //   //   ),
+      //   // ),
+      // ),
       body: SingleChildScrollView(
         child: FutureBuilder<List<Order>>(
           future: futureCustomerOrders,

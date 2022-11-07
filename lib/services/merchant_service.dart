@@ -132,14 +132,11 @@ class MerchantService {
               "price": price,
               "description": description,
             }),
-            contentType: MediaType("application", "json")));
-
-      var header = {
-        "Accept": '*/*',
-        "Authorization": 'Bearer $token',
-      };
-
-      request.headers.addAll(header);
+            contentType: MediaType("application", "json")))
+        ..headers.addAll({
+          "Accept": '*/*',
+          "Authorization": 'Bearer $token',
+        });
 
       var streamedRes = await request.send();
 
@@ -173,19 +170,6 @@ class MerchantService {
         Provider.of<MerchantProvider>(context, listen: false);
     String? token = await UserSecureStorage.getToken();
     try {
-      // http.Response res = await http.put(
-      //     Uri.parse(
-      //         '$uri/api/v1/merchant/${merchantProvider.merchant.username}/$category/$oldName'),
-      //     headers: {
-      //       'Content-Type': 'application/json; charset=UTF-8',
-      //       'Authorization': 'Bearer $token'
-      //     },
-      //     body: jsonEncode({
-      //       "name": newName,
-      //       "price": price,
-      //       "description": description,
-      //     }));
-
       var request = http.MultipartRequest(
           'PUT',
           Uri.parse(
@@ -197,20 +181,16 @@ class MerchantService {
               "price": price,
               "description": description,
             }),
-            contentType: MediaType("application", "json")));
+            contentType: MediaType("application", "json")))
+        ..headers.addAll({
+          "Accept": '*/*',
+          "Authorization": 'Bearer $token',
+        });
 
       if (image != null) {
-        request.files.add(await http.MultipartFile.fromPath(
-            'image', image!.path,
+        request.files.add(await http.MultipartFile.fromPath('image', image.path,
             contentType: MediaType("*", "*")));
       }
-
-      var header = {
-        "Accept": '*/*',
-        "Authorization": 'Bearer $token',
-      };
-
-      request.headers.addAll(header);
 
       var streamedRes = await request.send();
 

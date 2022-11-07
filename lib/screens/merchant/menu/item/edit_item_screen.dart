@@ -90,7 +90,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
   }
 
   Future saveChanges() async {
-    print("hi");
     await MerchantService.editProduct(
         context: context,
         newName: _itemNameController.text,

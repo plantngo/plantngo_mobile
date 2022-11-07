@@ -29,7 +29,7 @@ class _SetupMenuItemTileState extends State<SetupMenuItemTile> {
             children: [
               Text('${item.name}'),
               Text(
-                '\$${item.price}0',
+                '\$${item.price.toString().padRight(5, '0')}',
                 style: const TextStyle(color: Colors.grey, fontSize: 15),
               ),
             ],

@@ -44,7 +44,6 @@ class QuestService {
       // jsonDecode(res.body)
       //     .map((e) => questProgress.add(QuestProgress.fromJson(e)))
       //     .toList();
-      print(questProgress.toString());
     } catch (e) {
       //todo
       print(e);

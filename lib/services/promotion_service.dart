@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
@@ -8,7 +8,7 @@ import 'package:plantngo_frontend/utils/error_handling.dart';
 import 'package:provider/provider.dart';
 import '../models/promotion.dart';
 import '../utils/global_variables.dart';
-
+import 'package:http_parser/http_parser.dart';
 import '../utils/user_secure_storage.dart';
 
 class PromotionService {
@@ -27,7 +27,6 @@ class PromotionService {
       );
       if (res.statusCode == 200) {
         for (var i = 0; i < jsonDecode(res.body).length; i++) {
-          // print(Promotion.fromJSON(jsonDecode(res.body)[i]));
           promotions.add(Promotion.fromJson(jsonDecode(res.body)[i]));
         }
         // print(promotions);
@@ -69,28 +68,37 @@ class PromotionService {
 
   static Future createPromotion(
       {required BuildContext context,
-      required String bannerUrl,
       required String description,
       required String startDate,
-      required String endDate}) async {
+      required String endDate,
+      required File image}) async {
     String? token = await UserSecureStorage.getToken();
 
     MerchantProvider merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);
     try {
-      http.Response res = await http.post(
+      var request = http.MultipartRequest(
+          'POST',
           Uri.parse(
-              '$uri/api/v1/promotion/${merchantProvider.merchant.username}'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $token'
-          },
-          body: json.encode({
-            "bannerUrl": bannerUrl,
-            "description": description,
-            "endDate": endDate,
-            "startDate": startDate
-          }));
+              '$uri/api/v1/promotion/${merchantProvider.merchant.username}'))
+        ..files.add(await http.MultipartFile.fromPath('image', image.path,
+            contentType: MediaType("*", "*")))
+        ..files.add(http.MultipartFile.fromString(
+            'promotion',
+            jsonEncode({
+              "description": description,
+              "endDate": endDate,
+              "startDate": startDate
+            }),
+            contentType: MediaType("application", "json")))
+        ..headers.addAll({
+          "Accept": '*/*',
+          "Authorization": 'Bearer $token',
+        });
+
+      var streamedRes = await request.send();
+
+      var res = await http.Response.fromStream(streamedRes);
 
       httpErrorHandle(
         response: res,
@@ -163,7 +171,7 @@ class PromotionService {
   static Future editPromotion(
       {required BuildContext context,
       required int promotionId,
-      required String bannerUrl,
+      required File? image,
       required String description,
       required String startDate,
       required String endDate}) async {
@@ -172,18 +180,42 @@ class PromotionService {
     MerchantProvider merchantProvider =
         Provider.of<MerchantProvider>(context, listen: false);
     try {
-      http.Response res =
-          await http.put(Uri.parse('$uri/api/v1/promotion/$promotionId'),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Authorization': 'Bearer $token'
-              },
-              body: json.encode({
-                "bannerUrl": bannerUrl,
-                "description": description,
-                "endDate": endDate,
-                "startDate": startDate
-              }));
+      // http.Response res =
+      //     await http.put(Uri.parse('$uri/api/v1/promotion/$promotionId'),
+      //         headers: <String, String>{
+      //           'Content-Type': 'application/json; charset=UTF-8',
+      //           'Authorization': 'Bearer $token'
+      //         },
+      //         body: json.encode({
+      //           "bannerUrl": bannerUrl,
+      //           "description": description,
+      //           "endDate": endDate,
+      //           "startDate": startDate
+      //         }));
+
+      var request = http.MultipartRequest(
+          'PUT', Uri.parse('$uri/api/v1/promotion/$promotionId'))
+        ..files.add(http.MultipartFile.fromString(
+            'promotion',
+            jsonEncode({
+              "description": description,
+              "endDate": endDate,
+              "startDate": startDate
+            }),
+            contentType: MediaType("application", "json")))
+        ..headers.addAll({
+          "Accept": '*/*',
+          "Authorization": 'Bearer $token',
+        });
+
+      if (image != null) {
+        request.files.add(await http.MultipartFile.fromPath('image', image.path,
+            contentType: MediaType("*", "*")));
+      }
+
+      var streamedRes = await request.send();
+
+      var res = await http.Response.fromStream(streamedRes);
 
       httpErrorHandle(
         response: res,

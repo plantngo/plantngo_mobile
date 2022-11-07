@@ -1,5 +1,8 @@
 //todo add image service
 
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,14 +29,25 @@ class _EditPromotionScreenState extends State<EditPromotionScreen> {
   final TextEditingController _promotionDescriptionController =
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  var fileImage = null;
+  var image = null;
 
 //for promotion image
-  var image = null;
   void selectImage() async {
-    var res = await MerchantService.pickImage();
+    File? res = await MerchantService.pickImage();
+    Image img = await convertFileToImage(res!);
     setState(() {
-      image = res;
+      image = img;
+      fileImage = res;
     });
+  }
+
+  Future<Image> convertFileToImage(File picture) async {
+    List<int> imageBase64 = picture.readAsBytesSync();
+    String imageAsString = base64Encode(imageBase64);
+    Uint8List uint8list = base64.decode(imageAsString);
+    Image image = Image.memory(uint8list);
+    return image;
   }
 
   @override
@@ -47,6 +61,10 @@ class _EditPromotionScreenState extends State<EditPromotionScreen> {
         end: DateTime.parse(widget.promotion.endDate!));
     _dateController.text =
         '${widget.promotion.startDate!} - ${widget.promotion.endDate}';
+    if (widget.promotion.bannerUrl != null &&
+        widget.promotion.bannerUrl != '') {
+      image = Image.network(widget.promotion.bannerUrl!);
+    }
   }
 
   @override
@@ -66,8 +84,7 @@ class _EditPromotionScreenState extends State<EditPromotionScreen> {
     await PromotionService.editPromotion(
         context: context,
         promotionId: widget.promotion.id!,
-        bannerUrl:
-            "http://sg.syioknya.com/custom/picture/2585/syioknya1_60e41d6928724.jpg",
+        image: fileImage,
         description: _promotionDescriptionController.text,
         startDate:
             '${_promotionalPeriod!.start.year}-${_promotionalPeriod!.start.month < 10 ? '0${_promotionalPeriod!.start.month}' : _promotionalPeriod!.start.month}-${_promotionalPeriod!.start.day < 10 ? '0${_promotionalPeriod!.start.day}' : _promotionalPeriod!.start.day}',
@@ -89,10 +106,13 @@ class _EditPromotionScreenState extends State<EditPromotionScreen> {
                     ? GestureDetector(
                         onTap: selectImage,
                         child: Builder(
-                            builder: (BuildContext context) => Image.file(
-                                  image,
-                                  fit: BoxFit.cover,
-                                  height: 200,
+                            builder: (BuildContext context) => ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: SizedBox(
+                                    height: 200,
+                                    width: 200,
+                                    child: image,
+                                  ),
                                 )))
                     : GestureDetector(
                         onTap: selectImage,

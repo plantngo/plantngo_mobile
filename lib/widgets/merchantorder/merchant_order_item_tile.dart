@@ -35,7 +35,7 @@ class _MerchantOrderItemTileState extends State<MerchantOrderItemTile> {
             children: [
               Text(widget.product.name!),
               Text(
-                '\$${widget.product.price}0',
+                '\$${widget.product.price.toString().padRight(4, '0')}',
                 style: const TextStyle(color: Colors.grey, fontSize: 15),
               ),
             ],

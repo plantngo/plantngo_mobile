@@ -8,8 +8,9 @@ class PromotionProvider extends ChangeNotifier {
 
   List<Promotion> get promotions => _promotions;
 
-  setPromotions(BuildContext context) async {
+  Future<List<Promotion>> setPromotions(BuildContext context) async {
     _promotions = await PromotionService.fetchAllPromotions(context);
     notifyListeners();
+    return _promotions;
   }
 }

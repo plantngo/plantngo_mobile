@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:plantngo_frontend/models/orderitem.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/services/product_service.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
 import 'package:plantngo_frontend/utils/user_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,14 @@ class CustomerOrderService {
       );
 
       jsonDecode(res.body).map((e) => orders.add(Order.fromJson(e))).toList();
+      for (Order o in orders) {
+        for (OrderItem oi in o.orderItems!) {
+          if (o.orderItems != null && o.orderItems!.isNotEmpty) {
+            oi.product = await ProductService.getProductById(
+                context: context, id: oi.productId!);
+          }
+        }
+      }
     } catch (e) {
       //todo
     }
@@ -55,6 +64,14 @@ class CustomerOrderService {
       );
 
       jsonDecode(res.body).map((e) => orders.add(Order.fromJson(e))).toList();
+      for (Order o in orders) {
+        for (OrderItem oi in o.orderItems!) {
+          if (o.orderItems != null && o.orderItems!.isNotEmpty) {
+            oi.product = await ProductService.getProductById(
+                context: context, id: oi.productId!);
+          }
+        }
+      }
     } catch (e) {
       //todo
     }
@@ -266,31 +283,44 @@ class CustomerOrderService {
   //   return orders;
   // }
 
-  static Future updateOrderStatus(
-      {required BuildContext context,
-      required Order order,
-      required String orderStatus}) async {
+  static Future<Order?> updateOrderStatus({
+    required BuildContext context,
+    required Order order,
+    required String orderStatus,
+    required bool isDineIn,
+  }) async {
+    Order? _order;
     try {
       String? token = await UserSecureStorage.getToken();
-      http.Response res =
-          await http.put(Uri.parse('$uri/api/v1/order/${order.id}'),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Authorization': 'Bearer $token'
-              },
-              body: jsonEncode(
-                {
-                  "isDineIn": order.isDineIn,
-                  "orderStatus": orderStatus,
-                },
-              ));
+      http.Response res = await http.put(
+        Uri.parse('$uri/api/v1/order/${order.id}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+        body: jsonEncode(
+          {
+            "isDineIn": isDineIn,
+            "orderStatus": orderStatus,
+          },
+        ),
+      );
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () {},
       );
+      _order = Order.fromJson(jsonDecode(res.body));
+
+      for (OrderItem oi in _order.orderItems!) {
+        if (_order.orderItems != null && _order.orderItems!.isNotEmpty) {
+          oi.product = await ProductService.getProductById(
+              context: context, id: oi.productId!);
+        }
+      }
     } catch (e) {
       //todo
     }
+    return _order;
   }
 }

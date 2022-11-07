@@ -21,7 +21,7 @@ class AuthService {
       required String userType,
       required}) async {
     try {
-      print("$email $username $password $userType");
+      // print("$email $username $password $userType");
       http.Response res = await http.post(
         Uri.parse('$uri/api/v1/register'),
         body: jsonEncode({
@@ -119,21 +119,27 @@ class AuthService {
         context: context,
         onSuccess: () {
           UserSecureStorage.setToken(res.headers['jwt'].toString());
+          Map<String, dynamic> payload =
+              Jwt.parseJwt(res.headers['jwt'].toString());
+          if (payload['Authority'] == "MERCHANT" && userType == "C" ||
+              payload['Authority'] == "CUSTOMER" && userType == "M") {
+            showSnackBar(context, "Wrong User Type!");
+          } else {
+            getUserData(context);
+            if (userType == "C") {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, CustomerApp.routeName, (route) => false);
+            }
 
-          getUserData(context);
-          if (userType == "C") {
-            Navigator.pushNamedAndRemoveUntil(
-                context, CustomerApp.routeName, (route) => false);
+            if (userType == "M") {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, MerchantApp.routeName, (route) => false);
+            }
+            showSnackBar(
+              context,
+              'Signed In',
+            );
           }
-
-          if (userType == "M") {
-            Navigator.pushNamedAndRemoveUntil(
-                context, MerchantApp.routeName, (route) => false);
-          }
-          showSnackBar(
-            context,
-            'Signed In',
-          );
         },
       );
     } catch (e) {
@@ -142,9 +148,11 @@ class AuthService {
   }
 
   //get user data to check if it has been logged in
-  static void getUserData(
+  static Future<String> getUserData(
     BuildContext context,
   ) async {
+    String _username = "";
+
     try {
       var customerProvider =
           Provider.of<CustomerProvider>(context, listen: false);
@@ -157,6 +165,7 @@ class AuthService {
       } else {
         Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
         String username = payload['sub'];
+        _username = username;
         String userType = payload['Authority'].toLowerCase();
 
         http.Response userRes = await http.get(
@@ -184,6 +193,7 @@ class AuthService {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
+    return _username;
   }
 
   static void logOut(BuildContext context) async {

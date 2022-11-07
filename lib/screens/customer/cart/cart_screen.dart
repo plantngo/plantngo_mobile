@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/screens/customer/cart/cart_order_list.dart';
+import 'package:plantngo_frontend/screens/customer/orders/order_details_screen.dart';
 import 'package:plantngo_frontend/services/customer_order_service.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
 import 'package:quiver/strings.dart';
@@ -18,6 +19,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   late Future<List<Order>> futureCustomerOrders;
   List<bool> orderSelectedArr = [];
+  List<bool> orderIsDineIn = [];
   double totalPrice = 0;
 
   double calculateTotal(List<Order> orders) {
@@ -38,6 +40,12 @@ class _CartScreenState extends State<CartScreen> {
       setState(() {
         totalPrice = calculateTotal(value);
       });
+    });
+  }
+
+  onIsDineInChanged(bool newValue, int i) {
+    setState(() {
+      orderIsDineIn[i] = newValue;
     });
   }
 
@@ -80,26 +88,39 @@ class _CartScreenState extends State<CartScreen> {
                           orderSelectedArr.where((element) => element).isEmpty
                               ? Colors.grey
                               : Colors.green)),
-                  onPressed:
-                      orderSelectedArr.where((element) => element).isEmpty
-                          ? null
-                          : () async {
-                              List<Order> _orders = snapshot.data!;
-                              for (int i = 0; i < _orders.length; i++) {
-                                if (orderSelectedArr[i]) {
-                                  CustomerOrderService.updateOrderStatus(
-                                          context: context,
-                                          order: _orders[i],
-                                          orderStatus: "PENDING")
-                                      .then((value) {
-                                    retrieveAllOrders();
-                                    showSnackBar(
-                                        context, "Sucessfully Checked out!");
-                                  });
+                  onPressed: orderSelectedArr
+                          .where((element) => element)
+                          .isEmpty
+                      ? null
+                      : () async {
+                          List<Order> _orders = snapshot.data!;
+                          for (int i = 0; i < _orders.length; i++) {
+                            if (orderSelectedArr[i]) {
+                              CustomerOrderService.updateOrderStatus(
+                                context: context,
+                                order: _orders[i],
+                                orderStatus: "PENDING",
+                                isDineIn: orderIsDineIn[i],
+                              ).then((value) {
+                                retrieveAllOrders();
+                                if (value != null) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => OrderDetailsScreen(
+                                        order: value,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  showSnackBar(context,
+                                      "Order Failed, please try again later.");
                                 }
-                              }
-                              // set orders to pending
-                            },
+                              });
+                            }
+                          }
+                          // set orders to pending
+                        },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -164,7 +185,6 @@ class _CartScreenState extends State<CartScreen> {
         // ),
       ),
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
         child: FutureBuilder<List<Order>>(
           future: futureCustomerOrders,
           builder: (context, snapshot) {
@@ -176,32 +196,46 @@ class _CartScreenState extends State<CartScreen> {
               return Column(
                 children: [
                   const SizedBox(
-                    height: 30,
+                    height: 10,
                   ),
                   ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: snapshot.data!.length,
                     separatorBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5),
                         child: Divider(
-                          thickness: 5,
+                          thickness: 2,
+                          color: Colors.green.shade100,
                         ),
                       );
                     },
                     itemBuilder: (context, index) {
                       final result = snapshot.data![index];
                       orderSelectedArr.add(false);
+                      orderIsDineIn.add(false);
                       return CartOrderList(
                         order: result,
                         selected: orderSelectedArr[index],
+                        isDineIn: orderIsDineIn[index],
                         index: index,
                         onCheckboxChanged: onCheckboxChanged,
+                        onIsDineInChanged: onIsDineInChanged,
                         refreshHook: retrieveAllOrders,
                       );
                     },
-                  )
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    child: Divider(
+                      thickness: 2,
+                      color: Colors.green.shade100,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                 ],
               );
             } else if (snapshot.hasData && snapshot.data!.isEmpty) {

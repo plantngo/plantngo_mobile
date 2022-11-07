@@ -158,8 +158,11 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       ? GestureDetector(
                           onTap: selectImage,
                           child: Builder(
-                              builder: (BuildContext context) =>
-                                  Image.network(widget.item.imageUrl!)))
+                              builder: (BuildContext context) => Image.network(
+                                    widget.item.imageUrl!,
+                                    height: 200,
+                                    width: 200,
+                                  )))
                       : GestureDetector(
                           onTap: selectImage,
                           child: DottedBorder(

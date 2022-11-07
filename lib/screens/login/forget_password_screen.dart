@@ -1,5 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/services/user_service.dart';
+
+import 'reset_password_screen.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({Key? key}) : super(key: key);
@@ -11,7 +14,6 @@ class ForgetPasswordScreen extends StatefulWidget {
 
 class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   String? _email;
-  bool _emailSent = false;
 
   final _formKey = GlobalKey<FormState>();
   @override
@@ -70,12 +72,17 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   ).copyWith(
                     elevation: ButtonStyleButton.allOrNull(0.0),
                   ),
-                  child: const Text('Send Email'),
+                  child: const Text('Next'),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      setState(() {
-                        _emailSent = true;
-                      });
+                      UserService.getResetPasswordToken(context, _email!);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ResetPasswordScreen(
+                              email: _email!,
+                            ),
+                          ));
                     }
                   },
                 ),
@@ -83,14 +90,6 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                child: _emailSent
-                    ? const Text(
-                        "Email Sent",
-                        style: TextStyle(fontSize: 16),
-                      )
-                    : null,
-              )
             ],
           ),
         ),

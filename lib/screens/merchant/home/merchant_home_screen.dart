@@ -28,7 +28,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
     for (var item in pendingOrders) {
       pendingOrderTile.add(MerchantOrderTile(order: item, refresh: _refresh));
     }
-    this.pendingOrderTile = pendingOrderTile;
+    this.pendingOrderTile = pendingOrderTile.reversed.toList();
 
     fulfilledOrders =
         await OrderService.getFulfilledOrdersByMerchant(context: context);
@@ -38,7 +38,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
       fulfilledOrderTile.add(MerchantOrderTile(order: item, refresh: _refresh));
     }
 
-    this.fulfilledOrderTile = fulfilledOrderTile;
+    this.fulfilledOrderTile = fulfilledOrderTile.reversed.toList();
 
     cancelledOrders =
         await OrderService.getCancelledOrdersByMerchant(context: context);
@@ -48,7 +48,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
       cancelledOrderTile.add(MerchantOrderTile(order: item, refresh: _refresh));
     }
 
-    this.cancelledOrderTile = cancelledOrderTile;
+    this.cancelledOrderTile = cancelledOrderTile.reversed.toList();
   }
 
   Future _refresh() async {
@@ -72,11 +72,11 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
     }
     setState(() {
       this.pendingOrders = pendingOrders;
-      this.pendingOrderTile = pendingOrderTile;
+      this.pendingOrderTile = pendingOrderTile.reversed.toList();
       this.fulfilledOrders = fulfilledOrders;
-      this.fulfilledOrderTile = fulfilledOrderTile;
+      this.fulfilledOrderTile = fulfilledOrderTile.reversed.toList();
       this.cancelledOrders = cancelledOrders;
-      this.cancelledOrderTile = cancelledOrderTile;
+      this.cancelledOrderTile = cancelledOrderTile.reversed.toList();
     });
     await Future.delayed(const Duration(seconds: 1));
   }
@@ -116,7 +116,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                       onRefresh: _refresh,
                       child: ListView(
                           physics: const AlwaysScrollableScrollPhysics(),
-                          children: pendingOrderTile.length == 0
+                          children: pendingOrderTile.isEmpty
                               ? [
                                   const SizedBox(
                                     height: 40,

@@ -48,7 +48,6 @@ class CartOrderList extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: GestureDetector(
                 onTap: () {
-                  print(order.merchant!.username);
                   MerchantSearchService()
                       .searchMerchantByUsername(
                           context, order.merchant!.username)

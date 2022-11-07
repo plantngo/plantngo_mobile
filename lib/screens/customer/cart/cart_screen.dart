@@ -18,6 +18,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   late Future<List<Order>> futureCustomerOrders;
   List<bool> orderSelectedArr = [];
+  List<bool> orderIsDineIn = [];
   double totalPrice = 0;
 
   double calculateTotal(List<Order> orders) {
@@ -38,6 +39,12 @@ class _CartScreenState extends State<CartScreen> {
       setState(() {
         totalPrice = calculateTotal(value);
       });
+    });
+  }
+
+  onIsDineInChanged(bool newValue, int i) {
+    setState(() {
+      orderIsDineIn[i] = newValue;
     });
   }
 
@@ -88,10 +95,11 @@ class _CartScreenState extends State<CartScreen> {
                               for (int i = 0; i < _orders.length; i++) {
                                 if (orderSelectedArr[i]) {
                                   CustomerOrderService.updateOrderStatus(
-                                          context: context,
-                                          order: _orders[i],
-                                          orderStatus: "PENDING")
-                                      .then((value) {
+                                    context: context,
+                                    order: _orders[i],
+                                    orderStatus: "PENDING",
+                                    isDineIn: orderIsDineIn[i],
+                                  ).then((value) {
                                     retrieveAllOrders();
                                     showSnackBar(
                                         context, "Sucessfully Checked out!");
@@ -164,7 +172,6 @@ class _CartScreenState extends State<CartScreen> {
         // ),
       ),
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
         child: FutureBuilder<List<Order>>(
           future: futureCustomerOrders,
           builder: (context, snapshot) {
@@ -176,32 +183,46 @@ class _CartScreenState extends State<CartScreen> {
               return Column(
                 children: [
                   const SizedBox(
-                    height: 30,
+                    height: 10,
                   ),
                   ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: snapshot.data!.length,
                     separatorBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5),
                         child: Divider(
-                          thickness: 5,
+                          thickness: 2,
+                          color: Colors.green.shade100,
                         ),
                       );
                     },
                     itemBuilder: (context, index) {
                       final result = snapshot.data![index];
                       orderSelectedArr.add(false);
+                      orderIsDineIn.add(false);
                       return CartOrderList(
                         order: result,
                         selected: orderSelectedArr[index],
+                        isDineIn: orderIsDineIn[index],
                         index: index,
                         onCheckboxChanged: onCheckboxChanged,
+                        onIsDineInChanged: onIsDineInChanged,
                         refreshHook: retrieveAllOrders,
                       );
                     },
-                  )
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    child: Divider(
+                      thickness: 2,
+                      color: Colors.green.shade100,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                 ],
               );
             } else if (snapshot.hasData && snapshot.data!.isEmpty) {

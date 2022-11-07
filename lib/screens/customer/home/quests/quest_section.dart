@@ -22,10 +22,18 @@ class QuestSection extends StatelessWidget {
       if (type == "order") {
         title += "Make a total of $countToComplete order(s)";
       } else if (type == "login") {
-        title += "Login to the app today";
+        title += "Login to the App today";
+      } else {
+        title += "Claim $countToComplete voucher(s)";
       }
       return title;
     }
+
+    Map<String, IconData> questIcons = {
+      "order": Icons.shopping_bag_outlined,
+      "login": Icons.login_outlined,
+      "purchase-voucher": Icons.book_online_outlined
+    };
 
     final customerProvider =
         Provider.of<CustomerProvider>(context, listen: true);
@@ -54,22 +62,36 @@ class QuestSection extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: SizedBox(
-                      height: 150,
-                      width: 200,
+                      height: 110,
+                      width: 240,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Column(
                             mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                processTitle(
-                                    result.type!, result.countToComplete!),
-                                style: Theme.of(context).textTheme.titleSmall,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    questIcons[result.type!],
+                                    color: Colors.green,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    processTitle(
+                                        result.type!, result.countToComplete!),
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall,
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 height: 15,

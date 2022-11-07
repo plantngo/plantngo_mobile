@@ -142,9 +142,11 @@ class AuthService {
   }
 
   //get user data to check if it has been logged in
-  static void getUserData(
+  static Future<String> getUserData(
     BuildContext context,
   ) async {
+    String _username = "";
+
     try {
       var customerProvider =
           Provider.of<CustomerProvider>(context, listen: false);
@@ -157,6 +159,7 @@ class AuthService {
       } else {
         Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
         String username = payload['sub'];
+        _username = username;
         String userType = payload['Authority'].toLowerCase();
 
         http.Response userRes = await http.get(
@@ -184,6 +187,7 @@ class AuthService {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
+    return _username;
   }
 
   static void logOut(BuildContext context) async {

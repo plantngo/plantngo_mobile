@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/screens/customer/cart/cart_main_screen.dart';
 import 'package:plantngo_frontend/screens/user_profile_section.dart';
 import 'package:plantngo_frontend/screens/user_settings_section.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
@@ -18,6 +19,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 10, right: 10),
+        child: Container(
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          child: FloatingActionButton(
+            backgroundColor: Colors.green,
+            shape: const CircleBorder(),
+            // Lead to checkout page
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => CartMainScreen()),
+              );
+            },
+            child: const Icon(
+              Icons.shopping_cart_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(

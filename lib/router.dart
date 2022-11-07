@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:plantngo_frontend/screens/customer/voucherShop/voucher_checkout_screen.dart';
 import 'package:plantngo_frontend/screens/login/forget_password_screen.dart';
 import 'package:plantngo_frontend/screens/login/signup_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/menu/category/add_category_screen.dart';
@@ -26,7 +25,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case SignUpScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => const SignUpScreen());
-          
+
     case ForgetPasswordScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings,
@@ -61,9 +60,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case CreateVoucherScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => const CreateVoucherScreen());
-    case VoucherCheckout.routeName:
-      return MaterialPageRoute(
-          settings: routeSettings, builder: (_) => const VoucherCheckout());
+
     case UserSettingScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => const UserSettingScreen());

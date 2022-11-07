@@ -14,16 +14,19 @@ class MerchantSearchSuggestionTile extends StatelessWidget {
     required this.merchant,
   });
 
-  renderDistanceTag() {
+  renderDistanceAndCuisineTag() {
     if (merchant.distanceFrom == null || merchant.distanceFrom == -1) {
-      return const SizedBox(
-        height: 0,
-      );
+      return [
+        Tag(text: merchant.cuisineType),
+      ];
     }
 
-    return Tag(
-      text: "${merchant.distanceFrom!.toStringAsFixed(2)} km",
-    );
+    [
+      Tag(
+        text: "${merchant.distanceFrom!.toStringAsFixed(2)} km",
+      ),
+      Tag(text: merchant.cuisineType),
+    ];
   }
 
   @override
@@ -49,8 +52,7 @@ class MerchantSearchSuggestionTile extends StatelessWidget {
             CarbonTag(
                 text: "~${merchant.carbonRating!.toStringAsFixed(0)} gCO2e"),
             PriceTag(symbolCount: merchant.priceRating),
-            renderDistanceTag(),
-            Tag(text: merchant.cuisineType),
+            ...renderDistanceAndCuisineTag(),
           ],
         ),
       ),

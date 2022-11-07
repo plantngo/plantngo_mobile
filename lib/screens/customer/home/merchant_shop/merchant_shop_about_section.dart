@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
 import 'package:plantngo_frontend/widgets/tag/carbon_tag.dart';
+import 'package:plantngo_frontend/widgets/tag/price_tag.dart';
+import 'package:plantngo_frontend/widgets/tag/tag.dart';
 
 class MerchantShopAboutSection extends StatelessWidget {
   MerchantSearch merchant;
@@ -9,6 +11,21 @@ class MerchantShopAboutSection extends StatelessWidget {
     super.key,
     required this.merchant,
   });
+
+  renderDistanceAndCuisineTag() {
+    if (merchant.distanceFrom == null || merchant.distanceFrom == -1) {
+      return [
+        Tag(text: merchant.cuisineType),
+      ];
+    }
+
+    [
+      Tag(
+        text: "${merchant.distanceFrom!.toStringAsFixed(2)} km",
+      ),
+      Tag(text: merchant.cuisineType),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +124,29 @@ class MerchantShopAboutSection extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                ListTile(
+                  // horizontalTitleGap: 5,
+                  title: Text(
+                    "Store Tags",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  subtitle: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minWidth: double.maxFinite,
+                    ),
+                    child: Wrap(
+                      spacing: 5,
+                      runSpacing: 5,
+                      children: [
+                        CarbonTag(
+                            text:
+                                "~${merchant.carbonRating!.toStringAsFixed(0)} gCO2e"),
+                        PriceTag(symbolCount: merchant.priceRating),
+                        ...renderDistanceAndCuisineTag(),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),

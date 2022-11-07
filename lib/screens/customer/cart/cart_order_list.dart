@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
 import 'package:plantngo_frontend/models/order.dart';
+import 'package:plantngo_frontend/models/orderitem.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_screen.dart';
 import 'package:plantngo_frontend/services/customer_order_service.dart';
 import 'package:plantngo_frontend/services/merchant_search_service.dart';
@@ -11,14 +12,17 @@ class CartOrderList extends StatelessWidget {
   int index;
   Function(bool, int) onCheckboxChanged;
   Function() refreshHook;
-  CartOrderList({
-    super.key,
-    required this.order,
-    required this.selected,
-    required this.index,
-    required this.onCheckboxChanged,
-    required this.refreshHook,
-  });
+  bool isDineIn;
+  Function(bool newValue, int i) onIsDineInChanged;
+  CartOrderList(
+      {super.key,
+      required this.order,
+      required this.selected,
+      required this.index,
+      required this.onCheckboxChanged,
+      required this.refreshHook,
+      required this.isDineIn,
+      required this.onIsDineInChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,7 @@ class CartOrderList extends StatelessWidget {
                 ),
                 Text(
                   order.merchant!.company,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],
             ),
@@ -48,7 +52,6 @@ class CartOrderList extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: GestureDetector(
                 onTap: () {
-                  print(order.merchant!.username);
                   MerchantSearchService()
                       .searchMerchantByUsername(
                           context, order.merchant!.username)
@@ -88,7 +91,7 @@ class CartOrderList extends StatelessWidget {
           itemBuilder: (context, index) {
             final result = order.orderItems![index];
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 children: [
                   Expanded(
@@ -125,8 +128,8 @@ class CartOrderList extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: Text(
-                      "S\$${result.price!.toStringAsFixed(2)}",
-                      textAlign: TextAlign.left,
+                      "S\$${(result.price! * result.quantity!).toStringAsFixed(2)}",
+                      textAlign: TextAlign.right,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
@@ -134,6 +137,110 @@ class CartOrderList extends StatelessWidget {
               ),
             );
           },
+        ),
+        const Divider(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    isDineIn ? "Dining-In" : "Takeaway/Self-Collection",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            child: Wrap(
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    "Takeaway/Self-Collection",
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall,
+                                  ),
+                                  onTap: () {
+                                    onIsDineInChanged(false, index);
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                order.merchant!.username != 'fairprice'
+                                    ? ListTile(
+                                        title: Text(
+                                          "Dining-In",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
+                                        ),
+                                        onTap: () {
+                                          onIsDineInChanged(true, index);
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    : SizedBox.shrink(),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Text(
+                      "Change Dining Mode",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Colors.green,
+                          ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Total Carbon Emission:",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontWeight: FontWeight.w400),
+                  ),
+                  Text(
+                    "${order.orderItems!.fold<double>(0, (p, e) => p + e.product!.carbonEmission!).toStringAsFixed(2)} gCO2e",
+                    style: Theme.of(context).textTheme.caption!.copyWith(),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Total Price:",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontWeight: FontWeight.w400),
+                  ),
+                  Text(
+                    "S\$${order.orderItems!.fold<double>(0, (p, e) => p + e.price!).toStringAsFixed(2)}",
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ],
+              ),
+            ],
+          ),
         )
       ],
     );

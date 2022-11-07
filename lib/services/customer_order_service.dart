@@ -266,10 +266,12 @@ class CustomerOrderService {
   //   return orders;
   // }
 
-  static Future updateOrderStatus(
-      {required BuildContext context,
-      required Order order,
-      required String orderStatus}) async {
+  static Future updateOrderStatus({
+    required BuildContext context,
+    required Order order,
+    required String orderStatus,
+    required bool isDineIn,
+  }) async {
     try {
       String? token = await UserSecureStorage.getToken();
       http.Response res =
@@ -280,7 +282,7 @@ class CustomerOrderService {
               },
               body: jsonEncode(
                 {
-                  "isDineIn": order.isDineIn,
+                  "isDineIn": isDineIn,
                   "orderStatus": orderStatus,
                 },
               ));

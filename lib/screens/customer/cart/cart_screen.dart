@@ -18,6 +18,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   late Future<List<Order>> futureCustomerOrders;
   List<bool> orderSelectedArr = [];
+  List<bool> orderIsDineIn = [];
   double totalPrice = 0;
 
   double calculateTotal(List<Order> orders) {
@@ -38,6 +39,12 @@ class _CartScreenState extends State<CartScreen> {
       setState(() {
         totalPrice = calculateTotal(value);
       });
+    });
+  }
+
+  onIsDineInChanged(bool newValue, int i) {
+    setState(() {
+      orderIsDineIn[i] = newValue;
     });
   }
 
@@ -90,7 +97,8 @@ class _CartScreenState extends State<CartScreen> {
                                   CustomerOrderService.updateOrderStatus(
                                           context: context,
                                           order: _orders[i],
-                                          orderStatus: "PENDING")
+                                          orderStatus: "PENDING",
+                                          isDineIn: orderIsDineIn[i])
                                       .then((value) {
                                     retrieveAllOrders();
                                     showSnackBar(
@@ -193,11 +201,14 @@ class _CartScreenState extends State<CartScreen> {
                     itemBuilder: (context, index) {
                       final result = snapshot.data![index];
                       orderSelectedArr.add(false);
+                      orderIsDineIn.add(false);
                       return CartOrderList(
                         order: result,
                         selected: orderSelectedArr[index],
+                        isDineIn: orderIsDineIn[index],
                         index: index,
                         onCheckboxChanged: onCheckboxChanged,
+                        onIsDineInChanged: onIsDineInChanged,
                         refreshHook: retrieveAllOrders,
                       );
                     },

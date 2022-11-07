@@ -177,7 +177,7 @@ class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
                       children: [
                         CarbonTag(
                             text:
-                                "${widget.merchantProduct.carbonEmission} gCO2e"),
+                                "${widget.merchantProduct.carbonEmission!.toStringAsFixed(2)} gCO2e"),
                         SizedBox(width: 5),
                         Tag(
                             text:

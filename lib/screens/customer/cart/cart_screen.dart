@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/screens/customer/cart/cart_order_list.dart';
+import 'package:plantngo_frontend/screens/customer/orders/order_details_screen.dart';
 import 'package:plantngo_frontend/services/customer_order_service.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
 import 'package:quiver/strings.dart';
@@ -87,27 +88,39 @@ class _CartScreenState extends State<CartScreen> {
                           orderSelectedArr.where((element) => element).isEmpty
                               ? Colors.grey
                               : Colors.green)),
-                  onPressed:
-                      orderSelectedArr.where((element) => element).isEmpty
-                          ? null
-                          : () async {
-                              List<Order> _orders = snapshot.data!;
-                              for (int i = 0; i < _orders.length; i++) {
-                                if (orderSelectedArr[i]) {
-                                  CustomerOrderService.updateOrderStatus(
-                                    context: context,
-                                    order: _orders[i],
-                                    orderStatus: "PENDING",
-                                    isDineIn: orderIsDineIn[i],
-                                  ).then((value) {
-                                    retrieveAllOrders();
-                                    showSnackBar(
-                                        context, "Sucessfully Checked out!");
-                                  });
+                  onPressed: orderSelectedArr
+                          .where((element) => element)
+                          .isEmpty
+                      ? null
+                      : () async {
+                          List<Order> _orders = snapshot.data!;
+                          for (int i = 0; i < _orders.length; i++) {
+                            if (orderSelectedArr[i]) {
+                              CustomerOrderService.updateOrderStatus(
+                                context: context,
+                                order: _orders[i],
+                                orderStatus: "PENDING",
+                                isDineIn: orderIsDineIn[i],
+                              ).then((value) {
+                                retrieveAllOrders();
+                                if (value != null) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => OrderDetailsScreen(
+                                        order: value,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  showSnackBar(context,
+                                      "Order Failed, please try again later.");
                                 }
-                              }
-                              // set orders to pending
-                            },
+                              });
+                            }
+                          }
+                          // set orders to pending
+                        },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:plantngo_frontend/models/order.dart';
+import 'package:plantngo_frontend/screens/customer/orders/order_details_screen.dart';
 import 'package:plantngo_frontend/services/customer_order_service.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -35,26 +36,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
         ),
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
-        // flexibleSpace: Container(
-        //   decoration: BoxDecoration(
-        //     boxShadow: const [
-        //       BoxShadow(
-        //         color: Colors.grey,
-        //         offset: Offset(0, 2.0),
-        //         blurRadius: 4.0,
-        //       )
-        //     ],
-        //     gradient: LinearGradient(
-        //       begin: Alignment.topLeft,
-        //       end: Alignment.bottomRight,
-        //       colors: [
-        //         Colors.green.shade200,
-        //         Colors.green.shade300,
-        //         Colors.green,
-        //       ],
-        //     ),
-        //   ),
-        // ),
       ),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
@@ -92,31 +73,34 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           return const Divider();
                         },
                         itemBuilder: (context, index) {
-                          final result = snapshot.data![index];
+                          final _order = snapshot.data![index];
                           return ListTile(
                             title: Text(
-                              result.merchant!.company,
+                              _order.merchant!.company,
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
                             horizontalTitleGap: 0,
                             subtitle: Row(
                               children: [
                                 Text(
-                                  "${result.orderStatus!} ",
+                                  "${_order.orderStatus!} ",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall!
                                       .copyWith(
                                           color:
-                                              result.orderStatus! == "PENDING"
+                                              _order.orderStatus! == "PENDING"
                                                   ? Colors.orange
-                                                  : result.orderStatus! ==
+                                                  : _order.orderStatus! ==
                                                           "FULFILLED"
                                                       ? Colors.green
-                                                      : Colors.red),
+                                                      : _order.orderStatus! ==
+                                                              "CREATED"
+                                                          ? Colors.blue
+                                                          : Colors.red),
                                 ),
                                 Text(
-                                  "Order #${result.id!.toString().padLeft(5, '0')}",
+                                  "Order #${_order.id!.toString().padLeft(5, '0')}",
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ],
@@ -127,19 +111,21 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 height: 80,
                                 width: 80,
                                 child: Image.network(
-                                  result.merchant!.logoUrl,
+                                  _order.merchant!.logoUrl,
                                   fit: BoxFit.contain,
                                 ),
                               ),
                             ),
                             trailing: Text(
-                              "S\$${result.totalPrice!.toStringAsFixed(2)}",
+                              "S\$${_order.totalPrice!.toStringAsFixed(2)}",
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => const Scaffold(),
+                                  builder: (context) => OrderDetailsScreen(
+                                    order: _order,
+                                  ),
                                 ),
                               );
                             },

@@ -3,11 +3,12 @@ import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/screens/merchant/home/merchant_order_details_screen.dart';
 
 class MerchantOrderTile extends StatefulWidget {
-  const MerchantOrderTile({Key? key, required this.order,required this.refresh}) : super(key: key);
+  const MerchantOrderTile(
+      {Key? key, required this.order, required this.refresh})
+      : super(key: key);
 
   final Order order;
   final void Function() refresh;
-
 
   @override
   _MerchantOrderTileState createState() => _MerchantOrderTileState();
@@ -40,7 +41,7 @@ class _MerchantOrderTileState extends State<MerchantOrderTile> {
                 size: 30,
               ),
               title: Text(
-                "Order ID: ${widget.order.id}",
+                "Order #${widget.order.id.toString().padLeft(5, '0')}",
                 style: const TextStyle(fontSize: 20),
               ),
               subtitle: Text("No of Items: ${widget.order.orderItems?.length}"),

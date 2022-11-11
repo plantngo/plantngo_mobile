@@ -90,7 +90,7 @@ class _CreateVoucherScreenState extends State<CreateVoucherScreen> {
                                       ? Colors.white
                                       : Colors.grey[400],
                                   backgroundColor: _isFlatDiscount
-                                      ? Colors.green
+                                      ? Theme.of(context).colorScheme.secondary
                                       : Colors.grey[200])
                               .copyWith(
                             elevation: ButtonStyleButton.allOrNull(0.0),
@@ -117,7 +117,7 @@ class _CreateVoucherScreenState extends State<CreateVoucherScreen> {
                                       ? Colors.white
                                       : Colors.grey[400],
                                   backgroundColor: !_isFlatDiscount
-                                      ? Colors.green
+                                      ? Theme.of(context).colorScheme.secondary
                                       : Colors.grey[200])
                               .copyWith(
                             elevation: ButtonStyleButton.allOrNull(0.0),

@@ -59,7 +59,8 @@ class QuestSection extends StatelessWidget {
                 final daysTillQuestEnd =
                     questEnd.difference(DateTime.now()).inDays;
                 return Card(
-                  surfaceTintColor: Colors.green.shade100,
+                  surfaceTintColor:
+                      Theme.of(context).colorScheme.secondary,
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: SizedBox(
@@ -80,7 +81,8 @@ class QuestSection extends StatelessWidget {
                                 children: [
                                   Icon(
                                     questIcons[result.type!],
-                                    color: Colors.green,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                   ),
                                   SizedBox(
                                     width: 10,
@@ -123,7 +125,8 @@ class QuestSection extends StatelessWidget {
                                   Icon(
                                     size: 20,
                                     CustomIcons.leaf,
-                                    color: Colors.green,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                   ),
                                   SizedBox(
                                     width: 5,
@@ -133,7 +136,10 @@ class QuestSection extends StatelessWidget {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
-                                        .copyWith(color: Colors.green),
+                                        .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
                                   ),
                                 ],
                               ),
@@ -166,7 +172,10 @@ class QuestSection extends StatelessWidget {
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
-                                          .copyWith(color: Colors.green),
+                                          .copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary),
                                     ),
                                   ),
                                 )

@@ -87,7 +87,7 @@ class _CartScreenState extends State<CartScreen> {
                       backgroundColor: MaterialStateProperty.all(
                           orderSelectedArr.where((element) => element).isEmpty
                               ? Colors.grey
-                              : Colors.green)),
+                              : Theme.of(context).colorScheme.secondary)),
                   onPressed: orderSelectedArr
                           .where((element) => element)
                           .isEmpty
@@ -161,7 +161,7 @@ class _CartScreenState extends State<CartScreen> {
       //     style: TextStyle(fontWeight: FontWeight.bold),
       //   ),
       //   leading: BackButton(color: Colors.white),
-      //   backgroundColor: Colors.green,
+      //   backgroundColor: Theme.of(context).colorScheme.secondary,
       //   foregroundColor: Colors.white,
       //   // flexibleSpace: Container(
       //   //   decoration: BoxDecoration(
@@ -176,9 +176,9 @@ class _CartScreenState extends State<CartScreen> {
       //   //       begin: Alignment.topLeft,
       //   //       end: Alignment.bottomRight,
       //   //       colors: [
-      //   //         Colors.green.shade200,
-      //   //         Colors.green.shade300,
-      //   //         Colors.green,
+      //   //         Theme.of(context).colorScheme.secondary.shade200,
+      //   //         Theme.of(context).colorScheme.secondary.shade300,
+      //   //         Theme.of(context).colorScheme.secondary,
       //   //       ],
       //   //     ),
       //   //   ),
@@ -207,7 +207,8 @@ class _CartScreenState extends State<CartScreen> {
                         padding: EdgeInsets.symmetric(vertical: 5),
                         child: Divider(
                           thickness: 2,
-                          color: Colors.green.shade100,
+                          color:
+                              Theme.of(context).colorScheme.secondary,
                         ),
                       );
                     },
@@ -230,7 +231,7 @@ class _CartScreenState extends State<CartScreen> {
                     padding: EdgeInsets.symmetric(vertical: 5),
                     child: Divider(
                       thickness: 2,
-                      color: Colors.green.shade100,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                   SizedBox(

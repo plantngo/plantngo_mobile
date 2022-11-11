@@ -26,7 +26,7 @@ class _CartMainScreenState extends State<CartMainScreen> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               leading: BackButton(color: Colors.white),
-              backgroundColor: Colors.green,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               foregroundColor: Colors.white,
               bottom: TabBar(
                 tabs: const [

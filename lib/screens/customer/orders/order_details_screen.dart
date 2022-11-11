@@ -78,7 +78,7 @@ class OrderDetailsScreen extends StatelessWidget {
               .copyWith(color: Colors.white),
         ),
         surfaceTintColor: Colors.white,
-        backgroundColor: Colors.green,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         foregroundColor: Colors.white,
       ),
       body: Stack(

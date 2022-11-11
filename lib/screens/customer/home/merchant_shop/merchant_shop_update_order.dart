@@ -73,8 +73,9 @@ class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
                     },
                     icon: Icon(
                       Icons.remove,
-                      color:
-                          quantity <= 0 ? Colors.grey.shade200 : Colors.green,
+                      color: quantity <= 0
+                          ? Colors.grey.shade200
+                          : Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                   Text("$quantity"),
@@ -86,9 +87,9 @@ class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
                         });
                       }
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.add,
-                      color: Colors.green,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                 ],
@@ -104,7 +105,8 @@ class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
                           ? MaterialStateProperty.all(Colors.red)
                           : quantity == originalQuantity
                               ? MaterialStateProperty.all(Colors.grey.shade400)
-                              : MaterialStateProperty.all(Colors.green)),
+                              : MaterialStateProperty.all(
+                                  Theme.of(context).colorScheme.secondary)),
                   onPressed: originalQuantity == quantity
                       ? null
                       : () {

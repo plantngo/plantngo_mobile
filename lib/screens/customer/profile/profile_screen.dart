@@ -26,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             shape: BoxShape.circle,
           ),
           child: FloatingActionButton(
-            backgroundColor: Colors.green,
+            backgroundColor: Theme.of(context).colorScheme.secondary,
             shape: const CircleBorder(),
             // Lead to checkout page
             onPressed: () {
@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           "Profile",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         foregroundColor: Colors.white,
         // flexibleSpace: Container(
         //   decoration: BoxDecoration(
@@ -62,9 +62,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         //       begin: Alignment.topLeft,
         //       end: Alignment.bottomRight,
         //       colors: [
-        //         Colors.green.shade200,
-        //         Colors.green.shade300,
-        //         Colors.green,
+        //         Theme.of(context).colorScheme.secondary.shade200,
+        //         Theme.of(context).colorScheme.secondary.shade300,
+        //         Theme.of(context).colorScheme.secondary,
         //       ],
         //     ),
         //   ),

@@ -64,11 +64,11 @@ class _MerchantProfileScreenState extends State<MerchantProfileScreen> {
                   child: SizedBox(
                     width: double.infinity,
                     child: Row(children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.fromLTRB(20, 0.0, 20, 0.0),
                         child: Icon(
                           Icons.monetization_on_rounded,
-                          color: Colors.green,
+                          color: Theme.of(context).colorScheme.secondary,
                           size: 50,
                         ),
                       ),
@@ -109,11 +109,11 @@ class _MerchantProfileScreenState extends State<MerchantProfileScreen> {
                   child: SizedBox(
                     width: double.infinity,
                     child: Row(children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.fromLTRB(20, 0.0, 20, 0.0),
                         child: Icon(
                           Icons.percent_rounded,
-                          color: Colors.green,
+                          color: Theme.of(context).colorScheme.secondary,
                           size: 50,
                         ),
                       ),

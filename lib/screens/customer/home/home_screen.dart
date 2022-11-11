@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: BoxShape.circle,
             ),
             child: FloatingActionButton(
-              backgroundColor: Colors.green,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               shape: const CircleBorder(),
               // Lead to checkout page
               onPressed: () {
@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SliverAppBar(
               floating: true,
               expandedHeight: 100,
-              backgroundColor: Colors.green,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               flexibleSpace: FlexibleSpaceBar(
                 expandedTitleScale: 1,
                 centerTitle: true,

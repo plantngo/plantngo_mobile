@@ -37,7 +37,7 @@ class _MerchantOrderTileState extends State<MerchantOrderTile> {
             ListTile(
               leading: Icon(
                 widget.order.isDineIn! ? Icons.restaurant : Icons.shopping_bag,
-                color: Colors.green,
+                color: Theme.of(context).colorScheme.secondary,
                 size: 30,
               ),
               title: Text(

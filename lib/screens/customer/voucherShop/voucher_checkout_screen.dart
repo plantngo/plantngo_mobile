@@ -41,7 +41,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
       //     "Checkout",
       //     style: TextStyle(fontWeight: FontWeight.bold),
       //   ),
-      //   backgroundColor: Colors.green,
+      //   backgroundColor: Theme.of(context).colorScheme.secondary,
       //   foregroundColor: Colors.white,
       //   // flexibleSpace: Container(
       //   //   decoration: BoxDecoration(
@@ -56,9 +56,9 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
       //   //       begin: Alignment.topLeft,
       //   //       end: Alignment.bottomRight,
       //   //       colors: [
-      //   //         Colors.green.shade200,
-      //   //         Colors.green.shade300,
-      //   //         Colors.green,
+      //   //         Theme.of(context).colorScheme.secondary.shade200,
+      //   //         Theme.of(context).colorScheme.secondary.shade300,
+      //   //         Theme.of(context).colorScheme.secondary,
       //   //       ],
       //   //     ),
       //   //   ),
@@ -86,7 +86,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                       padding: const EdgeInsets.only(right: 24),
                       child: Icon(
                         CustomIcons.leaf,
-                        color: Colors.green[400],
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     )
                   ],
@@ -119,7 +119,7 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(
                       CustomIcons.leaf,
-                      color: Colors.green[400],
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                 ],
@@ -165,8 +165,9 @@ class _VoucherCheckoutState extends State<VoucherCheckout> {
                                 greenPoints - total;
                             ScaffoldMessenger.of(context).hideCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                backgroundColor: Colors.green,
+                             SnackBar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.secondary,
                                 content: Text('Purchase Successful!'),
                                 duration: Duration(milliseconds: 300),
                               ),

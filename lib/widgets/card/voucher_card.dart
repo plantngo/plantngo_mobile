@@ -34,11 +34,14 @@ class _VoucherCardState extends State<VoucherCard> {
         elevation: 4.0,
         child: Container(
           height: 100,
-          decoration: const BoxDecoration(
+          decoration:  BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             gradient: LinearGradient(
               stops: [0.02, 0.02],
-              colors: [Colors.greenAccent, Colors.white],
+              colors: [
+                Theme.of(context).colorScheme.secondary,
+                Colors.white
+              ],
             ),
           ),
           child: Column(
@@ -83,8 +86,9 @@ class _VoucherCardState extends State<VoucherCard> {
                                 ScaffoldMessenger.of(context)
                                     .hideCurrentSnackBar();
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    backgroundColor: Colors.green,
+                                   SnackBar(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.secondary,
                                     content: Text('Voucher Added to Cart!'),
                                     duration: Duration(milliseconds: 300),
                                   ),

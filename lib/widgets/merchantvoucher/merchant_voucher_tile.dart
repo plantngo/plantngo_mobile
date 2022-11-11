@@ -26,9 +26,9 @@ class _MerchantVoucherTileState extends State<MerchantVoucherTile> {
           );
         },
         child: ListTile(
-          leading: const Icon(
+          leading: Icon(
             Icons.percent_rounded,
-            color: Colors.green,
+            color: Theme.of(context).colorScheme.secondary,
             size: 30,
           ),
           title: Text(

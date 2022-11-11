@@ -76,8 +76,8 @@ class MerchantShopItem extends StatelessWidget {
               child: Container(
                 height: 15,
                 width: 15,
-                decoration: const BoxDecoration(
-                  color: Colors.green,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
                   shape: BoxShape.circle,
                 ),
                 child: Column(

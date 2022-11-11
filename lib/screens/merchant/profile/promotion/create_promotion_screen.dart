@@ -152,10 +152,11 @@ class _CreatePromotionScreenState extends State<CreatePromotionScreen> {
                       builder: (context, child) {
                         return Theme(
                           data: Theme.of(context).copyWith(
-                            colorScheme: const ColorScheme.light(
-                              primary: Colors.green,
+                            colorScheme: ColorScheme.light(
+                              primary: Theme.of(context).colorScheme.secondary,
                               onPrimary: Colors.black,
-                              onSurface: Colors.green,
+                              onSurface:
+                                  Theme.of(context).colorScheme.secondary,
                             ),
                           ),
                           child: child!,

@@ -46,7 +46,7 @@ class _MerchantPromotionDetailsScreenState
               ],
 
               floating: true,
-              backgroundColor: Colors.green,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               foregroundColor: Colors.white,
 
               // flexibleSpace: Container(
@@ -55,9 +55,9 @@ class _MerchantPromotionDetailsScreenState
               //       begin: Alignment.topLeft,
               //       end: Alignment.bottomRight,
               //       colors: [
-              //         Colors.green.shade200,
-              //         Colors.green.shade300,
-              //         Colors.green,
+              //         Theme.of(context).colorScheme.secondary.shade200,
+              //         Theme.of(context).colorScheme.secondary.shade300,
+              //         Theme.of(context).colorScheme.secondary,
               //       ],
               //     ),
               //   ),
@@ -93,11 +93,11 @@ class _MerchantPromotionDetailsScreenState
               FractionallySizedBox(
                 widthFactor: 0.5,
                 child: ElevatedButton(
-                  child: const Text(
+                  child: Text(
                     "Claim Now!",
                     style: TextStyle(
                       color: Colors.white,
-                      backgroundColor: Colors.green,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                   onPressed: () {

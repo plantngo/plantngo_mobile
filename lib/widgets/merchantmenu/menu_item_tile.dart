@@ -42,7 +42,7 @@ class _MenuItemTileState extends State<MenuItemTile> {
         ),
         trailing: Checkbox(
           value: true,
-          activeColor: Colors.green,
+          activeColor: Theme.of(context).colorScheme.secondary,
           onChanged: ((value) {
             setState(() {
               available = !available;

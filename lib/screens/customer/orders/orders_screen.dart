@@ -36,7 +36,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             shape: BoxShape.circle,
           ),
           child: FloatingActionButton(
-            backgroundColor: Colors.green,
+            backgroundColor: Theme.of(context).colorScheme.secondary,
             shape: const CircleBorder(),
             // Lead to checkout page
             onPressed: () {
@@ -57,7 +57,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
           "Orders",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
@@ -116,7 +116,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                                   ? Colors.orange
                                                   : _order.orderStatus! ==
                                                           "FULFILLED"
-                                                      ? Colors.green
+                                                      ? Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary
                                                       : _order.orderStatus! ==
                                                               "CREATED"
                                                           ? Colors.blue

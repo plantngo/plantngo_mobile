@@ -105,8 +105,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           style: ElevatedButton.styleFrom(
                                   foregroundColor:
                                       _isUser ? Colors.white : Colors.grey[400],
-                                  backgroundColor:
-                                      _isUser ? Colors.green : Colors.grey[200])
+                                  backgroundColor: _isUser
+                                      ? Theme.of(context).colorScheme.secondary
+                                      : Colors.grey[200])
                               .copyWith(
                             elevation: ButtonStyleButton.allOrNull(0.0),
                           ),
@@ -127,7 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ? Colors.white
                                       : Colors.grey[400],
                                   backgroundColor: !_isUser
-                                      ? Colors.green
+                                      ? Theme.of(context).colorScheme.secondary
                                       : Colors.grey[200])
                               .copyWith(
                             elevation: ButtonStyleButton.allOrNull(0.0),

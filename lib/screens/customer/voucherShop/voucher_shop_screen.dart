@@ -54,7 +54,7 @@ class _VoucherShopState extends State<VoucherShop> {
           "Vouchers",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         foregroundColor: Colors.white,
       ),
       body: Column(
@@ -73,7 +73,8 @@ class _VoucherShopState extends State<VoucherShop> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 24),
-                  child: Icon(CustomIcons.leaf, color: Colors.green[400]),
+                  child: Icon(CustomIcons.leaf,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
               ],
             ),
@@ -93,8 +94,8 @@ class _VoucherShopState extends State<VoucherShop> {
               borderRadius: const BorderRadius.all(Radius.circular(15)),
               selectedBorderColor: Colors.grey.shade200,
               selectedColor: Colors.white,
-              fillColor: Colors.green,
-              color: Colors.green,
+              fillColor: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.secondary,
               constraints: const BoxConstraints(
                 minHeight: 40.0,
                 minWidth: 140.0,
@@ -132,7 +133,7 @@ class _VoucherShopState extends State<VoucherShop> {
             shape: BoxShape.circle,
           ),
           child: FloatingActionButton(
-            backgroundColor: Colors.green,
+            backgroundColor: Theme.of(context).colorScheme.secondary,
             shape: const CircleBorder(),
             // Lead to checkout page
             onPressed: () {

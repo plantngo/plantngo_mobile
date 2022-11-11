@@ -59,11 +59,14 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
         elevation: 4.0,
         child: Container(
           height: 100,
-          decoration: const BoxDecoration(
+          decoration:  BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             gradient: LinearGradient(
               stops: [0.02, 0.02],
-              colors: [Colors.greenAccent, Colors.white],
+              colors: [
+                Theme.of(context).colorScheme.secondary,
+                Colors.white
+              ],
             ),
           ),
           child: Column(
@@ -137,7 +140,9 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
                                                 flex: 10,
                                                 child: SizedBox.expand(
                                                   child: Container(
-                                                    color: Colors.green[100],
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary,
                                                     child: Padding(
                                                       padding:
                                                           const EdgeInsets.all(
@@ -207,8 +212,11 @@ class _OwnedVoucherCardState extends State<OwnedVoucherCard> {
                                               Navigator.pop(context, "Confirm");
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                const SnackBar(
-                                                  backgroundColor: Colors.green,
+                                                 SnackBar(
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
                                                   content:
                                                       Text('Voucher Redeemed!'),
                                                   duration: Duration(

@@ -46,11 +46,11 @@ class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
                     child: SizedBox(
                       width: double.infinity,
                       child: Row(children: [
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.fromLTRB(20, 0.0, 20, 0.0),
                           child: Icon(
                             Icons.menu_book_rounded,
-                            color: Colors.green,
+                            color: Theme.of(context).colorScheme.secondary,
                             size: 50,
                           ),
                         ),

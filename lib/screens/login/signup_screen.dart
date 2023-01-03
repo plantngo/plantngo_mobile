@@ -43,11 +43,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void signUpUser() {
     AuthService.signUpUser(
-        context: context,
-        email: _emailController.text,
-        username: _usernameController.text,
-        password: _passwordController.text,
-        userType: _usertypeController.text);
+      context: context,
+      email: _emailController.text.trim(),
+      username: _usernameController.text.trim(),
+      password: _passwordController.text.trim(),
+      userType: _usertypeController.text.trim(),
+    );
   }
 
   void signUpMerchant() async {
@@ -57,12 +58,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       AuthService.signUpMerchant(
         context: context,
-        email: _emailController.text,
-        username: _usernameController.text,
-        password: _passwordController.text,
-        userType: _usertypeController.text,
-        company: _companyController.text,
-        address: _addressController.text,
+        email: _emailController.text.trim(),
+        username: _usernameController.text.trim(),
+        password: _passwordController.text.trim(),
+        userType: _usertypeController.text.trim(),
+        company: _companyController.text.trim(),
+        address: _addressController.text.trim(),
         latitude: locations[0].latitude,
         longitude: locations[0].longitude,
       );
@@ -284,8 +285,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onPressed: () {
                           if (_signUpFormKey.currentState!.validate()) {
                             _isUser ? signUpUser() : signUpMerchant();
+                            Navigator.pushNamed(context, '/login');
                           }
-                          Navigator.pushNamed(context, '/login');
                         }),
                   ),
                   const SizedBox(height: 20),

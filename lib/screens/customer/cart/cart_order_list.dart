@@ -38,11 +38,12 @@ class CartOrderList extends StatelessWidget {
               children: [
                 Theme(
                   data: Theme.of(context).copyWith(
-                    unselectedWidgetColor: Colors.green,
+                    unselectedWidgetColor:
+                        Theme.of(context).colorScheme.secondary,
                   ),
                   child: Checkbox(
-                    checkColor: Colors.green,
-                    activeColor: Colors.green,
+                    checkColor: Theme.of(context).colorScheme.secondary,
+                    activeColor: Theme.of(context).colorScheme.secondary,
                     value: selected,
                     onChanged: (value) {
                       onCheckboxChanged(value!, index);
@@ -79,7 +80,7 @@ class CartOrderList extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
-                      .copyWith(color: Colors.green),
+                      .copyWith(color: Theme.of(context).colorScheme.secondary),
                 ),
               ),
             ),
@@ -202,7 +203,7 @@ class CartOrderList extends StatelessWidget {
                     child: Text(
                       "Change Dining Mode",
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Colors.green,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                     ),
                   ),

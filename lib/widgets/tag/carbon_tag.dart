@@ -10,7 +10,7 @@ class CarbonTag extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: Container(
-        color: Colors.green.shade300,
+        color: Theme.of(context).colorScheme.secondary,
         child: Padding(
           padding: const EdgeInsets.all(3),
           child: Text(

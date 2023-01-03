@@ -37,7 +37,6 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
     TimeOfDay(hour: 22, minute: 00),
   );
   TimeRangeResult? _timeRange;
-  static const orange = Colors.green;
   static const dark = Color(0xFF333A47);
   static const double leftPadding = 1;
 
@@ -82,7 +81,7 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         foregroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -101,9 +100,9 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
         //       begin: Alignment.topLeft,
         //       end: Alignment.bottomRight,
         //       colors: [
-        //         Colors.green.shade200,
-        //         Colors.green.shade300,
-        //         Colors.green,
+        //         Theme.of(context).colorScheme.secondary.shade200,
+        //         Theme.of(context).colorScheme.secondary.shade300,
+        //         Theme.of(context).colorScheme.secondary,
         //       ],
         //     ),
         //   ),
@@ -128,12 +127,15 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                         children: [
                           TextFormField(
                             controller: _usernameController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               filled: true,
                               labelText: "Username",
                               fillColor: Colors.white,
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.green),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
                               ),
                             ),
                             validator: ((value) {
@@ -146,12 +148,15 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                           const SizedBox(height: 20),
                           TextFormField(
                             controller: _emailController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               filled: true,
                               labelText: "Email",
                               fillColor: Colors.white,
                               enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.green)),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary)),
                             ),
                             validator: ((value) {
                               if (value == null ||
@@ -166,13 +171,15 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                           if (_usertypeController.text == "M") ...[
                             TextFormField(
                               controller: _companyController,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 filled: true,
                                 labelText: "Company",
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.green)),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary)),
                               ),
                               validator: ((value) {
                                 if (value == null || value.isEmpty) {
@@ -183,13 +190,15 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                             const SizedBox(height: 20),
                             TextFormField(
                               controller: _cuisineTypeController,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 filled: true,
                                 labelText: "Cuisine Type",
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.greenAccent)),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary)),
                               ),
                               validator: ((value) {
                                 if (value == null || value.isEmpty) {
@@ -202,13 +211,15 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                               controller: _descriptionController,
                               keyboardType: TextInputType.text,
                               maxLines: 4,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 filled: true,
                                 labelText: "Description",
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.greenAccent)),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary)),
                               ),
                               validator: ((value) {
                                 if (value == null || value.isEmpty) {
@@ -240,9 +251,9 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                                 fontWeight: FontWeight.normal,
                                 color: dark,
                               ),
-                              activeTextStyle: const TextStyle(
+                              activeTextStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: orange,
+                                color: Theme.of(context).colorScheme.secondary,
                               ),
                               borderColor: dark,
                               activeBorderColor: dark,
@@ -262,7 +273,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                             width: 200,
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                  backgroundColor: Colors.green,
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.secondary,
                                   foregroundColor: Colors.grey[900]),
                               onPressed: () {
                                 if (_usertypeController.text == "C") {
@@ -303,8 +315,11 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
-                              enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.green),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
                               ),
                               labelText: 'Enter your Current Password',
                               suffixIcon: IconButton(
@@ -326,8 +341,11 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
-                              enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.green),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
                               ),
                               labelText: 'Enter your New Password',
                               suffixIcon: IconButton(
@@ -368,7 +386,8 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                             width: 200,
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                  backgroundColor: Colors.green,
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.secondary,
                                   foregroundColor: Colors.black),
                               onPressed: () {
                                 UserService.changePassword(
@@ -391,8 +410,9 @@ class _UserSettingScreenState extends State<UserSettingScreen> {
                         ],
                       ),
                     TextButton(
-                      style:
-                          TextButton.styleFrom(foregroundColor: Colors.green),
+                      style: TextButton.styleFrom(
+                          foregroundColor:
+                              Theme.of(context).colorScheme.secondary),
                       onPressed: () {
                         setState(() {
                           _isChangingPassword = !_isChangingPassword;

@@ -64,7 +64,7 @@ class MerchantShopAboutSection extends StatelessWidget {
                       merchant.address,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             decoration: TextDecoration.underline,
-                            color: Colors.green,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                     ),
                   ),
@@ -104,7 +104,10 @@ class MerchantShopAboutSection extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .caption!
-                                .copyWith(color: Colors.green),
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
                           ),
                         ],
                       ),

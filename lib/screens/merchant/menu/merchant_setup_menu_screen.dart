@@ -28,7 +28,7 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Set Up Menu"),
+        title: const Text("Manage Menu"),
       ),
       body: Consumer<MerchantProvider>(
         builder:

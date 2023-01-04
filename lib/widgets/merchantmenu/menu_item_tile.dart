@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/product.dart';
+import 'package:plantngo_frontend/utils/global_variables.dart';
+import 'package:plantngo_frontend/widgets/tag/carbon_tag.dart';
+import 'package:plantngo_frontend/widgets/tag/tag.dart';
 
 class MenuItemTile extends StatefulWidget {
   const MenuItemTile({Key? key, this.value, required this.categoryName});
@@ -28,7 +31,7 @@ class _MenuItemTileState extends State<MenuItemTile> {
       SizedBox(
         height: 40,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: const [
             Padding(
               padding: EdgeInsets.all(8.0),
@@ -47,20 +50,34 @@ class _MenuItemTileState extends State<MenuItemTile> {
       }
       productLists.add(
         ListTile(
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${item.name}',
-                style: Theme.of(context).textTheme.titleSmall,
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: SizedBox(
+              height: 100,
+              width: 100,
+              child: Image.network(
+                item.imageUrl!,
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
+          title: Text(
+            item.name!,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(fontWeight: FontWeight.w300),
+          ),
+          subtitle: Row(
+            children: [
+              CarbonTag(text: "${formatEmission.format(item.carbonEmission!)}"),
+              SizedBox(
+                width: 5,
+              ),
+              Tag(text: "${formatMoney.format(item.price!)}")
             ],
           ),
-          subtitle: Text(
-            '\$${item.price.toString().padRight(5, '0')}',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-          leading: Checkbox(
+          trailing: Checkbox(
             value: available[i],
             activeColor: Theme.of(context).colorScheme.secondary,
             onChanged: ((value) {
@@ -86,7 +103,19 @@ class _MenuItemTileState extends State<MenuItemTile> {
           ),
         ],
       ),
-      children: productLists,
+      children: [
+        ListView.separated(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return productLists[index];
+          },
+          separatorBuilder: (context, index) {
+            return Divider();
+          },
+          itemCount: productLists.length,
+        ),
+      ],
     );
   }
 }

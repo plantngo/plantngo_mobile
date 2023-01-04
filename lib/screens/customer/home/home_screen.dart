@@ -108,6 +108,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 .username);
             AuthService.getUserData(context);
             retrievePromotions();
+            Provider.of<LocationProvider>(context, listen: false)
+                .determinePosition()
+                .then(
+                  (value) => {
+                    Provider.of<LocationProvider>(context, listen: false)
+                        .setPosition(value),
+                  },
+                );
           },
         );
       },

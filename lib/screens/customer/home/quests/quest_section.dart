@@ -4,12 +4,15 @@ import 'package:plantngo_frontend/models/quest_progress.dart';
 import 'package:plantngo_frontend/providers/customer_provider.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/quest_service.dart';
+import 'package:plantngo_frontend/utils/error_handling.dart';
+import 'package:plantngo_frontend/utils/global_variables.dart';
 import 'package:plantngo_frontend/widgets/custom_icons_icons.dart';
 import 'package:provider/provider.dart';
 
 class QuestSection extends StatelessWidget {
   Future<List<QuestProgress>> questProgress;
   void Function(String?) refreshQuestProgressHook;
+
   QuestSection({
     super.key,
     required this.questProgress,
@@ -59,8 +62,7 @@ class QuestSection extends StatelessWidget {
                 final daysTillQuestEnd =
                     questEnd.difference(DateTime.now()).inDays;
                 return Card(
-                  surfaceTintColor:
-                      Theme.of(context).colorScheme.secondary,
+                  surfaceTintColor: Theme.of(context).colorScheme.secondary,
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: SizedBox(
@@ -132,14 +134,15 @@ class QuestSection extends StatelessWidget {
                                     width: 5,
                                   ),
                                   Text(
-                                    "${result.points!} ",
+                                    "${pointsFormatter.format(result.points!)} ",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
                                         .copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                        ),
                                   ),
                                 ],
                               ),
@@ -155,7 +158,8 @@ class QuestSection extends StatelessWidget {
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all(
-                                              Colors.grey.shade100),
+                                        Theme.of(context).colorScheme.secondary,
+                                      ),
                                     ),
                                     onPressed: () {
                                       QuestService.refreshQuestByQuestIdAndUser(
@@ -166,6 +170,10 @@ class QuestSection extends StatelessWidget {
                                             customerProvider.customer.username);
                                         AuthService.getUserData(context);
                                       });
+                                      showSnackBar(
+                                        context,
+                                        "You have received ${pointsFormatter.format(result.points!)} points!",
+                                      );
                                     },
                                     child: Text(
                                       "Claim",
@@ -173,9 +181,8 @@ class QuestSection extends StatelessWidget {
                                           .textTheme
                                           .bodyMedium!
                                           .copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary),
+                                            color: Colors.white,
+                                          ),
                                     ),
                                   ),
                                 )

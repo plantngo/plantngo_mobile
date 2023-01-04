@@ -22,25 +22,26 @@ class _MerchantOrderItemTileState extends State<MerchantOrderItemTile> {
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: SizedBox(
-              height: 80,
-              width: 80,
+              height: 100,
+              width: 100,
               child: Image.network(
                 widget.product.imageUrl!,
                 fit: BoxFit.contain,
               ),
             ),
           ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(widget.product.name!),
-              Text(
-                '\$${widget.product.price.toString().padRight(4, '0')}',
-                style: const TextStyle(color: Colors.grey, fontSize: 15),
-              ),
-            ],
+          title: Text(
+            widget.product.name!,
+            style: Theme.of(context).textTheme.titleSmall,
           ),
-          trailing: Text("Qty: ${widget.quantity}"),
+          subtitle: Text(
+            '\$${widget.product.price.toString().padRight(4, '0')}',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          trailing: Text(
+            "Qty: ${widget.quantity}",
+            style: Theme.of(context).textTheme.caption,
+          ),
         ),
         const Divider()
       ],

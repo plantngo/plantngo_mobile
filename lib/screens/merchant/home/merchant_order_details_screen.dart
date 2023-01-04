@@ -31,7 +31,11 @@ class _MerchantOrderDetailsScreenState
       Product product = await ProductService.getProductById(
           context: context, id: item.productId!);
       futureOrderItemsTiles.add(
-          MerchantOrderItemTile(quantity: item.quantity!, product: product));
+        MerchantOrderItemTile(
+          quantity: item.quantity!,
+          product: product,
+        ),
+      );
     }
     orderItemsTiles = futureOrderItemsTiles;
   }
@@ -43,12 +47,26 @@ class _MerchantOrderDetailsScreenState
         builder: ((BuildContext context, snapshot) {
           return Scaffold(
             appBar: AppBar(
-              title:
-                  Text("Order #${widget.order.id.toString().padLeft(5, '0')}"),
+              title: Text(
+                "Order #${widget.order.id.toString().padLeft(5, '0')}",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(color: Colors.white),
+              ),
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              foregroundColor: Colors.white,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
             ),
-            body: ListView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              children: orderItemsTiles,
+            body: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: orderItemsTiles,
+              ),
             ),
             bottomNavigationBar: widget.order.orderStatus == "FULFILLED"
                 ? SizedBox(
@@ -65,7 +83,7 @@ class _MerchantOrderDetailsScreenState
                                 const Spacer(),
                                 Text(
                                   "Total(\$): \$${widget.order.totalPrice}0",
-                                  style: const TextStyle(fontSize: 20),
+                                  style: Theme.of(context).textTheme.titleSmall,
                                 )
                               ],
                             ),
@@ -78,7 +96,6 @@ class _MerchantOrderDetailsScreenState
                     height: 175,
                     child: Container(
                       padding: const EdgeInsets.all(35),
-                      color: const Color.fromARGB(33, 158, 158, 158),
                       child: Column(
                         children: [
                           SizedBox(
@@ -88,7 +105,7 @@ class _MerchantOrderDetailsScreenState
                                 const Spacer(),
                                 Text(
                                   "Total(\$): \$${widget.order.totalPrice}0",
-                                  style: const TextStyle(fontSize: 20),
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 )
                               ],
                             ),

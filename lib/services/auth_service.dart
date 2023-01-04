@@ -123,7 +123,7 @@ class AuthService {
               Jwt.parseJwt(res.headers['jwt'].toString());
           if (payload['Authority'] == "MERCHANT" && userType == "C" ||
               payload['Authority'] == "CUSTOMER" && userType == "M") {
-            showSnackBar(context, "Wrong User Type!");
+            showSnackBar(context, "Invalid Login!");
           } else {
             getUserData(context);
             if (userType == "C") {
@@ -137,7 +137,7 @@ class AuthService {
             }
             showSnackBar(
               context,
-              'Signed In',
+              'Login Success!',
             );
           }
         },

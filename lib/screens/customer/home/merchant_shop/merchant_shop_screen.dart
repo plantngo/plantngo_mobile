@@ -8,6 +8,7 @@ import 'package:plantngo_frontend/screens/customer/cart/cart_main_screen.dart';
 import 'package:plantngo_frontend/screens/customer/cart/cart_screen.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_about_section.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_bottom_app_bar.dart';
+import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_reservation_section.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_menu_section.dart';
 import 'package:plantngo_frontend/services/customer_order_service.dart';
 import 'package:plantngo_frontend/services/customer_service.dart';
@@ -177,6 +178,17 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
               const SizedBox(
                 height: 15,
               ),
+              // MerchantShopReservationSection(),
+              // const SizedBox(
+              //   height: 15,
+              // ),
+              // Divider(
+              //   thickness: 5,
+              //   color: Colors.grey.shade100,
+              // ),
+              // const SizedBox(
+              //   height: 15,
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [

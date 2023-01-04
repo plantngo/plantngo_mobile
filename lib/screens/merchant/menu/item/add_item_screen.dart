@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:plantngo_frontend/models/ingredient.dart';
 import 'package:plantngo_frontend/providers/merchant_ingredients_provider.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/screens/merchant/menu/placeholder_item.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:plantngo_frontend/services/product_service.dart';
@@ -127,173 +128,265 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Item"),
+        title: Text(
+          "Add Item",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
       body: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  image != null
-                      ? GestureDetector(
-                          onTap: selectImage,
-                          child: Builder(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // enter ingredient details
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Details",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    image != null
+                        ? GestureDetector(
+                            onTap: selectImage,
+                            child: Builder(
                               builder: (BuildContext context) => Image.file(
-                                    image,
-                                    fit: BoxFit.cover,
-                                    height: 200,
-                                  )))
-                      : GestureDetector(
-                          onTap: selectImage,
-                          child: DottedBorder(
-                            borderType: BorderType.RRect,
-                            radius: const Radius.circular(10),
-                            dashPattern: const [10, 4],
-                            strokeCap: StrokeCap.round,
-                            child: Container(
-                              width: double.infinity,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
+                                image,
+                                fit: BoxFit.cover,
+                                height: 200,
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.folder_open,
-                                    size: 40,
-                                  ),
-                                  const SizedBox(height: 15),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Select Product Image',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey.shade400,
+                            ),
+                          )
+                        : InkWell(
+                            onTap: selectImage,
+                            child: DottedBorder(
+                              color: Colors.grey.shade400,
+                              borderType: BorderType.RRect,
+                              dashPattern: const [10, 4],
+                              strokeCap: StrokeCap.round,
+                              child: Container(
+                                width: double.infinity,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.folder_open,
+                                      size: 40,
+                                      color: Colors.grey.shade500,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          'Select Product Image',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey.shade500,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Maximum 2MB. Accepted file types: PNG, JPG',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey.shade400,
+                                        Text(
+                                          'Maximum 2MB. Accepted file types: PNG, JPG',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey.shade500,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: _itemNameController,
+                      decoration: InputDecoration(
+                        hintStyle: Theme.of(context).textTheme.bodyMedium,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade400,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.zero),
                         ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: _itemNameController,
-                    decoration: const InputDecoration(
-                        filled: true,
                         labelText: "Item Name",
-                        hintText: "Enter a item name"),
-                    validator: ((value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a item name';
-                      }
-                      return null;
-                    }),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: _itemDescriptionController,
-                    keyboardType: TextInputType.text,
-                    maxLines: 4,
-                    decoration: const InputDecoration(
-                        filled: true,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
+                        hintText: "e.g Vegetarian Pizza",
+                      ),
+                      textAlignVertical: TextAlignVertical.top,
+                      validator: ((value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter an Item Name';
+                        }
+                        return null;
+                      }),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: _itemDescriptionController,
+                      keyboardType: TextInputType.text,
+                      maxLines: 4,
+                      textAlignVertical: TextAlignVertical.top,
+                      decoration: InputDecoration(
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
+                        hintStyle: Theme.of(context).textTheme.bodyMedium,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.zero),
+                        ),
                         labelText: "Item Description",
-                        hintText: "Enter a description"),
-                    validator: ((value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a description';
-                      }
-                      return null;
-                    }),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: _itemPriceController,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,2}'))
-                    ],
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    decoration: const InputDecoration(
-                        filled: true,
-                        labelText: "Price",
-                        hintText: "Enter a price"),
-                    validator: ((value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a price';
-                      }
-                      return null;
-                    }),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    "Select Ingredients",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  ListView.builder(
+                        hintText:
+                            "e.g Vegetarian Pizza made of freshly made dough that ...",
+                      ),
+                      validator: ((value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a description';
+                        }
+                        return null;
+                      }),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: _itemPriceController,
+                      textAlignVertical: TextAlignVertical.top,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}'))
+                      ],
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      decoration: InputDecoration(
+                        labelStyle: Theme.of(context).textTheme.bodyMedium,
+                        hintStyle: Theme.of(context).textTheme.bodyMedium,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.zero),
+                        ),
+                        labelText: "Item Price (\$SGD)",
+                        hintText: "e.g 10.30",
+                      ),
+                      validator: ((value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a price';
+                        }
+                        return null;
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Divider(
+                color: Colors.grey.shade200,
+                thickness: 10,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Ingredient(s)",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: listSelectIngredientWidgets.length,
                       itemBuilder: (_, index) =>
-                          listSelectIngredientWidgets[index]),
-                  ElevatedButton(
-                      onPressed: () => {addSelectIngredientWidget()},
-                      child: const Text("+ Add Ingredient")),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    "Select Category",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  SizedBox(
-                    height: 60,
-                    child: DropdownButton<String>(
-                      value: dropdownValue,
-                      items: categories
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: ((String? value) => setState(() {
-                            dropdownValue = value!;
-                          })),
-                      isExpanded: true,
+                          listSelectIngredientWidgets[index],
                     ),
-                  )
-                ],
-              ))),
+                    PlaceholderItem(
+                        text: "Add more Ingredients",
+                        height: 50,
+                        widthPercent: 1,
+                        onTap: addSelectIngredientWidget),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Divider(
+                color: Colors.grey.shade200,
+                thickness: 10,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Category",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 60,
+                      child: DropdownButton<String>(
+                        value: dropdownValue,
+                        items: categories
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: ((String? value) => setState(
+                              () {
+                                dropdownValue = value!;
+                              },
+                            )),
+                        isExpanded: true,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: SizedBox(
-        height: 115,
         child: Container(
-          padding: const EdgeInsets.all(35),
-          color: const Color.fromARGB(33, 158, 158, 158),
+          color: Colors.grey.shade100,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 35,
+            vertical: 10,
+          ),
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

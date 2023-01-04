@@ -28,7 +28,10 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Manage Menu"),
+        title: Text(
+          "Manage Menu",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
       body: Consumer<MerchantProvider>(
         builder:
@@ -44,32 +47,36 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                     child: Text(
-                      "Main Menu (${merchantProvider.merchant.categories!.length} categories)",
-                      style: const TextStyle(
-                          color: Color.fromARGB(171, 0, 0, 0),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400),
+                      "Total ${merchantProvider.merchant.categories!.length} Category(s)",
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                 ),
               ),
               Expanded(
                 child: SingleChildScrollView(
-                    child: Column(children: <Widget>[
-                  for (var value in merchantProvider.merchant.categories!)
-                    SetupMenuItemTile(
-                        categoryName: value.name, value: value.products)
-                ])),
+                  child: Column(
+                    children: <Widget>[
+                      for (var value in merchantProvider.merchant.categories!)
+                        SetupMenuItemTile(
+                          categoryName: value.name,
+                          value: value.products,
+                        )
+                    ],
+                  ),
+                ),
               ),
             ],
           );
         },
       ),
       bottomNavigationBar: SizedBox(
-        height: 115,
         child: Container(
-          padding: const EdgeInsets.all(35),
-          color: const Color.fromARGB(33, 158, 158, 158),
+          color: Colors.grey.shade100,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 35,
+            vertical: 10,
+          ),
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -79,95 +86,58 @@ class _MerchantSetupMenuScreenState extends State<MerchantSetupMenuScreen> {
               ).copyWith(
                 elevation: ButtonStyleButton.allOrNull(0.0),
               ),
-              child: const Text('Add an item or category'),
+              child: const Text('Add a new Item or Category'),
               onPressed: () {
                 showModalBottomSheet<void>(
                   context: context,
                   builder: (BuildContext context) {
-                    return Container(
-                      height: 200,
-                      color: Colors.white,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () async {
-                                if (Provider.of<MerchantProvider>(context,
-                                        listen: false)
-                                    .merchant
-                                    .categories!
-                                    .isEmpty) {
-                                  showSnackBar(context, "Add categories first");
-                                  Navigator.pushNamed(
-                                      context, AddCategoryScreen.routeName);
-                                } else {
-                                  Navigator.pushNamed(
-                                      context, AddItemScreen.routeName);
-                                }
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Text(
-                                      "Add a new Item",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Divider(
-                              color: Colors.black,
-                            ),
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, AddCategoryScreen.routeName);
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Text(
-                                      "Add a new Category",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            )
-                          ],
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          height: 5,
                         ),
-                      ),
+                        ListTile(
+                          dense: true,
+                          title: Text(
+                            "Add Category",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, AddCategoryScreen.routeName);
+                          },
+                        ),
+                        const Divider(),
+                        ListTile(
+                          dense: true,
+                          title: Text(
+                            "Add Item",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          onTap: () async {
+                            if (Provider.of<MerchantProvider>(context,
+                                    listen: false)
+                                .merchant
+                                .categories!
+                                .isEmpty) {
+                              showSnackBar(
+                                  context, "You need at least 1 Category!");
+                              Navigator.pushNamed(
+                                context,
+                                AddItemScreen.routeName,
+                              );
+                            } else {
+                              Navigator.pushNamed(
+                                  context, AddItemScreen.routeName);
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                      ],
                     );
                   },
                 );

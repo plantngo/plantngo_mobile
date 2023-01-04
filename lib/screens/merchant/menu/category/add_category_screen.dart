@@ -28,7 +28,10 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Category"),
+        title: Text(
+          "Add Category",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
       body: Form(
           child: Padding(

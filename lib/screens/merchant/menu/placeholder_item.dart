@@ -4,18 +4,25 @@ import 'package:plantngo_frontend/screens/merchant/menu/merchant_setup_menu_scre
 
 class PlaceholderItem extends StatelessWidget {
   String text = "";
-  PlaceholderItem({super.key, required this.text});
+  double height = 95;
+  double widthPercent = 0.9;
+  void Function() onTap;
+
+  PlaceholderItem(
+      {super.key,
+      required this.text,
+      required this.height,
+      required this.onTap,
+      required this.widthPercent});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context).pushNamed(MerchantSetupMenuScreen.routeName);
-      },
+      onTap: onTap,
       child: SizedBox(
-        height: 80,
+        height: height,
         child: FractionallySizedBox(
-          widthFactor: 0.95,
+          widthFactor: widthPercent,
           child: DottedBorder(
             dashPattern: [
               6,

@@ -98,7 +98,7 @@ class _MenuItemTileState extends State<MenuItemTile> {
           ),
           const Spacer(),
           Text(
-            "${productLists.length - 1} items",
+            "${productLists.length - 1} Item(s)",
             style: Theme.of(context).textTheme.caption,
           ),
         ],
@@ -115,6 +115,9 @@ class _MenuItemTileState extends State<MenuItemTile> {
           },
           itemCount: productLists.length,
         ),
+        SizedBox(
+          height: 5,
+        )
       ],
     );
   }

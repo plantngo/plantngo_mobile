@@ -17,42 +17,42 @@ class MerchantOrderTile extends StatefulWidget {
 class _MerchantOrderTileState extends State<MerchantOrderTile> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MerchantOrderDetailsScreen(
-                order: widget.order,
-                refresh: widget.refresh,
-              ),
+    return ListTile(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MerchantOrderDetailsScreen(
+              order: widget.order,
+              refresh: widget.refresh,
             ),
-          );
-        },
-        //dine in uses: restaurant icon
-        //takeway uses: Shopping Bag icon
-        child: Column(
-          children: [
-            ListTile(
-              leading: Icon(
-                widget.order.isDineIn! ? Icons.restaurant : Icons.shopping_bag,
-                color: Theme.of(context).colorScheme.secondary,
-                size: 30,
-              ),
-              title: Text(
-                "Order #${widget.order.id.toString().padLeft(5, '0')}",
-                style: const TextStyle(fontSize: 20),
-              ),
-              subtitle: Text("No of Items: ${widget.order.orderItems?.length}"),
-              trailing: const Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.grey,
-                size: 30,
-              ),
-            ),
-            const Divider()
-          ],
-        ));
+          ),
+        );
+      },
+      leading: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            widget.order.isDineIn!
+                ? Icons.restaurant_outlined
+                : Icons.shopping_bag_outlined,
+            color: Theme.of(context).colorScheme.secondary,
+            size: 35,
+          ),
+        ],
+      ),
+      title: Text(
+        "Order #${widget.order.id.toString().padLeft(5, '0')}",
+        style: Theme.of(context).textTheme.titleSmall,
+      ),
+      subtitle: Text(
+        "No of Items: ${widget.order.orderItems?.length}",
+        style: Theme.of(context).textTheme.bodySmall,
+      ),
+      trailing: const Icon(
+        Icons.arrow_forward_ios,
+        color: Colors.grey,
+      ),
+    );
   }
 }

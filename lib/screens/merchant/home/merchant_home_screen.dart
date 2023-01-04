@@ -4,7 +4,6 @@ import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
 import 'package:plantngo_frontend/services/order_service.dart';
 import 'package:plantngo_frontend/widgets/merchantorder/merchant_pending_order_tile.dart';
-import 'package:provider/provider.dart';
 
 class MerchantHomeScreen extends StatefulWidget {
   const MerchantHomeScreen({super.key});
@@ -84,79 +83,96 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var merchantProvider = Provider.of<MerchantProvider>(context, listen: true);
-
     return FutureBuilder(
-        future: setPendingOrders(),
-        builder: (BuildContext context, snapshot) {
-          return DefaultTabController(
-            length: 3,
-            child: Scaffold(
-                appBar: AppBar(
-                  centerTitle: true,
-                  title: Text(
-                    "Hello, ${merchantProvider.merchant.username}",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  foregroundColor: Colors.white,
-                  bottom: TabBar(
-                    indicatorPadding: EdgeInsets.only(
-                      bottom: 1,
-                      left: 2,
-                      right: 2,
-                    ),
-                    labelColor: Colors.white,
-                    unselectedLabelColor: Colors.white54,
-                    tabs: [
-                      Tab(
-                        icon: Text('${pendingOrders.length} Orders'),
-                      ),
-                      const Tab(
-                        text: 'Fulfilled',
-                      ),
-                      const Tab(
-                        text: 'Cancelled',
-                      ),
-                    ],
+      future: setPendingOrders(),
+      builder: (BuildContext context, snapshot) {
+        return DefaultTabController(
+          length: 3,
+          child: Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: const Text(
+                  "Orders",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                body: TabBarView(children: [
-                  RefreshIndicator(
-                      onRefresh: _refresh,
-                      child: ListView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          children: pendingOrderTile.isEmpty
-                              ? [
-                                  const SizedBox(
-                                    height: 100,
-                                  ),
-                                  Center(
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                            height: 150,
-                                            child: SvgPicture.asset(
-                                                "assets/graphics/no_orders.svg")),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        const Text(
-                                            "No orders, Pull down to Refresh")
-                                      ],
-                                    ),
-                                  ),
-                                ]
-                              : pendingOrderTile)),
-                  ListView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      children: fulfilledOrderTile),
-                  ListView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      children: cancelledOrderTile),
-                ])),
-          );
-          // return const Center(child: CircularProgressIndicator());
-        });
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                foregroundColor: Colors.white,
+                bottom: TabBar(
+                  indicatorPadding: const EdgeInsets.only(
+                    bottom: 1,
+                    left: 2,
+                    right: 2,
+                  ),
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.white54,
+                  tabs: [
+                    Tab(
+                      icon: Text('${pendingOrders.length} Order(s)'),
+                    ),
+                    const Tab(
+                      text: 'Fulfilled',
+                    ),
+                    const Tab(
+                      text: 'Cancelled',
+                    ),
+                  ],
+                ),
+              ),
+              body: TabBarView(children: [
+                RefreshIndicator(
+                  onRefresh: _refresh,
+                  child: pendingOrderTile.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 100),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                    height: 150,
+                                    child: SvgPicture.asset(
+                                        "assets/graphics/no_orders.svg")),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                const Text(
+                                    "You have no orders now!\nPull down to Refresh")
+                              ],
+                            ),
+                          ),
+                        )
+                      : ListView.separated(
+                          itemCount: pendingOrderTile.length,
+                          itemBuilder: (context, index) {
+                            return pendingOrderTile[index];
+                          },
+                          separatorBuilder: (context, index) {
+                            return const Divider();
+                          },
+                        ),
+                ),
+                ListView.separated(
+                  itemCount: fulfilledOrderTile.length,
+                  itemBuilder: (context, index) {
+                    return fulfilledOrderTile[index];
+                  },
+                  separatorBuilder: (context, index) {
+                    return const Divider();
+                  },
+                ),
+                ListView.separated(
+                  itemCount: cancelledOrderTile.length,
+                  itemBuilder: (context, index) {
+                    return cancelledOrderTile[index];
+                  },
+                  separatorBuilder: (context, index) {
+                    return const Divider();
+                  },
+                )
+              ])),
+        );
+      },
+    );
   }
 }

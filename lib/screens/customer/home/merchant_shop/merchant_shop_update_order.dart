@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/order.dart';
 import 'package:plantngo_frontend/models/product.dart';
 import 'package:plantngo_frontend/utils/error_handling.dart';
+import 'package:plantngo_frontend/utils/global_variables.dart';
 import 'package:plantngo_frontend/widgets/tag/carbon_tag.dart';
 import 'package:plantngo_frontend/widgets/tag/tag.dart';
 
@@ -55,6 +56,87 @@ class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            leading: IconButton(
+              padding: EdgeInsets.zero,
+              icon: Icon(
+                Icons.arrow_back,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            stretch: true,
+            expandedHeight: 250.0,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.network(
+                widget.merchantProduct.imageUrl!,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Wrap(
+                      alignment: WrapAlignment.start,
+                      textDirection: TextDirection.ltr,
+                      children: [
+                        Text(
+                          widget.merchantProduct.name!,
+                          textAlign: TextAlign.left,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      children: [
+                        CarbonTag(
+                            text: formatEmissionLong.format(
+                                widget.merchantProduct.carbonEmission!)),
+                        SizedBox(width: 5),
+                        Tag(
+                          text:
+                              formatMoney.format(widget.merchantProduct.price!),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Wrap(
+                      children: [
+                        Text(
+                          widget.merchantProduct.description!,
+                          textAlign: TextAlign.left,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ]),
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: [
@@ -134,79 +216,6 @@ class _MerchantShopUpdateOrderState extends State<MerchantShopUpdateOrder> {
             )
           ],
         ),
-      ),
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            stretch: true,
-            expandedHeight: 250.0,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.network(
-                widget.merchantProduct.imageUrl!,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Wrap(
-                      alignment: WrapAlignment.start,
-                      textDirection: TextDirection.ltr,
-                      children: [
-                        Text(
-                          widget.merchantProduct.name!,
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: [
-                        CarbonTag(
-                            text:
-                                "${widget.merchantProduct.carbonEmission!.toStringAsFixed(2)} gCO2e"),
-                        SizedBox(width: 5),
-                        Tag(
-                            text:
-                                "S\$${widget.merchantProduct.price!.toStringAsFixed(2)}"),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Wrap(
-                      children: [
-                        Text(
-                          widget.merchantProduct.description!,
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ]),
-          ),
-        ],
       ),
     );
   }

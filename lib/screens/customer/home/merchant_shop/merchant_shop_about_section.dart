@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
+import 'package:plantngo_frontend/utils/global_variables.dart';
 import 'package:plantngo_frontend/widgets/tag/carbon_tag.dart';
 import 'package:plantngo_frontend/widgets/tag/price_tag.dart';
 import 'package:plantngo_frontend/widgets/tag/tag.dart';
@@ -21,7 +22,7 @@ class MerchantShopAboutSection extends StatelessWidget {
 
     return [
       Tag(
-        text: "${merchant.distanceFrom!.toStringAsFixed(2)} km",
+        text: formatDistance.format(merchant.distanceFrom!),
       ),
       Tag(text: merchant.cuisineType),
     ];
@@ -144,7 +145,7 @@ class MerchantShopAboutSection extends StatelessWidget {
                       children: [
                         CarbonTag(
                             text:
-                                "~${merchant.carbonRating!.toStringAsFixed(0)} gCO2e"),
+                                "~${formatEmission.format(merchant.carbonRating!)}"),
                         PriceTag(symbolCount: merchant.priceRating),
                         ...renderDistanceAndCuisineTag(),
                       ],

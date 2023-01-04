@@ -11,6 +11,7 @@ import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_s
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_menu_section.dart';
 import 'package:plantngo_frontend/services/customer_order_service.dart';
 import 'package:plantngo_frontend/services/customer_service.dart';
+import 'package:quiver/strings.dart';
 
 class MerchantShopScreen extends StatefulWidget {
   MerchantSearch merchant;
@@ -172,6 +173,19 @@ class _MerchantShopScreenState extends State<MerchantShopScreen> {
               Divider(
                 thickness: 5,
                 color: Colors.grey.shade100,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text("Menu",
+                        style: Theme.of(context).textTheme.titleMedium),
+                  ),
+                ],
               ),
               ...buildMerchantShopMenuSection(merchant.categories),
               const SizedBox(

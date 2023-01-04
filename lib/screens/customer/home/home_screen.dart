@@ -198,12 +198,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(left: 8.0),
                           child: Text(
                             "Quests",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w500),
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
                         QuestSection(
@@ -213,12 +212,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 30,
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(left: 8.0),
                           child: Text(
                             "Trending",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w500),
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
                         SizedBox(
@@ -254,12 +252,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 30,
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(left: 8.0),
                           child: Text(
                             "Promotions",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w500),
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
                         SizedBox(

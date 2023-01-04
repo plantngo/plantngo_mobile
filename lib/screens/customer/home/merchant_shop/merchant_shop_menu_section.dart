@@ -34,7 +34,10 @@ class MerchantShopMenuSection extends StatelessWidget {
           child: Text(
             title,
             textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(fontWeight: FontWeight.w400),
           ),
         ),
         Padding(

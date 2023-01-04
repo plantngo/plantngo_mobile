@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/models/merchant_search.dart';
+import 'package:plantngo_frontend/utils/global_variables.dart';
 import 'package:plantngo_frontend/widgets/tag/tag.dart';
 
 class MerchantSearchResultCard extends StatelessWidget {
@@ -15,7 +16,7 @@ class MerchantSearchResultCard extends StatelessWidget {
   renderDistanceTag() {
     if (merchant.distanceFrom != null) {
       return Tag(
-        text: "${merchant.distanceFrom!.toStringAsFixed(2)} km",
+        text: "${formatMoney.format(merchant.distanceFrom!)} km",
       );
     }
   }

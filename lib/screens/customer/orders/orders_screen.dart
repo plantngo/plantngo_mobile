@@ -65,7 +65,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         child: Column(
           children: [
             const SizedBox(
-              height: 50,
+              height: 25,
             ),
             FutureBuilder<List<Order>>(
               future: futureCustomerOrders,

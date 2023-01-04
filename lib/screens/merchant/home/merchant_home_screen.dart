@@ -89,58 +89,65 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
         return DefaultTabController(
           length: 3,
           child: Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                title: const Text(
-                  "Orders",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-                foregroundColor: Colors.white,
-                bottom: TabBar(
-                  indicatorPadding: const EdgeInsets.only(
-                    bottom: 1,
-                    left: 2,
-                    right: 2,
-                  ),
-                  labelColor: Colors.white,
-                  unselectedLabelColor: Colors.white54,
-                  tabs: [
-                    Tab(
-                      icon: Text('${pendingOrders.length} Order(s)'),
-                    ),
-                    const Tab(
-                      text: 'Fulfilled',
-                    ),
-                    const Tab(
-                      text: 'Cancelled',
-                    ),
-                  ],
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text(
+                "Orders",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              body: TabBarView(children: [
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              foregroundColor: Colors.white,
+              bottom: TabBar(
+                indicatorPadding: const EdgeInsets.only(
+                  bottom: 1,
+                  left: 2,
+                  right: 2,
+                ),
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.white54,
+                tabs: [
+                  Tab(
+                    icon: Text('${pendingOrders.length} Order(s)'),
+                  ),
+                  const Tab(
+                    text: 'Fulfilled',
+                  ),
+                  const Tab(
+                    text: 'Cancelled',
+                  ),
+                ],
+              ),
+            ),
+            body: TabBarView(
+              children: [
                 RefreshIndicator(
                   onRefresh: _refresh,
                   child: pendingOrderTile.isEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 100),
-                          child: Center(
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                    height: 150,
-                                    child: SvgPicture.asset(
-                                        "assets/graphics/no_orders.svg")),
-                                const SizedBox(
-                                  height: 20,
+                      ? ListView(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 100),
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                        height: 150,
+                                        child: SvgPicture.asset(
+                                            "assets/graphics/no_orders.svg")),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Text(
+                                      "You have no orders now!\nPull down to refresh",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
                                 ),
-                                const Text(
-                                    "You have no orders now!\nPull down to Refresh")
-                              ],
+                              ),
                             ),
-                          ),
+                          ],
                         )
                       : ListView.separated(
                           itemCount: pendingOrderTile.length,
@@ -170,7 +177,9 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                     return const Divider();
                   },
                 )
-              ])),
+              ],
+            ),
+          ),
         );
       },
     );

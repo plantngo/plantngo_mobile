@@ -68,11 +68,13 @@ class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
                                 )
                                 .toList(),
                             SizedBox(height: 10),
-                            PlaceholderItem(text: "Add a New Item or Category"),
+                            PlaceholderItem(
+                              text: "Add New Items or Categories",
+                            ),
                           ]
                         : [
                             PlaceholderItem(
-                                text: "Add a more Items or Categories"),
+                                text: "Add more Items or Categories"),
                           ],
                   ),
                 ),

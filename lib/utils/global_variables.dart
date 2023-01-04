@@ -15,4 +15,8 @@ const String uri = String.fromEnvironment(
   defaultValue: 'http://localhost:8080',
 );
 
-final pointsFormatter = NumberFormat('###,###,###');
+final formatGreenPoints = NumberFormat('###,###,### points');
+final formatEmission = NumberFormat('###,###,### gCO2e');
+final formatEmissionLong = NumberFormat('###,###,###.00 gCO2e');
+final formatMoney = NumberFormat('S\$###,###,###.00');
+final formatDistance = NumberFormat('###,###,###.00 km');

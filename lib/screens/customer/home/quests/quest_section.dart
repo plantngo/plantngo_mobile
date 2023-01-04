@@ -62,7 +62,7 @@ class QuestSection extends StatelessWidget {
                 final daysTillQuestEnd =
                     questEnd.difference(DateTime.now()).inDays;
                 return Card(
-                  surfaceTintColor: Theme.of(context).colorScheme.secondary,
+                  surfaceTintColor: Colors.grey.shade300,
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: SizedBox(
@@ -134,7 +134,7 @@ class QuestSection extends StatelessWidget {
                                     width: 5,
                                   ),
                                   Text(
-                                    "${pointsFormatter.format(result.points!)} ",
+                                    "${formatGreenPoints.format(result.points!)} ",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
@@ -172,7 +172,7 @@ class QuestSection extends StatelessWidget {
                                       });
                                       showSnackBar(
                                         context,
-                                        "You have received ${pointsFormatter.format(result.points!)} points!",
+                                        "You have received ${formatGreenPoints.format(result.points!)} points!",
                                       );
                                     },
                                     child: Text(

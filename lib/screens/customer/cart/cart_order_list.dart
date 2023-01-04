@@ -5,6 +5,7 @@ import 'package:plantngo_frontend/models/orderitem.dart';
 import 'package:plantngo_frontend/screens/customer/home/merchant_shop/merchant_shop_screen.dart';
 import 'package:plantngo_frontend/services/customer_order_service.dart';
 import 'package:plantngo_frontend/services/merchant_search_service.dart';
+import 'package:plantngo_frontend/utils/global_variables.dart';
 
 class CartOrderList extends StatelessWidget {
   Order order;
@@ -136,7 +137,7 @@ class CartOrderList extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: Text(
-                      "S\$${(result.price!).toStringAsFixed(2)}",
+                      formatMoney.format(result.price!),
                       textAlign: TextAlign.right,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
@@ -223,7 +224,10 @@ class CartOrderList extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.w400),
                   ),
                   Text(
-                    "${order.orderItems!.fold<double>(0, (p, e) => p + e.product!.carbonEmission! * e.quantity!).toStringAsFixed(2)} gCO2e",
+                    formatEmissionLong.format(order.orderItems!.fold<double>(
+                        0,
+                        (p, e) =>
+                            p + e.product!.carbonEmission! * e.quantity!)),
                     style: Theme.of(context).textTheme.caption!.copyWith(),
                   ),
                 ],
@@ -242,7 +246,8 @@ class CartOrderList extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.w400),
                   ),
                   Text(
-                    "S\$${order.orderItems!.fold<double>(0, (p, e) => p + (e.price!)).toStringAsFixed(2)}",
+                    formatMoney.format(order.orderItems!
+                        .fold<double>(0, (p, e) => p + (e.price!))),
                     style: Theme.of(context).textTheme.caption,
                   ),
                 ],

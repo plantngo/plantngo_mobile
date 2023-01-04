@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/merchant_settings_section.dart';
 import 'package:plantngo_frontend/screens/merchant/profile/promotion/merchant_promotion_screen.dart';
 import 'package:plantngo_frontend/screens/merchant/profile/voucher/merchant_voucher_screen.dart';
 import 'package:plantngo_frontend/screens/user_profile_section.dart';
@@ -24,7 +25,13 @@ class _MerchantProfileScreenState extends State<MerchantProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        centerTitle: true,
+        title: const Text(
+          "Profile",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        foregroundColor: Colors.white,
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -47,100 +54,14 @@ class _MerchantProfileScreenState extends State<MerchantProfileScreen> {
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
-            const SizedBox(height: 10),
+            const SizedBox(
+              height: 10,
+            ),
             const UserProfileSection(),
             const SizedBox(height: 10),
             const UserSettingSection(),
-            const SizedBox(height: 10),
             const Divider(),
-            SizedBox(
-              height: 80,
-              child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, MerchantPromotionScreen.routeName);
-                  },
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Row(children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0.0, 20, 0.0),
-                        child: Icon(
-                          Icons.monetization_on_rounded,
-                          color: Theme.of(context).colorScheme.secondary,
-                          size: 50,
-                        ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Promotions",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w500),
-                          ),
-                          Text(
-                            "Create and track promotions",
-                            style: TextStyle(color: Colors.grey),
-                          )
-                        ],
-                      ),
-                      const Spacer(
-                        flex: 3,
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.grey,
-                      ),
-                      const Spacer(),
-                    ]),
-                  )),
-            ),
-            SizedBox(
-              height: 80,
-              child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, MerchantVoucherScreen.routeName);
-                  },
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Row(children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0.0, 20, 0.0),
-                        child: Icon(
-                          Icons.percent_rounded,
-                          color: Theme.of(context).colorScheme.secondary,
-                          size: 50,
-                        ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Vouchers",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w500),
-                          ),
-                          Text(
-                            "Create and track store vouchers",
-                            style: TextStyle(color: Colors.grey),
-                          )
-                        ],
-                      ),
-                      const Spacer(flex: 2),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.grey,
-                      ),
-                      const Spacer(),
-                    ]),
-                  )),
-            ),
+            const MerchantSettingSection(),
           ],
         ),
       ),

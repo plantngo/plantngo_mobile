@@ -93,7 +93,21 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
             length: 3,
             child: Scaffold(
                 appBar: AppBar(
+                  centerTitle: true,
+                  title: Text(
+                    "Hello, ${merchantProvider.merchant.username}",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  foregroundColor: Colors.white,
                   bottom: TabBar(
+                    indicatorPadding: EdgeInsets.only(
+                      bottom: 1,
+                      left: 2,
+                      right: 2,
+                    ),
+                    labelColor: Colors.white,
+                    unselectedLabelColor: Colors.white54,
                     tabs: [
                       Tab(
                         icon: Text('${pendingOrders.length} Orders'),
@@ -106,11 +120,6 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                       ),
                     ],
                   ),
-                  title: Text(
-                    "Hello, ${merchantProvider.merchant.username}",
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  centerTitle: false,
                 ),
                 body: TabBarView(children: [
                   RefreshIndicator(
@@ -120,20 +129,20 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                           children: pendingOrderTile.isEmpty
                               ? [
                                   const SizedBox(
-                                    height: 40,
+                                    height: 100,
                                   ),
                                   Center(
                                     child: Column(
                                       children: [
                                         SizedBox(
-                                            height: 100,
+                                            height: 150,
                                             child: SvgPicture.asset(
                                                 "assets/graphics/no_orders.svg")),
                                         const SizedBox(
                                           height: 20,
                                         ),
                                         const Text(
-                                            "No orders, Pull down to refresh")
+                                            "No orders, Pull down to Refresh")
                                       ],
                                     ),
                                   ),

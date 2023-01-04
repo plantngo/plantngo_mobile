@@ -31,10 +31,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void signInUser() {
     AuthService.signInUser(
-        context: context,
-        username: _usernameController.text,
-        password: _passwordController.text,
-        userType: _usertypeController.text);
+      context: context,
+      username: _usernameController.text,
+      password: _passwordController.text,
+      userType: _usertypeController.text,
+    );
   }
 
   @override

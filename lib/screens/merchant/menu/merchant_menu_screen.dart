@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantngo_frontend/providers/merchant_provider.dart';
+import 'package:plantngo_frontend/screens/merchant/menu/placeholder_item.dart';
 import 'package:plantngo_frontend/services/merchant_service.dart';
 import 'package:provider/provider.dart';
 import 'merchant_setup_menu_screen.dart';
@@ -15,6 +16,7 @@ class MerchantMenuScreen extends StatefulWidget {
 
 class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
   final MerchantService merchantService = MerchantService();
+  Map<String, List<bool>> categoryCheckBoxMap = {};
 
   @override
   void initState() {
@@ -28,56 +30,15 @@ class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
           centerTitle: true,
           title: const Text(
             "Menu",
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          foregroundColor: Colors.white,
         ),
         body: Consumer<MerchantProvider>(builder:
             (BuildContext context, MerchantProvider merchantProvider, child) {
           return Column(
             children: [
-              SizedBox(
-                height: 100,
-                child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, MerchantSetupMenuScreen.routeName);
-                    },
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Row(children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0.0, 20, 0.0),
-                          child: Icon(
-                            Icons.menu_book_rounded,
-                            color: Theme.of(context).colorScheme.secondary,
-                            size: 50,
-                          ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              "Set Up Menu",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              "Add and edit menu details",
-                              style: TextStyle(color: Colors.grey),
-                            )
-                          ],
-                        ),
-                        const Spacer(flex: 2),
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.grey,
-                        ),
-                        const Spacer(),
-                      ]),
-                    )),
-              ),
               SizedBox(
                 width: double.infinity,
                 height: 56,
@@ -85,32 +46,36 @@ class _MerchantMenuScreenState extends State<MerchantMenuScreen> {
                   alignment: Alignment.centerLeft,
                   color: const Color.fromARGB(31, 211, 211, 211),
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                     child: Text(
-                      "Main Menu (${merchantProvider.merchant.categories?.length} categories)",
-                      style: const TextStyle(
-                          color: Color.fromARGB(171, 0, 0, 0),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400),
+                      "Total ${merchantProvider.merchant.categories?.length} Category(s)",
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                 ),
               ),
               Expanded(
                 child: SingleChildScrollView(
-                    child: Column(
-                        // children: <Widget>[
-
-                        //   for (var value in merchantProvider.merchant.categories!)
-                        //     MenuItemTile(
-                        //         categoryName: value.name, value: value.products);}
-                        // ],
-                        children: merchantProvider.merchant.categories != null
-                            ? merchantProvider.merchant.categories!
-                                .map((e) => MenuItemTile(
-                                    categoryName: e.name, value: e.products))
-                                .toList()
-                            : [])),
+                  child: Column(
+                    children: merchantProvider.merchant.categories != null
+                        ? [
+                            ...merchantProvider.merchant.categories!
+                                .map(
+                                  (e) => MenuItemTile(
+                                    categoryName: e.name,
+                                    value: e.products,
+                                  ),
+                                )
+                                .toList(),
+                            SizedBox(height: 10),
+                            PlaceholderItem(text: "Add a New Item or Category"),
+                          ]
+                        : [
+                            PlaceholderItem(
+                                text: "Add a more Items or Categories"),
+                          ],
+                  ),
+                ),
               ),
             ],
           );

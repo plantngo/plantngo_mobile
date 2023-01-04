@@ -1,29 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:plantngo_frontend/screens/merchant/menu/merchant_setup_menu_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/promotion/merchant_promotion_screen.dart';
+import 'package:plantngo_frontend/screens/merchant/profile/voucher/merchant_voucher_screen.dart';
 import 'package:plantngo_frontend/services/auth_service.dart';
 
-import 'user_setting_screen.dart';
-
-class UserSettingSection extends StatelessWidget {
-  const UserSettingSection({Key? key}) : super(key: key);
+class MerchantSettingSection extends StatelessWidget {
+  const MerchantSettingSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List<IconData> iconsList = [
-      Icons.compare_arrows,
+      Icons.menu_book_rounded,
+      Icons.monetization_on_rounded,
+      Icons.percent_rounded,
     ];
     List<String> titleList = [
-      "Profile Settings",
+      "Manage Menu",
+      "Manage Promotions",
+      "Manage Vouchers",
     ];
     List<String> subtitleList = [
-      "Change your account details",
+      "Create and manage your business's menu items",
+      "Create and manage your business's promotions",
+      "Create and manage your business's vouchers",
     ];
-    List<String> routeList = [UserSettingScreen.routeName];
+    List<String> routeList = [
+      MerchantSetupMenuScreen.routeName,
+      MerchantPromotionScreen.routeName,
+      MerchantVoucherScreen.routeName
+    ];
     return Column(
       children: [
-        ListView.builder(
+        ListView.separated(
           physics: NeverScrollableScrollPhysics(),
           itemCount: iconsList.length,
           shrinkWrap: true,
+          separatorBuilder: (context, index) {
+            return const Divider();
+          },
           itemBuilder: (_, i) {
             return ListTile(
               title: Padding(

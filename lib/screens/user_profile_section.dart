@@ -38,10 +38,14 @@ class UserProfileSection extends StatelessWidget {
                 )
               ],
             ),
+            SizedBox(
+              height: 7,
+            ),
             Row(children: [
               Text(
                 username,
-                style: Theme.of(context).textTheme.caption,
+                style:
+                    Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),
               ),
             ]),
             Row(children: [

@@ -51,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void signUpMerchant() async {
+  Future<bool> signUpMerchant() async {
     try {
       List<Location> locations =
           await locationFromAddress(_addressController.text);
@@ -70,7 +70,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } catch (e) {
       showSnackBar(
           context, "Could not find address, please enter a proper address");
+      return Future.value(false);
     }
+    return Future.value(true);
   }
 
   @override
@@ -284,8 +286,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: const Text('Sign Up'),
                         onPressed: () {
                           if (_signUpFormKey.currentState!.validate()) {
-                            _isUser ? signUpUser() : signUpMerchant();
-                            Navigator.pushNamed(context, '/login');
+                            if (_isUser) {
+                              signUpUser();
+                              Navigator.popAndPushNamed(context, '/login');
+                            } else {
+                              signUpMerchant().then((value) => value
+                                  ? Navigator.popAndPushNamed(context, '/login')
+                                  : "");
+                            }
                           }
                         }),
                   ),

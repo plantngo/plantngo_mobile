@@ -82,6 +82,13 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _refresh();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: setPendingOrders(),

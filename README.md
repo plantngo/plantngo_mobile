@@ -1,20 +1,20 @@
-# Plant&Go Frontend Mobile Application (Flutter)
+# Plant&Go Mobile Application (Flutter)
 
-[![Production Release](https://github.com/plantngo/plantngo_frontend/actions/workflows/production-deployment.yml/badge.svg?branch=main)](https://github.com/plantngo/plantngo_frontend/actions/workflows/production-deployment.yml)
+[![Production Release](https://github.com/plantngo/plantngo_mobile/actions/workflows/production-deployment.yml/badge.svg?branch=main)](https://github.com/plantngo/plantngo_mobile/actions/workflows/production-deployment.yml)
 
 The Plant&Go Project consists of two parts:
 1. [Plant&Go Backend Server (Spring Boot MVC)](https://github.com/plantngo/plantngo_backend)
-2. Plant&Go Frontend Mobile Application (Flutter)
+2. Plant&Go Mobile Application (Flutter)
 
 # Quick Start
 
 ## Introduction
-Plant&Go is a mobile application that encourages the pursuit of a sustainable diet.
+Plant&Go is a food ordering platform that promotes and incentivises consumers to incorporate environmentally sustainable diets into their daily lives, reducing carbon emission from food consumption
 
 ## Usage
-If you just wish to use the application and don't intend to contribute, you can download pre-built `.apk (Android)` or `.ipa (iOS)` file from the [releases section](https://github.com/plantngo/plantngo_frontend/releases) of this Github Repository.
+If you just wish to use the application and don't intend to contribute, you can download pre-built `.apk (Android)` or `.ipa (iOS)` file from the [releases section](https://github.com/plantngo/plantngo_mobile/releases) of this Github Repository.
 
-> Note that the pre-built application uses the Plant&Go Backend Server hosted at [https://plantngo.potatovault.com](https://plantngo.potatovault.com). This project is a demo application, please do not enter any sensitive or important data on this platform. Data entered on this platform will be wiped periodically.
+> Note that the pre-built application uses the Plant&Go Backend Server. This project is a demo application, please do not enter any sensitive or important data on this platform. Data entered on this platform will be wiped periodically.
 
 # Overview
 
@@ -41,24 +41,16 @@ Before getting starting with development or running the application, install the
 
 After installing the above dependencies, make a copy of the repository with the `git clone` command or download the repository by clicking, `Code -> Download Zip` on the Github Repository Page.
 ```bash
-git clone https://github.com/plantngo/plantngo_frontend
+git clone https://github.com/plantngo/plantngo_mobile
 ```
 When you're done cloning the project, you will need to `cd` into the project directory. Open up your terminal and run the following command:
 ```bash
 # change directory into the project
-cd plantngo_frontend
+cd plantngo_mobile
 ```
 
 ## Running
 As this project is a Frontend Application, it's only able to function when referencing the Backend Server built for it.
-
-### Demo Backend Server
-For demo purposes, a Backend Server is already setup at [https://plantngo.potatovault.com](https://plantngo.potatovault.com) and by default, the source code references the demo server as its Backend Server.
-
-To run the application:
-```bash 
-flutter run -d <emulator/device-id>
-```
 
 ### Self-Hosted Backend Server
 If you wish to host the Backend Server yourself, you can refer to the guide on [Plant&Go Backend Server's Github Repository](https://github.com/plantngo/plantngo_backend) on setting up a [Plant&Go Backend Server](https://github.com/plantngo/plantngo_backend).
